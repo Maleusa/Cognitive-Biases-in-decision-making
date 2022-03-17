@@ -9,6 +9,7 @@ model CogBiais
 global {
 		int nbrUsagers<-100;
 		
+		
 	
 }
 //bonsoir 
