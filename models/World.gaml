@@ -1,12 +1,16 @@
 /**
-* Name: NewModel
+* Name: World
 * Based on the internal empty template. 
 * Author: Conrad C. Cheriti Y.
 * Tags: 
 */
+model CogBiais
 
-
-model NewModel
+global {
+		int nbrUsagers<-100;
+		
+	
+}
 //bonsoir 
 
 /* Insert your model definition here */
