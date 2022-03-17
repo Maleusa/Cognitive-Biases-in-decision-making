@@ -7,6 +7,7 @@
 
 
 model NewModel
+//bonsoir 
 
 /* Insert your model definition here */
 
