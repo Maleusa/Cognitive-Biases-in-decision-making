@@ -6,19 +6,26 @@
 */
 model CogBiais
 
+import "Usager.gaml" 
+
+
 global {
-		int nbrUsagers<-100;
+		int nbrUsagers <- 100;
 		float gasPrice <- 1.0;
+		
+		
+		geometry shape <- square(20 #km);
 		
 		//good weather = 0; bad Weather = 1
 		int weather <- 0;
 		
 		predicate bad_weather <- new_predicate("bad_weather");
-		predicate good_weather <- new_predicate("good_weather");
+		predicate good_weather <- new_predicate("bad_weather", false);
 		predicate have_money_for_gas <- new_predicate("have_money");
 		
+
 }
-//bonsoir 
+
 
 /* Insert your model definition here */
 
@@ -35,7 +42,9 @@ experiment name type: gui {
 	
 	
 	// Define attributes, actions, a init section and behaviors if necessary
-	// init { }
+			init {
+		create usager number: nbrUsagers;
+	}
 	
 	
 	output {
@@ -43,12 +52,11 @@ experiment name type: gui {
 	
 	// inspect one_or_several_agents;
 	//
-	// display "My display" { 
-	//		species one_species;
-	//		species another_species;
-	// 		grid a_grid;
-	// 		...
-	// }
+	display map type: opengl {
+		
+			species usager ;
+			
+		}
 
 	}
 }
