@@ -15,6 +15,7 @@ species usager control: simple_bdi{
 	predicate have_a_sub <- new_predicate("have_a_sub");
 	predicate have_a_bike <- new_predicate("have_a_bike");
 	predicate can_walk <- new_predicate("can_walk");
+	predicate have_money_for_gas <- new_predicate("have_money");
 	
 	
 	aspect default {
