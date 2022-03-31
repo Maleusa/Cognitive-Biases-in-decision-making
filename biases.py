@@ -1,5 +1,12 @@
 class biases :
     def __init__(self) -> None:
-        self.mode = int(input("Quel est mon moyen de transport préféré pour réaliser mon trajet quotidien ? 1 pour voiture, 2 pour vélo, 3 pour la marche, 4 pour les transports en commun"))
-        
-        pass
+       self.gasPrice=1.4
+       self.subPrice=30
+       self.ratioCycleWay=0.5
+       self.busFrequency=7
+       self.busCapacity=50
+       self.carSpeed=34
+       self.bikeSpeed=15
+       self.walkSpeed=4
+       self.busSpeed=25
+    pass
