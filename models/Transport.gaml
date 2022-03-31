@@ -20,18 +20,28 @@ species p_car parent: transport {
 	init{
 		speed<-5;
 	}
+	aspect default {
+	  draw square(1000) color: #red border: #black font: "PC";
+	}
 }
 
 species c_car parent: transport{
+	aspect default {
+	  draw square(1000) color: #blue border: #black font: "CC";
+	}
 	
 }
 
 species bike parent: transport {
-	
+	aspect default {
+	  draw square(1000) color: #pink border: #black font: "B";
+	}
 }
 
 species foot parent: transport {
-	
+	aspect default {
+	  draw square(1000) color: #purple border: #black font: "F";
+	}
 }
 
-species 
+
