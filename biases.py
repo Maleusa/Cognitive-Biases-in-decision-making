@@ -1,3 +1,6 @@
+import user
+from math import *
+
 class biases :
     def __init__(self) -> None:
        self.gasPrice=1.4
@@ -10,3 +13,7 @@ class biases :
        self.walkSpeed=4
        self.busSpeed=25
     pass
+
+    def biais1(self,x):
+        self.bikeSpeed.addend(x)
+        return self.bikeSpeed
