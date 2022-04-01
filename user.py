@@ -4,6 +4,7 @@ from math import *
 
 
 
+
 class user:
 
     def __init__(self,) -> None:
