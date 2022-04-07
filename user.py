@@ -24,6 +24,18 @@ FITNESS = "agent's fitness level"
 
 
 class user:
+    fitness=float
+    means=AGENTBOOLS
+    critere=CRITERIAS
+    gasPrice=float
+    subPrice=float
+    ratioCycleWay=float
+    busFrequency=int
+    busCapacity=int
+    carSpeed=int
+    bikeSpeed=int
+    walkSpeed=int
+    busSpeed=int
     ##Initialisation de l'utilsateur avec trois choix 
     def __init__(self,) -> None:
         x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
@@ -57,18 +69,7 @@ class user:
         ## Fitness level
         ## contraintes cf switch (sauf agenda)
 
-        self.fitness=float
-        self.means=AGENTBOOLS
-        self.critere=CRITERIAS
-        self.gasPrice=float
-        self.subPrice=float
-        self.ratioCycleWay=float
-        self.busFrequency=int
-        self.busCapacity=int
-        self.carSpeed=int
-        self.bikeSpeed=int
-        self.walkSpeed=int
-        self.busSpeed=int
+      
 
          
 
