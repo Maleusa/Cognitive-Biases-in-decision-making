@@ -3,6 +3,13 @@ from math import *
 from typing import Iterable
 import random
 
+# transportation modes
+BIKE = "bike"
+CAR = "individual car"
+BUS = "public transport"
+WALK = "walk"
+LISTMODES = [BIKE,CAR,BUS,WALK]
+
 ##Critères permettant le choix du moyen de transport
 ECOLOGY = "ecology"
 COMFORT = "comfort"
@@ -35,6 +42,7 @@ class user:
     means=AGENTBOOLS
     critAgent=CRITERIAS
     weather = CONTEXTBOOLS
+    mark = LISTMODES
 
     
     gasPrice=float
@@ -144,7 +152,51 @@ class user:
             agent.write(str(bool)+"\n")
         agent.write("\n"+str(self.fitness))
 
-  
+    #Methode retournant le choix rationel d'un agent
+    def rationalModeChoice(self):
+        
+        dico={}
+        for mode in LISTMODES:
+            dico[mode] = {}
+            for crit in CRITERIAS:
+                dico[mode][crit]=0
+        #Remplissage du dictionnaire des valeurs associé à chaque critere pour chaque mode de transport
+        dico[BIKE][ECOLOGY] = 1
+        dico[BIKE][COMFORT] = 0
+        dico[BIKE][CHEAP] = 0
+        dico[BIKE][SAFETY] = 0
+        dico[BIKE][PRATICITY] = 0
+        dico[BIKE][FAST] = 0
+        dico[CAR][ECOLOGY] = 1
+        dico[CAR][COMFORT] = 0
+        dico[CAR][CHEAP] = 0
+        dico[CAR][SAFETY] = 0
+        dico[CAR][PRATICITY] = 0
+        dico[CAR][FAST] = 0
+        dico[BUS][ECOLOGY] = 1
+        dico[BUS][COMFORT] = 0
+        dico[BUS][CHEAP] = 0
+        dico[BUS][SAFETY] = 0
+        dico[BUS][PRATICITY] = 0
+        dico[BUS][FAST] = 0
+        dico[WALK][ECOLOGY] = 1
+        dico[WALK][COMFORT] = 0
+        dico[WALK][CHEAP] = 0
+        dico[WALK][SAFETY] = 0
+        dico[WALK][PRATICITY] = 0
+        dico[WALK][FAST] = 0
+        #notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
+        i=0
+        for mode in LISTMODES:
+            self.mark[i]=0
+            for crit in CRITERIAS:
+                self.mark[i]=self.mark[i]+(dico[mode][crit]*self.critAgent[i])
+            i=+1
+        #TODO Sortir la note la plus haute et c'est elle qui indique le mode choisis rationement
+
+
+
+
     ##Fonction permettant d'effacer le contenu du fichier habits.txt et donc de d'oublier l'ensemble des abitudes de l'agent
     def refreshHabits(self):
         habits = open("habits.txt","w")
