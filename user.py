@@ -1,7 +1,7 @@
 from re import L
 from math import *
 
-
+##Critères permettant le choix du moyen de transport
 ECOLOGY = "ecology"
 COMFORT = "comfort"
 CHEAP = "cheap"
@@ -10,11 +10,16 @@ PRATICITY = "praticity"
 FAST = "fast"
 CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
 
+## Varaibles représentant le context
 RAINY = "rainy"
 TEMPOK = "temperature ok"
 LIGHT = "light"
 CONTEXTBOOLS = [RAINY,TEMPOK,LIGHT]
 
+##initialisation provisoire de contextebools ###############################################
+for bool in CONTEXTBOOLS:
+    bool = True
+############################################################################################
 
 HASBIKE = "agent has bike"
 HASCAR = "agent has car"
@@ -51,11 +56,7 @@ class user:
         
         
 
-        ## Préférence (ex ecologie confort cf switch python)
-
-        ## Météo 
-        ## Fitness level
-        ## contraintes cf switch (sauf agenda)
+        
 
         self.fitness=float
         self.means=AGENTBOOLS
