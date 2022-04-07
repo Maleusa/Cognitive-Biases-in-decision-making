@@ -10,8 +10,12 @@ from user import *
 
 
 a = user()
+<<<<<<< HEAD:main.py
 
 a.result()
+=======
+print(a.critAgent)
+>>>>>>> c48f4d49787034eedc29311ce76369d5396475dc:H.py
 a.updateHabits()
 
 
