@@ -1,6 +1,7 @@
 from re import L
 from math import *
 from typing import Iterable
+import random
 
 ##Critères permettant le choix du moyen de transport
 ECOLOGY = "ecology"
@@ -71,24 +72,49 @@ class user:
 
 
 
-
+            cpt=0
             for agtbool in AGENTBOOLS:
                 x= (input("Do i own a "+agtbool+"? : (y)/(n)"))
                 while x not in ["y","n"]:
                     x= (input("Do i own a "+agtbool+"? : (y)/(n)"))
-                if x == "y": self.agtbool=True
+                if x == "y": 
+                    self.means[cpt]=True
+                    cpt+=1
                 else :
-                    self.agtbool=False
+                    self.means[cpt]=False
+                    cpt+=1
 
             x=float(input("Am i fit on a scale from 0 to 100 ? :"))
             while x<0 or x>100:
                 x=float(input("Am i fit on a scale from 0 to 100 ? :"))
         
-        self.fitness=x
-        
+            self.fitness=x
+            self.saveAgent()
+        if x=="r" : 
+            cpt=0
+            for crit in CRITERIAS:
+                self.critAgent[cpt]=random.random()
+                cpt+=1
+            cpt=0
+            for agtbool in AGENTBOOLS:
+                self.means[cpt]=random.choice([True,False])
+                cpt+=1
+            self.fitness=random.randint(0,100)
+            self.saveAgent()
+        if x=="f":
+            agent=open("Agent.txt","r")
+            cpt=0
+            for crit in CRITERIAS:
+                self.critAgent[cpt]=float(agent.readline(cpt+1))
+                cpt+=1
+            cpt=0
+            for agtbool in AGENTBOOLS:
+                if(agent.readline(cpt+8)=="True") : self.means[cpt]=True
+                else: self.means[cpt]=False
+                cpt+=1
+            self.fitness=int(agent.readline(12))
 
-
-        if x=="r" : self.generateAgent(self)
+            
         
         
 
@@ -97,6 +123,14 @@ class user:
       
 
          
+    def saveAgent(self):
+        agent = open("Agent.txt","w")
+        for crit in self.critAgent:
+            agent.write(str(crit)+"\n")
+        agent.write("\n")
+        for bool in self.means:
+            agent.write(str(bool)+"\n")
+        agent.write("\n"+str(self.fitness))
 
     def generateAgent() :
         return 1
