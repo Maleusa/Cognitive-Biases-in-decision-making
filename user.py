@@ -16,10 +16,7 @@ TEMPOK = "temperature ok"
 LIGHT = "light"
 CONTEXTBOOLS = [RAINY,TEMPOK,LIGHT]
 
-##initialisation provisoire de contextebools ###############################################
-for bool in CONTEXTBOOLS:
-    bool = True
-############################################################################################
+
 
 HASBIKE = "agent has bike"
 HASCAR = "agent has car"
@@ -32,6 +29,8 @@ class user:
     fitness=float
     means=AGENTBOOLS
     critAgent=CRITERIAS
+    weather = CONTEXTBOOLS
+
     
     gasPrice=float
     subPrice=float
@@ -45,6 +44,12 @@ class user:
     ##Initialisation de l'utilsateur avec trois choix 
 
     def __init__(self,) -> None:
+        ##initialisation provisoire de contextebools ###############################################
+        for bool in self.weather:
+            bool = True
+        ############################################################################################
+
+
         x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
         while x not in ["u","r","f"]:
             x = input("(u)ser agent priorities or (r)andom ? : ")
@@ -79,8 +84,7 @@ class user:
                 x=float(input("Am i fit on a scale from 0 to 100 ? :"))
         
         self.fitness=x
-        for crit in self.critAgent:
-            print(crit)
+        
 
 
         if x=="r" : self.generateAgent(self)
@@ -112,7 +116,7 @@ class user:
 
         habits.write(res[1]+" ")
 
-        for bool in CONTEXTBOOLS:
+        for bool in self.weather:
             habits.write(bool + " ")
         
         habits.write('\n')
