@@ -32,7 +32,8 @@ FITNESS = "agent's fitness level"
 class user:
     fitness=float
     means=AGENTBOOLS
-    critere=dict(str)
+    critAgent=CRITERIAS
+    
     gasPrice=float
     subPrice=float
     ratioCycleWay=float
@@ -43,12 +44,13 @@ class user:
     walkSpeed=int
     busSpeed=int
     ##Initialisation de l'utilsateur avec trois choix 
+
     def __init__(self,) -> None:
         x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
         while x not in ["u","r","f"]:
             x = input("(u)ser agent priorities or (r)andom ? : ")
         if x == "u": 
-            
+            cpt=0
             for crit in CRITERIAS :
                 
                 x = float(input("Priority (0-1) of " + crit + " ? : "))
@@ -56,7 +58,9 @@ class user:
                 while x<0 or x>1:
                     x = float(input("Priority (0-1) of "+crit+" ? : "))
 		# priority within 0-1
-                self.critere.update({crit:x})
+                self.critAgent[cpt] = x
+                cpt += 1
+
                 
                 
 
@@ -76,7 +80,8 @@ class user:
                 x=float(input("Am i fit on a scale from 0 to 100 ? :"))
         
         self.fitness=x
-        
+        for crit in self.critAgent:
+            print(crit)
 
 
         if x=="r" : self.generateAgent(self)
@@ -96,15 +101,22 @@ class user:
         return 1
 
 
-    def updateHabits():
-        habits = open("habits.txt","a")
-        with open("result.txt","r") as result:
+    def updateHabits(self):
+        
+        habits = open("D:/Users/Cognitive-Biases-in-decision-making/habits.txt","a")
+        
+        with open("D:/Users/Cognitive-Biases-in-decision-making/result.txt","r") as result:
+            
+            print(result)
             res = result.readlines()
+            print(res)
 
         habits.write(res[1]+" ")
 
         for bool in CONTEXTBOOLS:
             habits.write(bool + " ")
+        
+        habits.write('\n')
 
         habits.close()
 
