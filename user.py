@@ -13,7 +13,7 @@ CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
 RAINY = "rainy"
 TEMPOK = "temperature ok"
 LIGHT = "light"
-CONTEXTBOOLS = [RAINY,TEMPOK,,LIGHT]
+CONTEXTBOOLS = [RAINY,TEMPOK,LIGHT]
 
 
 HASBIKE = "agent has bike"
@@ -29,10 +29,26 @@ class user:
         x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
         while x not in ["u","r","f"]:
             x = input("(u)ser agent priorities or (r)andom ? : ")
-        if x == "u": self.inputAgent(self)
-        else : 
-            if x=="r" : self.generateAgent(self)
-            else : self.readAgent(self)
+        if x == "u": 
+            for crit in CRITERIAS :
+                x = float(input("Priority (0-1) of "+crit+" ? : "))
+            while x<0 or x>1:
+                x = float(input("Priority (0-1) of "+crit+" ? : "))
+		# priority within 0-1
+            self.critere[crit]=x
+            for agtbool in [AGENTBOOLS]:
+                x= (input("Do i own a "+AGENTBOOLS+"? : (y)/(n)"))
+            while x not in ["y","n"]:
+                x= (input("Do i own a "+AGENTBOOLS+"? : (y)/(n)"))
+            if x == "y": self.means[agtbool]=True
+            else :
+                self.mens[agtbool]=False
+            x=float(input("Am i fit on a scale from 0 to 100 ? :"))
+            while x<0 or x>100:
+                x=float(input("Am i fit on a scale from 0 to 100 ? :"))
+        self.fitness=x
+        if x=="r" : self.generateAgent(self)
+        
         
 
         ## Préférence (ex ecologie confort cf switch python)
@@ -63,10 +79,10 @@ class user:
 		# priority within 0-1
             self.critere[crit]=x
         for agtbool in [AGENTBOOLS]:
-            x= bool(input("Do i own a "+AGENTBOOLS+"? : (y)/(n)"))
+            x= (input("Do i own a "+AGENTBOOLS+"? : (y)/(n)"))
             while x not in ["y","n"]:
-                x= bool(input("Do i own a "+AGENTBOOLS+"? : (y)/(n)"))
-            if x == True: self.means[agtbool]=True
+                x= (input("Do i own a "+AGENTBOOLS+"? : (y)/(n)"))
+            if x == "y": self.means[agtbool]=True
             else :
                 self.mens[agtbool]=False
         x=float(input("Am i fit on a scale from 0 to 100 ? :"))
@@ -84,3 +100,4 @@ class user:
     
     def readAgent():
         return 1
+a=user()
