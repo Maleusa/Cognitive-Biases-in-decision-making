@@ -64,7 +64,11 @@ class user:
         x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
         while x not in ["u","r","f"]:
             x = input("(u)ser agent priorities or (r)andom ? : ")
+
+
+        ###Initialisation d'un agent par input via la console 
         if x == "u": 
+            
             cpt=0
             for crit in CRITERIAS :
                 
@@ -75,13 +79,9 @@ class user:
                 self.critAgent[cpt] = x
                 cpt += 1
 
-                
-                
-
-
-
+            
             cpt=0
-        ##Initialisation des poids associés aux différents critères de choix
+            ##Initialisation des poids associés aux différents critères de choix
             for agtbool in AGENTBOOLS:
                 x= (input("Do i own a "+agtbool+"? : (y)/(n)"))
                 while x not in ["y","n"]:
@@ -99,7 +99,7 @@ class user:
         
             self.fitness=x
             self.saveAgent()
-        ##Initialisation d'un agent de maniere aleatoire        
+            
         if x=="r" : 
             cpt=0
             for crit in CRITERIAS:
@@ -111,7 +111,6 @@ class user:
                 cpt+=1
             self.fitness=random.randint(0,100)
             self.saveAgent()
-        ##Initialisation d'un agent a partir d'une sauvegarde precedente (IN PROGRESS)
         if x=="f":
             agent=open("Agent.txt","r")
             cpt=0
