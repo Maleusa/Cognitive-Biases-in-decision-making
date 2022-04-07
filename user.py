@@ -1,5 +1,6 @@
 from re import L
 from math import *
+from typing import Iterable
 
 ##Critères permettant le choix du moyen de transport
 ECOLOGY = "ecology"
@@ -31,7 +32,7 @@ FITNESS = "agent's fitness level"
 class user:
     fitness=float
     means=AGENTBOOLS
-    
+    critere=dict(str)
     gasPrice=float
     subPrice=float
     ratioCycleWay=float
@@ -55,8 +56,8 @@ class user:
                 while x<0 or x>1:
                     x = float(input("Priority (0-1) of "+crit+" ? : "))
 		# priority within 0-1
-
-                CRITERIAS[]
+                self.critere.update({crit:x})
+                
                 
 
 
@@ -75,8 +76,7 @@ class user:
                 x=float(input("Am i fit on a scale from 0 to 100 ? :"))
         
         self.fitness=x
-        for crit in CRITERIAS:
-            print(crit)
+        
 
 
         if x=="r" : self.generateAgent(self)

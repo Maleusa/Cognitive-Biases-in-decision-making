@@ -10,4 +10,6 @@ from user import *
 
 
 a = user()
+for k,v in a.critere.items :
+    print(k,v)
 
