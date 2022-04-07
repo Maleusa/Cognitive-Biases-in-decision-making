@@ -1,2 +1,4 @@
-,ddk
-car
+Trouvez ci-dessous le moyen de transport choisi avec l'effet des biais
+car(PROVISOIRE) 
+Trouvez ci-dessous le moyen de transport choisi de façon rationnelle
+car(PROVISOIR) 

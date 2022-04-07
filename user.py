@@ -11,22 +11,25 @@ PRATICITY = "praticity"
 FAST = "fast"
 CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
 
-## Varaibles représentant le context
+## Variables représentants le context
 RAINY = "rainy"
 TEMPOK = "temperature ok"
 LIGHT = "light"
 CONTEXTBOOLS = [RAINY,TEMPOK,LIGHT]
 
 
-
+## Variables représentants les moyens de transports à disposition de l'agent
 HASBIKE = "agent has bike"
 HASCAR = "agent has car"
 HASBUS = "agent is on bus line"
 AGENTBOOLS = [HASBIKE, HASCAR, HASBUS]
+
 FITNESS = "agent's fitness level"
 
 
 class user:
+
+    ##
     fitness=float
     means=AGENTBOOLS
     critAgent=CRITERIAS
@@ -45,12 +48,18 @@ class user:
     ##Initialisation de l'utilsateur avec trois choix 
 
     def __init__(self,) -> None:
+
         ##initialisation provisoire de contextebools ###############################################
-        for bool in self.weather:
-            bool = True
+        cpt = 0 
+        for elem in CONTEXTBOOLS:
+            answer = input(elem + " ? (y/n) : ")
+            while answer not in ["y","n"]:
+                answer = input(elem + " ? (y/n) : ")
+            self.weather[cpt] = (answer == "y")
+            cpt += 1
         ############################################################################################
 
-
+        ##Initialisation des poids associés aux différents critères de choix
         x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
         while x not in ["u","r","f"]:
             x = input("(u)ser agent priorities or (r)andom ? : ")
@@ -61,17 +70,12 @@ class user:
                 x = float(input("Priority (0-1) of " + crit + " ? : "))
                 
                 while x<0 or x>1:
-                    x = float(input("Priority (0-1) of "+crit+" ? : "))
-		# priority within 0-1
+                    x = float(input("Priority (0-1) of "+crit+" ? : "))		
                 self.critAgent[cpt] = x
                 cpt += 1
 
                 
-                
-
-
-
-
+        ##Initialisation des poids associés aux différents critères de choix
             for agtbool in AGENTBOOLS:
                 x= (input("Do i own a "+agtbool+"? : (y)/(n)"))
                 while x not in ["y","n"]:
@@ -92,17 +96,18 @@ class user:
         
         
 
-        
 
-      
-
-         
 
     def generateAgent() :
         return 1
     
     def readAgent():
         return 1
+
+
+    def refreshHabits(self):
+        habits = open("habits.txt","w")
+        habits.flush()
 
 
     def updateHabits(self):
@@ -118,12 +123,17 @@ class user:
         habits.write(res[1]+" ")
 
         for bool in self.weather:
-            habits.write(bool + " ")
+            habits.write(str(bool) + " ")
         
         habits.write('\n')
 
         habits.close()
 
-    
+
+    def result(self):
+        res = open("result.txt","w")
+        res.write("Trouvez ci-dessous le moyen de transport choisi avec l'effet des biais\n"+"car(PROVISOIRE) \n")
+        res.write("Trouvez ci-dessous le moyen de transport choisi de façon rationnelle\n"+"car(PROVISOIR) \n")
+        res.close()
 
 

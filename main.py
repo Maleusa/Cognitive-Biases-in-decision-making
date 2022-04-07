@@ -10,6 +10,8 @@ from user import *
 
 
 a = user()
+
+a.result()
 a.updateHabits()
 
 
