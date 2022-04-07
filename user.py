@@ -70,34 +70,27 @@ class user:
         self.walkSpeed=int
         self.busSpeed=int
 
-    def inputAgent(self) :
-        
-        for crit in CRITERIAS :
-            x = float(input("Priority (0-1) of "+crit+" ? : "))
-            while x<0 or x>1:
-                x = float(input("Priority (0-1) of "+crit+" ? : "))
-		# priority within 0-1
-            self.critere[crit]=x
-        for agtbool in [AGENTBOOLS]:
-            x= (input("Do i own a "+AGENTBOOLS+"? : (y)/(n)"))
-            while x not in ["y","n"]:
-                x= (input("Do i own a "+AGENTBOOLS+"? : (y)/(n)"))
-            if x == "y": self.means[agtbool]=True
-            else :
-                self.mens[agtbool]=False
-        x=float(input("Am i fit on a scale from 0 to 100 ? :"))
-        while x<0 or x>100:
-            x=float(input("Am i fit on a scale from 0 to 100 ? :"))
-        self.fitness=x
-
-
-
-
-        
+         
 
     def generateAgent() :
         return 1
     
     def readAgent():
         return 1
-a=user()
+
+
+    def updateHabits():
+        habits = open("habits.txt","a")
+        with open("result.txt","r") as result:
+            res = result.readlines()
+
+        habits.write(res[1]+" ")
+
+        for bool in CONTEXTBOOLS:
+            habits.write(bool + " ")
+
+        habits.close()
+
+    
+
+
