@@ -2,6 +2,7 @@ from re import L
 from math import *
 from switch import *
 
+from switch import *
 
 
 
@@ -15,7 +16,15 @@ class user:
         self.preference = list(("c",preferenceCar),("bu",preferenceBus),("bi",preferenceBike),("w",preferenceWalk))
 
 
-        self.agent=generateAgent()
+        self.agent = generateAgent()
+
+        ## Préférence (ex ecologie confort cf switch python)
+        ## Météo 
+        ## Fitness level
+        ## contraintes cf switch (sauf agenda)
+
+
+
         self.gasPrice=float
         self.subPrice=float
         self.ratioCycleWay=float
