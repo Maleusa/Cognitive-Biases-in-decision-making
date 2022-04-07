@@ -1,5 +1,6 @@
 from re import L
 from math import *
+from typing import Iterable
 
 ##Critères permettant le choix du moyen de transport
 ECOLOGY = "ecology"
