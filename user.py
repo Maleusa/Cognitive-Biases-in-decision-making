@@ -13,7 +13,7 @@ CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
 RAINY = "rainy"
 TEMPOK = "temperature ok"
 LIGHT = "light"
-CONTEXTBOOLS = [RAINY,TEMPOK,,LIGHT]
+CONTEXTBOOLS = [RAINY,TEMPOK,LIGHT]
 
 
 HASBIKE = "agent has bike"
@@ -61,3 +61,19 @@ class user:
     
     def readAgent():
         return 1
+
+    def updateHabits():
+        habits = open("habits.txt","a")
+        with open("result.txt","r") as result:
+            res = result.readlines()
+
+        habits.write(res[1]+" ")
+
+        for bool in CONTEXTBOOLS:
+            habits.write(bool + " ")
+
+        habits.close()
+
+    
+
+
