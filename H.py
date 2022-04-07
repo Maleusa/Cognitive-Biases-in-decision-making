@@ -10,4 +10,9 @@ from user import *
 
 
 a = user()
+a.updateHabits()
+
+
+
+
 
