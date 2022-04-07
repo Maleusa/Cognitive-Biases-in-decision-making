@@ -29,10 +29,10 @@ class user:
         x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
         while x not in ["u","r","f"]:
             x = input("(u)ser agent priorities or (r)andom ? : ")
-        if x == "u": self = inputAgent()
+        if x == "u": self.inputAgent(self)
         else : 
-            if x=="r" : self = generateAgent()
-            else : self = readAgent()
+            if x=="r" : self.generateAgent(self)
+            else : self.readAgent(self)
         
 
         ## Préférence (ex ecologie confort cf switch python)
@@ -41,8 +41,9 @@ class user:
         ## Fitness level
         ## contraintes cf switch (sauf agenda)
 
-
-
+        self.fitness=float
+        self.means=AGENTBOOLS
+        self.critere=CRITERIAS
         self.gasPrice=float
         self.subPrice=float
         self.ratioCycleWay=float
@@ -53,8 +54,30 @@ class user:
         self.walkSpeed=int
         self.busSpeed=int
 
-    def inputAgent() :
-        return 1
+    def inputAgent(self) :
+        
+        for crit in CRITERIAS :
+            x = float(input("Priority (0-1) of "+crit+" ? : "))
+            while x<0 or x>1:
+                x = float(input("Priority (0-1) of "+crit+" ? : "))
+		# priority within 0-1
+            self.critere[crit]=x
+        for agtbool in [AGENTBOOLS]:
+            x= bool(input("Do i own a "+AGENTBOOLS+"? : (y)/(n)"))
+            while x not in ["y","n"]:
+                x= bool(input("Do i own a "+AGENTBOOLS+"? : (y)/(n)"))
+            if x == True: self.means[agtbool]=True
+            else :
+                self.mens[agtbool]=False
+        x=float(input("Am i fit on a scale from 0 to 100 ? :"))
+        while x<0 or x>100:
+            x=float(input("Am i fit on a scale from 0 to 100 ? :"))
+        self.fitness=x
+
+
+
+
+        
 
     def generateAgent() :
         return 1
