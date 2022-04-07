@@ -1,8 +1,6 @@
 from re import L
 from math import *
-from switch import *
 
-from switch import *
 
 ECOLOGY = "ecology"
 COMFORT = "comfort"
@@ -26,7 +24,7 @@ FITNESS = "agent's fitness level"
 
 
 class user:
-
+    ##Initialisation de l'utilsateur avec trois choix 
     def __init__(self,) -> None:
         x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
         while x not in ["u","r","f"]:
@@ -34,6 +32,7 @@ class user:
         if x == "u": self = inputAgent()
         else : 
             if x=="r" : self = generateAgent()
+            else : self = readAgent()
         
 
         ## Préférence (ex ecologie confort cf switch python)
@@ -53,3 +52,12 @@ class user:
         self.bikeSpeed=int
         self.walkSpeed=int
         self.busSpeed=int
+
+    def inputAgent() :
+        return 1
+
+    def generateAgent() :
+        return 1
+    
+    def readAgent():
+        return 1
