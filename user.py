@@ -22,12 +22,6 @@ FITNESS = "agent's fitness level"
 class user:
 
     def __init__(self,) -> None:
-        preferenceCar = int(input("Quel est mon degré de préférence pour la voiture ? saisir un flotant de 1 à 4 où 1 est transport préféré et 4 est le transport le moins apprécié"))
-        preferenceBike = int(input("Quel est mon degré de préférence pour le vélo ? saisir un flotant de 1 à 4 où 1 est transport préféré et 4 est le transport le moins apprécié"))
-        preferenceBus = int(input("Quel est mon degré de préférence pour le bus ? saisir un flotant de 1 à 4 où 1 est transport préféré et 4 est le transport le moins apprécié"))
-        preferenceWalk = int(input("Quel est mon degré de préférence pour le bus ? saisir un flotant de 1 à 4 où 1 est transport préféré et 4 est le transport le moins apprécié"))
-        self.preference = list(("c",preferenceCar),("bu",preferenceBus),("bi",preferenceBike),("w",preferenceWalk))
-
         x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
 	    while x not in ["u","r","f"]:
 	        	x = input("(u)ser agent priorities or (r)andom ? : ")
