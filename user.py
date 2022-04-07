@@ -144,13 +144,7 @@ class user:
             agent.write(str(bool)+"\n")
         agent.write("\n"+str(self.fitness))
 
-    def generateAgent() :
-        return 1
-    
-    def readAgent():
-        return 1
-
-
+  
     ##Fonction permettant d'effacer le contenu du fichier habits.txt et donc de d'oublier l'ensemble des abitudes de l'agent
     def refreshHabits(self):
         habits = open("habits.txt","w")
