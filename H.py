@@ -10,6 +10,7 @@ from user import *
 
 
 a = user()
+print(a.critAgent)
 a.updateHabits()
 
 
