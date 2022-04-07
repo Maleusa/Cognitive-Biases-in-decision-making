@@ -10,9 +10,13 @@ PRATICITY = "praticity"
 FAST = "fast"
 CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
 
+RAINY = "rainy"
+TEMPOK = "temperature ok"
+LIGHT = "light"
+CONTEXTBOOLS = [RAINY,TEMPOK,,LIGHT]
 
 
-HASBIKE = "agent bike"
+HASBIKE = "agent has bike"
 HASCAR = "agent has car"
 HASBUS = "agent is on bus line"
 AGENTBOOLS = [HASBIKE, HASCAR, HASBUS]
