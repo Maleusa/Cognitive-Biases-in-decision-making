@@ -23,10 +23,11 @@ class user:
 
     def __init__(self,) -> None:
         x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
-	    while x not in ["u","r","f"]:
-	        	x = input("(u)ser agent priorities or (r)andom ? : ")
-	    if x == "u": self = inputAgent()
-	    else if : self = generateAgent()
+        while x not in ["u","r","f"]:
+            x = input("(u)ser agent priorities or (r)andom ? : ")
+        if x == "u": self = inputAgent()
+        else : 
+            if x=="r" : self = generateAgent()
         
 
         ## Préférence (ex ecologie confort cf switch python)
