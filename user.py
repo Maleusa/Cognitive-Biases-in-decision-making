@@ -80,8 +80,7 @@ class user:
                 x=float(input("Am i fit on a scale from 0 to 100 ? :"))
         
         self.fitness=x
-        for crit in self.critAgent:
-            print(crit)
+       
 
 
         if x=="r" : self.generateAgent(self)
