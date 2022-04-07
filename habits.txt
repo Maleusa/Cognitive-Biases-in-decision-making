@@ -12,3 +12,5 @@ car(PROVISOIRE)
  True True True 
 car(PROVISOIRE) 
  True False False 
+car(PROVISOIRE) 
+ True True True 
