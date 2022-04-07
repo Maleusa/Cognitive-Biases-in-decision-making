@@ -50,7 +50,7 @@ class user:
 
     def __init__(self,) -> None:
 
-        ##initialisation provisoire de contextebools ###############################################
+        ##initialisation de la météo
         cpt = 0 
         for elem in CONTEXTBOOLS:
             answer = input(elem + " ? (y/n) : ")
@@ -58,7 +58,7 @@ class user:
                 answer = input(elem + " ? (y/n) : ")
             self.weather[cpt] = (answer == "y")
             cpt += 1
-        ############################################################################################
+        
 
         ##Initialisation des poids associés aux différents critères de choix
         x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
@@ -145,11 +145,13 @@ class user:
         return 1
 
 
+    ##Fonction permettant d'effacer le contenu du fichier habits.txt et donc de d'oublier l'ensemble des abitudes de l'agent
     def refreshHabits(self):
         habits = open("habits.txt","w")
         habits.flush()
 
 
+    ##Fonction permttant de mettre à jour les abitudes de l'agent en ajoutant le choix du dernier trajet réalisé 
     def updateHabits(self):
         
         habits = open("habits.txt","a")
@@ -170,6 +172,7 @@ class user:
         habits.close()
 
 
+    #Fonction permettant d'écrir dans un fichier le choix du moyen de transport avec et sans biais
     def result(self):
         res = open("result.txt","w")
         res.write("Trouvez ci-dessous le moyen de transport choisi avec l'effet des biais\n"+"car(PROVISOIRE) \n")
