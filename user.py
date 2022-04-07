@@ -99,6 +99,7 @@ class user:
         
             self.fitness=x
             self.saveAgent()
+        ##Initialisation d'un agent de maniere aleatoire        
         if x=="r" : 
             cpt=0
             for crit in CRITERIAS:
@@ -110,6 +111,7 @@ class user:
                 cpt+=1
             self.fitness=random.randint(0,100)
             self.saveAgent()
+        ##Initialisation d'un agent a partir d'une sauvegarde precedente (IN PROGRESS)
         if x=="f":
             agent=open("Agent.txt","r")
             cpt=0
