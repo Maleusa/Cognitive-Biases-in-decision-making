@@ -102,9 +102,9 @@ class user:
 
     def updateHabits(self):
         
-        habits = open("D:/Users/Cognitive-Biases-in-decision-making/habits.txt","a")
+        habits = open("habits.txt","a")
         
-        with open("D:/Users/Cognitive-Biases-in-decision-making/result.txt","r") as result:
+        with open("result.txt","r") as result:
             
             print(result)
             res = result.readlines()
