@@ -77,7 +77,7 @@ class user:
 
 
 
-        return 1
+        
 
     def generateAgent() :
         return 1
