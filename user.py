@@ -99,7 +99,7 @@ class user:
         
             self.fitness=x
             self.saveAgent()
-            
+        #Initialisation d'un agent par le hasard   
         if x=="r" : 
             cpt=0
             for crit in CRITERIAS:
@@ -111,18 +111,23 @@ class user:
                 cpt+=1
             self.fitness=random.randint(0,100)
             self.saveAgent()
+        #initialisation d'un agent en lisant un fichier
         if x=="f":
             agent=open("Agent.txt","r")
+            f=agent.readlines()
+            for lines in range(len(f)):
+                f[lines]=f[lines].strip('\n')
+            # ceci etait un test print(f)
             cpt=0
             for crit in CRITERIAS:
-                self.critAgent[cpt]=float(agent.readline(cpt+1))
+                self.critAgent[cpt]=float(f[cpt])
                 cpt+=1
             cpt=0
             for agtbool in AGENTBOOLS:
-                if(agent.readline(cpt+8)=="True") : self.means[cpt]=True
+                if(f[cpt+7]=="True") : self.means[cpt]=True
                 else: self.means[cpt]=False
                 cpt+=1
-            self.fitness=int(agent.readline(12))
+            self.fitness=int(f[11])
 
             
         
