@@ -6,3 +6,9 @@ car rainy temperature ok light
 car rainy temperature ok light 
 car rainy temperature ok light 
 car rainy temperature ok light 
+car(PROVISOIRE) 
+ True True True 
+car(PROVISOIRE) 
+ True True True 
+car(PROVISOIRE) 
+ True False False 
