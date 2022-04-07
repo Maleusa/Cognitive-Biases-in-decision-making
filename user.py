@@ -12,7 +12,9 @@ PRATICITY = "praticity"
 FAST = "fast"
 CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
 
-HASBIKE = "agent has bike"
+
+
+HASBIKE = "agent bike"
 HASCAR = "agent has car"
 HASBUS = "agent is on bus line"
 AGENTBOOLS = [HASBIKE, HASCAR, HASBUS]
