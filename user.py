@@ -1,3 +1,4 @@
+from ast import walk
 from re import L
 from math import *
 from typing import Iterable
@@ -193,7 +194,19 @@ class user:
                 self.mark[i]=self.mark[i]+(dico[mode][crit]*self.critAgent[i])
             i=+1
         #TODO Sortir la note la plus haute et c'est elle qui indique le mode choisis rationement
-
+        modefavoris = BIKE
+        sortedmark=self.mark.copy()
+        sortedmark.sort()
+        indice=self.mark.index(sortedmark[23])
+        if (indice>=0 & indice<=5):
+            return BIKE
+        else :
+            if (indice >5 & indice <=11):
+                return CAR
+            if (indice >11 & indice <=17):
+                return WALK
+            if (indice >17 ):
+                return BUS
 
 
 
