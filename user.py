@@ -193,29 +193,32 @@ class user:
         #notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
         for p_id, p_info in self.dico.items():
-            self.mark[i]=0
+            
             j=0
             for key in p_info:
                
                 self.mark[i]=self.mark[i]+(p_info[key]*self.critAgent[j])
-                print(p_info[key])
+                
                 j+=1
+            
             i=+1
+        print(self.mark)
+
 
         
         #TODO Sortir la note la plus haute et c'est elle qui indique le mode choisis rationement
         markmax = 0
         indexMarkMax = 0
         k=0
-        for k in range(len(self.mark)):
+
+     
+        for k in range(0,len(self.mark)):
             
             if (float(self.mark[k])>markmax) :
                 print(str(self.mark[k]) + "ma note")
-                print(str(markmax) + "note max")
                 markmax = float(self.mark[k])
+                print(str(markmax) + "note max")
                 indexMarkMax = k
-            k += 1
-
 
         choice = LISTMODES[indexMarkMax]
         print(choice)
