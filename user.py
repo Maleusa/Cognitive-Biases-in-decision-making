@@ -159,6 +159,7 @@ class user:
     def rationalModeChoice(self):
         
         dico={}
+        
         for mode in LISTMODES:
             dico[mode] = {}
             for crit in CRITERIAS:
@@ -189,6 +190,9 @@ class user:
         dico[WALK][SAFETY] = 0
         dico[WALK][PRATICITY] = 0
         dico[WALK][FAST] = 0
+
+        print(dico.keys())
+        
         
         #notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
