@@ -6,10 +6,7 @@ from user import *
 
 
 a = user()
-
 a.rationalModeChoice()
-
-
 
 
 
