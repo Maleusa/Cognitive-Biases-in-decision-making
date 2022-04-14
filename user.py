@@ -76,7 +76,7 @@ class user:
     critAgent=CRITERIAS
     weather = CONTEXTBOOLS
     mark = [0,0,0,0]
-
+    habits=list
     
     gasPrice=float
     subPrice=float
@@ -235,17 +235,13 @@ class user:
 
 
     ##Fonction permttant de mettre à jour les abitudes de l'agent en ajoutant le choix du dernier trajet réalisé 
-    def updateHabits(self):
+    def updateHabits(self,choice=str):
         
         habits = open("habits.txt","a")
         
-        with open("result.txt","r") as result:
-            
-            print(result)
-            res = result.readlines()
-            print(res)
+       
 
-        habits.write(res[1]+" ")
+        habits.write(choice+" ")
 
         for bool in self.weather:
             habits.write(str(bool) + " ")
@@ -254,6 +250,11 @@ class user:
 
         habits.close()
 
+    def readHabits(self):
+        habits = open("habits.txt","r")
+        f=habits.readlines()
+        for lines in range(len(f)) :
+            f[lines]=f[lines].strip('\n')
 
     #Fonction permettant d'écrir dans un fichier le choix du moyen de transport avec et sans biais
     def result(self):
