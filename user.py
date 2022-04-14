@@ -38,7 +38,38 @@ FITNESS = "agent's fitness level"
 
 
 class user:
-
+    dico={}
+    for mode in LISTMODES:
+        dico[mode] = {}
+        for crit in CRITERIAS:
+            dico[mode][crit]=0
+            
+    #Remplissage du dictionnaire des valeurs associé à chaque critere pour chaque mode de transport
+    dico[BIKE][ECOLOGY] = 1
+    dico[BIKE][COMFORT] = 1
+    dico[BIKE][CHEAP] = 1
+    dico[BIKE][SAFETY] = 1
+    dico[BIKE][PRATICITY] = 1
+    dico[BIKE][FAST] = 1
+    dico[CAR][ECOLOGY] = 2
+    dico[CAR][COMFORT] = 2
+    dico[CAR][CHEAP] = 2
+    dico[CAR][SAFETY] = 2
+    dico[CAR][PRATICITY] = 2
+    dico[CAR][FAST] = 2
+    dico[BUS][ECOLOGY] = 0
+    dico[BUS][COMFORT] = 0
+    dico[BUS][CHEAP] = 0
+    dico[BUS][SAFETY] = 0
+    dico[BUS][PRATICITY] = 0
+    dico[BUS][FAST] = 0
+    dico[WALK][ECOLOGY] = 0
+    dico[WALK][COMFORT] = 0
+    dico[WALK][CHEAP] = 0
+    dico[WALK][SAFETY] = 0
+    dico[WALK][PRATICITY] = 0
+    dico[WALK][FAST] = 0
+        
     ##
     fitness=float
     means=AGENTBOOLS
@@ -158,60 +189,29 @@ class user:
     #Methode retournant le choix rationel d'un agent
     def rationalModeChoice(self):
         
-        dico={}
-        
-        for mode in LISTMODES:
-            dico[mode] = {}
-            for crit in CRITERIAS:
-                dico[mode][crit]=0
             
-        #Remplissage du dictionnaire des valeurs associé à chaque critere pour chaque mode de transport
-        dico[BIKE][ECOLOGY] = 1
-        dico[BIKE][COMFORT] = 1
-        dico[BIKE][CHEAP] = 1
-        dico[BIKE][SAFETY] = 1
-        dico[BIKE][PRATICITY] = 1
-        dico[BIKE][FAST] = 1
-        dico[CAR][ECOLOGY] = 2
-        dico[CAR][COMFORT] = 2
-        dico[CAR][CHEAP] = 2
-        dico[CAR][SAFETY] = 2
-        dico[CAR][PRATICITY] = 2
-        dico[CAR][FAST] = 2
-        dico[BUS][ECOLOGY] = 0
-        dico[BUS][COMFORT] = 0
-        dico[BUS][CHEAP] = 0
-        dico[BUS][SAFETY] = 0
-        dico[BUS][PRATICITY] = 0
-        dico[BUS][FAST] = 0
-        dico[WALK][ECOLOGY] = 0
-        dico[WALK][COMFORT] = 0
-        dico[WALK][CHEAP] = 0
-        dico[WALK][SAFETY] = 0
-        dico[WALK][PRATICITY] = 0
-        dico[WALK][FAST] = 0
-
-        print(dico.keys())
-        
-        
         #notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
-        for mode in LISTMODES:
+        for p_id, p_info in self.dico.items():
             self.mark[i]=0
-            for crit in CRITERIAS:
-                self.mark[i]=self.mark[i]+(dico[mode][crit]*self.critAgent[i])
-                print(str(dico[mode][crit]) + "valeur dico")
-                print(str(self.critAgent[i]) + "ma note")
+            j=0
+            for key in p_info:
+               
+                self.mark[i]=self.mark[i]+(p_info[key]*self.critAgent[j])
+                print(p_info[key])
+                j+=1
             i=+1
+
+        
         #TODO Sortir la note la plus haute et c'est elle qui indique le mode choisis rationement
         markmax = 0
         indexMarkMax = 0
         k=0
-        for toto in self.mark :
+        for k in range(len(self.mark)):
             
-            if float(self.mark[k])>markmax :
-                print(self.mark[k] + "ma note")
-                print(markmax + "note max")
+            if (float(self.mark[k])>markmax) :
+                print(str(self.mark[k]) + "ma note")
+                print(str(markmax) + "note max")
                 markmax = float(self.mark[k])
                 indexMarkMax = k
             k += 1
