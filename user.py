@@ -1,4 +1,5 @@
 from ast import walk
+from environnement import *
 from pickletools import markobject
 from re import L
 from math import *
@@ -21,13 +22,6 @@ PRATICITY = "praticity"
 FAST = "fast"
 CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
 
-## Variables représentants le context
-RAINY = "rainy"
-TEMPOK = "temperature ok"
-LIGHT = "light"
-CONTEXTBOOLS = [RAINY,TEMPOK,LIGHT]
-
-
 ## Variables représentants les moyens de transports à disposition de l'agent
 HASBIKE = "agent has bike"
 HASCAR = "agent has car"
@@ -39,42 +33,13 @@ FITNESS = "agent's fitness level"
 
 class user:
     dico={}
-    for mode in LISTMODES:
-        dico[mode] = {}
-        for crit in CRITERIAS:
-            dico[mode][crit]=0
-            
-    #Remplissage du dictionnaire des valeurs associé à chaque critere pour chaque mode de transport
-    dico[BIKE][ECOLOGY] = 1
-    dico[BIKE][COMFORT] = 1
-    dico[BIKE][CHEAP] = 1
-    dico[BIKE][SAFETY] = 1
-    dico[BIKE][PRATICITY] = 1
-    dico[BIKE][FAST] = 1
-    dico[CAR][ECOLOGY] = 2
-    dico[CAR][COMFORT] = 2
-    dico[CAR][CHEAP] = 2
-    dico[CAR][SAFETY] = 2
-    dico[CAR][PRATICITY] = 2
-    dico[CAR][FAST] = 2
-    dico[BUS][ECOLOGY] = 0
-    dico[BUS][COMFORT] = 0
-    dico[BUS][CHEAP] = 0
-    dico[BUS][SAFETY] = 0
-    dico[BUS][PRATICITY] = 0
-    dico[BUS][FAST] = 0
-    dico[WALK][ECOLOGY] = 0
-    dico[WALK][COMFORT] = 0
-    dico[WALK][CHEAP] = 0
-    dico[WALK][SAFETY] = 0
-    dico[WALK][PRATICITY] = 0
-    dico[WALK][FAST] = 0
+  
         
     ##
     fitness=float
     means=AGENTBOOLS
     critAgent=CRITERIAS
-    weather = CONTEXTBOOLS
+    
     mark = [0,0,0,0]
     habits=list
     
@@ -91,15 +56,11 @@ class user:
 
     def __init__(self,) -> None:
 
-        ##initialisation de la météo
-        cpt = 0 
-        for elem in CONTEXTBOOLS:
-            answer = input(elem + " ? (y/n) : ")
-            while answer not in ["y","n"]:
-                answer = input(elem + " ? (y/n) : ")
-            self.weather[cpt] = (answer == "y")
-            cpt += 1
-        
+        ##initialisation de l'environnement de l'agent 
+        env = environnement()
+
+        ##Initialisation des notes attribué aux différents critères de choix en fonctions des moyens des transports 
+        dico = env.getMarks()
 
         ##Initialisation des poids associés aux différents critères de choix
         x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
@@ -124,9 +85,9 @@ class user:
             cpt=0
             ##Initialisation des poids associés aux différents critères de choix
             for agtbool in AGENTBOOLS:
-                x= (input("Do i own a "+agtbool+"? : (y)/(n)"))
+                x= (input(agtbool+" ? : (y)/(n) "))
                 while x not in ["y","n"]:
-                    x= (input("Do i own a "+agtbool+"? : (y)/(n)"))
+                    x= (input(agtbool+" ? : (y)/(n) "))
                 if x == "y": 
                     self.means[cpt]=True
                     cpt+=1
@@ -140,6 +101,7 @@ class user:
         
             self.fitness=x
             self.saveAgent()
+
         #Initialisation d'un agent par le hasard   
         if x=="r" : 
             cpt=0
