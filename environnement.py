@@ -47,11 +47,12 @@ class environnement:
     TEMPOK = "temperature ok"
     LIGHT = "light"
     CONTEXTBOOLS = [RAINY,TEMPOK,LIGHT]
+
     marks = {}
    
 
     def __init__(self) -> None:
-
+        
         # Initialisation de la météo
         cpt = 0 
         for elem in self.CONTEXTBOOLS:
@@ -95,6 +96,8 @@ class environnement:
         self.marks[WALK][PRATICITY] = 0.5
         self.marks[WALK][FAST] = 0.25
 
+        print(self.marks)
+
         # Initailisation des variables de context
         # L'utilisateur peut choisir d'utiliser les variables de contextes par défault ou de les rentrer soit même dans la console
 
@@ -114,24 +117,25 @@ class environnement:
             self.carSpeed=carSpeedStandart
 
         if x == "u":
-            self.gasPrice= input("Gas price ?")
-            self.subPrice= input("Bus subscription price ?")
-            self.ratioCycleWay = input("Ration cycle way ?")
-            self.busFrequency= input( "Bus frequency ?")
-            self.busCapacity= input("Bus capacity ?")
-            self.carSpeed= input("Car speed ?")
-            self.bikeSpeed=input("Bike speed ?")
-            self.walkSpeed=input("Walk speed ?")
-            self.busSpeed=input("bus Speed ?")
+            self.gasPrice= float(input("Gas price ?"))
+            self.subPrice= float(input("Bus subscription price ?"))
+            self.ratioCycleWay = float(input("Ration cycle way ?"))
+            self.busFrequency= float(input( "Bus frequency ?"))
+            self.busCapacity= float(input("Bus capacity ?"))
+            self.carSpeed= float(input("Car speed ?"))
+            self.bikeSpeed=float(input("Bike speed ?"))
+            self.walkSpeed=float(input("Walk speed ?"))
+            self.busSpeed=float(input("bus Speed ?"))
 
             self.marksVariable()
         
         self.marksWeather()
+        print(self.marks)
 
     def getMarks(self) :
         return self.marks
 
-    
+    # fonction permettant de modifier les notes attribué à chaque items en fonction des variables contexte
     def marksVariable(self) :
         ## Modification des notes liées au prix de l'essence
         self.marks[CAR][CHEAP] =  self.marks[CAR][CHEAP]*(1/self.coefMulti(self.gasPrice,gasPriceStandart))
@@ -155,5 +159,27 @@ class environnement:
         self.marks[CAR][FAST] =  self.marks[CAR][FAST] * self.coefMulti(self.carSpeed,carSpeedStandart)
         self.marks[WALK][FAST] = self.marks[WALK][FAST] * self.coefMulti(self.walkSpeed,walkSpeedStandart)
 
-    def coefMulti(valUser,valStandart):
+    def marksWeather(self):
+        # Modification des notes liées à la présence de pluie
+        # Si il pleut, le vélo devient moins confortable et plus dangereux, la marche devient moins confortable
+        if self.CONTEXTBOOLS[0] == True :
+            self.marks[BIKE][COMFORT] =  self.marks[BIKE][COMFORT]/2
+            self.marks[BIKE][SAFETY] =  self.marks[BIKE][SAFETY]/2
+            self.marks[WALK][COMFORT] =  self.marks[WALK][COMFORT]/2
+
+        # Modification des notes liées à la température
+        # Si il fait trop froid ou trop chaud , le vélo et la marche deviennent moins confortable
+        if self.CONTEXTBOOLS[1] == False :
+            self.marks[BIKE][COMFORT] =  self.marks[BIKE][COMFORT]/2
+            self.marks[WALK][COMFORT] =  self.marks[WALK][COMFORT]/2
+
+        # Modification des notes liées à la lumière
+        # Si il y a pas de lumière, le vélo, la marche et la voiture deviennent plus dangereux 
+        if self.CONTEXTBOOLS[2] == False :
+            self.marks[BIKE][SAFETY] =  self.marks[BIKE][SAFETY]/2
+            self.marks[WALK][SAFETY] =  self.marks[WALK][SAFETY]/2
+            self.marks[CAR][SAFETY] = self.marks[CAR][SAFETY]/2
+
+
+    def coefMulti(self,valUser,valStandart):
         return valUser/valStandart
