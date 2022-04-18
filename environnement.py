@@ -1,11 +1,11 @@
-# transportation modes
+# Transportation modes
 BIKE = "bike"
 CAR = "individual car"
 BUS = "public transport"
 WALK = "walk"
 LISTMODES = [BIKE,CAR,BUS,WALK]
 
-##Critères permettant le choix du moyen de transport
+# Critères permettant le choix du moyen de transport
 ECOLOGY = "ecology"
 COMFORT = "comfort"
 CHEAP = "cheap"
@@ -14,34 +14,45 @@ PRATICITY = "praticity"
 FAST = "fast"
 CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
 
-##Variable représentants le contexte 
-gasPrice=float
-subPrice=float
-ratioCycleWay=float
-busFrequency=int
-busCapacity=int
-carSpeed=int
-bikeSpeed=int
-walkSpeed=int
-busSpeed=int
+# Variable représentants le contexte 
+gasPriceStandart=1.7 # Prix SP95 le 14/04/2022
+subPriceStandart=65.5 # Prix moyen abonnement transport en france 2022
+ratioCycleWayStandart = 0.5 # Valeure prise dans Switch
+busFrequencyStandart=10 # Fréquence de passage de bus par heure à grenoble 
+busCapacityStandart=100 # Cf wikipedia page sur les autobus
+carSpeedStandart=42.3 # km/h en moyenne en France en 2020
+bikeSpeedStandart=14 # km/h en moyenne à Lyon en 2020
+walkSpeedStandart=6.4 # Vitesse moyenne de marche normale et dynamique 
+busSpeedStandart=10 # Km/h vitesse moyenne des bus a Paris en 2020
+
+
 
 class environnement:
+
+    gasPrice= float
+    subPrice= float
+    ratioCycleWay = float
+    busFrequency= float
+    busCapacity= float
+    carSpeed= float
+    bikeSpeed=float
+    walkSpeed=float
+    busSpeed=float
 
     TransportMode = LISTMODES
     crit = CRITERIAS
 
-## Variables représentants la météo
+# Variables représentants la météo
     RAINY = "rainy"
     TEMPOK = "temperature ok"
     LIGHT = "light"
     CONTEXTBOOLS = [RAINY,TEMPOK,LIGHT]
-
     marks = {}
    
 
     def __init__(self) -> None:
 
-        ##initialisation de la météo
+        # Initialisation de la météo
         cpt = 0 
         for elem in self.CONTEXTBOOLS:
             answer = input(elem + " ? (y/n) : ")
@@ -51,14 +62,14 @@ class environnement:
             cpt += 1
         
 
-        ##Initialisation de la note objective associée à chaque critères en fonction du moyen de transport
+        # Initialisation de la note objective associée à chaque critères en fonction du moyen de transport
         
         for mode in self.TransportMode:
             self.marks[mode] = {}
             for crit in self.crit:
                 self.marks[mode][crit]=0
 
-        ##notes objectives 
+        # Notes objectives 
         self.marks[BIKE][ECOLOGY] = 0.75
         self.marks[BIKE][COMFORT] = 0.25
         self.marks[BIKE][CHEAP] = 0.75
@@ -84,34 +95,65 @@ class environnement:
         self.marks[WALK][PRATICITY] = 0.5
         self.marks[WALK][FAST] = 0.25
 
-        ##initailisation des variables de context
-        ##L'utilisateur peut choisir d'utiliser les variables de contextes par défault ou de les rentrer soit même dans la console
+        # Initailisation des variables de context
+        # L'utilisateur peut choisir d'utiliser les variables de contextes par défault ou de les rentrer soit même dans la console
 
         x = input("(s)tandart context variables or (u)ser input ? : ")
         while x not in ["u","s"]:
             x = input("(s)tandart context variables or (u)ser input ? : ")
         
         if x == "s":
-            gasPrice=1.7 ##Prix SP95 le 14/04/2022
-            subPrice=65.5 ##Prix moyen abonnement transport en france 2022
-            ratioCycleWay = 0.5 ##Valeure prise dans Switch
-            busFrequency=10 ##Fréquence de passage de bus par heure à grenoble 
-            busCapacity=100 ##Cf wikipedia page sur les autobus
-            carSpeed=42.3 ##km/h en moyenne en France en 2020
-            bikeSpeed=14 ##km/h en moyenne à Lyon en 2020
-            walkSpeed=6.4 ##Vitesse moyenne de marche normale et dynamique 
-            busSpeed=10 ##Km/h vitesse moyenne des bus a Paris en 2020
-        
+            self.gasPrice=gasPriceStandart
+            self.subPrice=subPriceStandart
+            self.ratioCycleWay=ratioCycleWayStandart
+            self.busFrequency=busFrequencyStandart
+            self.busCapacity=busCapacityStandart
+            self.busSpeed=busSpeedStandart
+            self.bikeSpeed=bikeSpeedStandart
+            self.walkSpeed=walkSpeedStandart
+            self.carSpeed=carSpeedStandart
+
         if x == "u":
-            gasPrice= input("Gas price ?")
-            subPrice= input("Bus subscription price ?")
-            ratioCycleWay = input("Ration cycle way ?")
-            busFrequency= input( "Bus frequency ?")
-            busCapacity= input("Bus capacity ?")
-            carSpeed= input("Car speed ?")
-            bikeSpeed=input("Bike speed ?")
-            walkSpeed=input("Walk speed ?")
-            busSpeed=input("bus Speed ?")
+            self.gasPrice= input("Gas price ?")
+            self.subPrice= input("Bus subscription price ?")
+            self.ratioCycleWay = input("Ration cycle way ?")
+            self.busFrequency= input( "Bus frequency ?")
+            self.busCapacity= input("Bus capacity ?")
+            self.carSpeed= input("Car speed ?")
+            self.bikeSpeed=input("Bike speed ?")
+            self.walkSpeed=input("Walk speed ?")
+            self.busSpeed=input("bus Speed ?")
+
+            self.marksVariable()
+        
+        self.marksWeather()
 
     def getMarks(self) :
         return self.marks
+
+    
+    def marksVariable(self) :
+        ## Modification des notes liées au prix de l'essence
+        self.marks[CAR][CHEAP] =  self.marks[CAR][CHEAP]*(1/self.coefMulti(self.gasPrice,gasPriceStandart))
+
+        ## Modification des notes liées au prix de l'abonnement de bus
+        self.marks[BUS][CHEAP] = self.marks[BUS][CHEAP] * (1/self.coefMulti(self.subPrice,subPriceStandart))
+
+        ## Modification des notes liées à la proportion de pristes cyclables 
+        self.marks[BIKE][SAFETY] =  self.marks[BIKE][SAFETY] * self.coefMulti(self.ratioCycleWay,ratioCycleWayStandart)
+        self.marks[BIKE][FAST] =  self.marks[BIKE][FAST] * self.coefMulti(self.ratioCycleWay,ratioCycleWayStandart)
+
+        ## Modifications des notes liées à la fréquence de bus 
+        self.marks[BUS][FAST] = self.marks[BUS][FAST] * self.coefMulti(self.busFrequency,busFrequencyStandart)
+
+        ## Modifications des notes liées à la capacité des bus 
+        self.marks[BUS][COMFORT] = self.marks[BUS][COMFORT]*self.coefMulti(self.busCapacity,busCapacityStandart)
+
+        ## Modification des notes liées 
+        self.marks[BIKE][FAST] = self.marks[BIKE][FAST] * self.coefMulti(self.bikeSpeed,bikeSpeedStandart)
+        self.marks[BUS][FAST] =  self.marks[BUS][FAST] * self.coefMulti(self.busSpeed,busSpeedStandart)
+        self.marks[CAR][FAST] =  self.marks[CAR][FAST] * self.coefMulti(self.carSpeed,carSpeedStandart)
+        self.marks[WALK][FAST] = self.marks[WALK][FAST] * self.coefMulti(self.walkSpeed,walkSpeedStandart)
+
+    def coefMulti(valUser,valStandart):
+        return valUser/valStandart
