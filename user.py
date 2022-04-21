@@ -1,4 +1,5 @@
 from ast import walk
+from tkinter.filedialog import Open
 from environnement import *
 from pickletools import markobject
 from re import L
@@ -58,10 +59,10 @@ class user:
     def __init__(self,) -> None:
 
         ##initialisation de l'environnement de l'agent 
-        env = environnement()
+        self.env = environnement()
 
         ##Initialisation des notes attribué aux différents critères de choix en fonctions des moyens des transports 
-        self.dico = env.marks
+        self.dico = self.env.marks
         
 
         ##Initialisation des poids associés aux différents critères de choix
@@ -69,7 +70,7 @@ class user:
         while x not in ["u","r","f"]:
             x = input("(u)ser agent priorities or (r)andom ? : ")
 
-
+        
         ###Initialisation d'un agent par input via la console 
         if x == "u": 
             
@@ -135,6 +136,54 @@ class user:
                 else: self.means[cpt]=False
                 cpt+=1
             self.fitness=float(f[11])
+        ##Initialisation des habitudes
+        y= input("Do you want to use the (h)abits file as is,(e)rase it or erase it and create a (s)et of habits ? :")
+        while y not in ["h","e","s"] :
+            y= input("Do you want to use the (h)abits file as is,(e)rase it or erase it and create a (s)et of habits ? :")
+        #On efface le fichier habits.txt
+        if y=="e":
+            self.refreshHabits()
+        
+        if y=="s":
+            self.refreshHabits()
+            z=input("Do you want to (r)andomize a certain number of habits or (e)nter them by hand ? : ")
+            while z not in ["r","e"]:
+                z=input("Do you want to (r)andomize a certain number of habits or (e)nter them by hand ? : ")
+            h=int(input ("How many habits would you like to create ? :"))
+            
+            if z=="r":
+                
+                for i in range(h):
+                    habits = open("habits.txt","a")
+                    n=random.randint(0,3)
+                    habits.write(LISTMODES[n]+" ")
+                    for j in range(3) :
+                        random_bit = random.getrandbits(1)
+                        habits.write(str(bool(random_bit))+" ")
+                    habits.write("\n")
+            if z=="e":
+                for i in range(h):
+                    m=input("Did i use a (0)bike, (1)car, (2)bus or did i (3)walk ? : ")
+                    while m not in ["0","1","2","3"]:
+                        m=input("Did i use a (0)bike, (1)car, (2)bus or did i (3)walk ? : ")
+                    habits = open("habits.txt","a")
+                    habits.write(LISTMODES[int(m)]+" ")
+                    cpt = 0 
+                    RAINY = "rainy"
+                    TEMPOK = "temperature ok"
+                    LIGHT = "light"
+                    CONTEXTBOOLS = [RAINY,TEMPOK,LIGHT]
+                    for elem in CONTEXTBOOLS:
+                        answer = input(elem + " ? (y/n) : ")
+                        while answer not in ["y","n"]:
+                            answer = input(elem + " ? (y/n) : ")
+                        CONTEXTBOOLS[cpt] = (answer == "y")
+                        cpt += 1
+                    for bool in CONTEXTBOOLS:
+                        habits.write(str(bool) + " ")
+                    habits.write('\n')
+
+
 
         # Mise à 0 des notes correspondants à des moyens de transport inaccessibles pour l'agent (changement de méthode pour le traitement des modes inaccessible)
         """if self.means[0]==False or self.fitness < 20:
@@ -279,7 +328,7 @@ class user:
 
         rand=float(random.randint(0,100)/100)
 
-        #YA UN SOUCIS JUSTE LA J'ARRIVE PAS A l4IDENTIFIER
+        #Ca marche
         print(len(weightMod))
 
         for i in range(len(weightMod)):
@@ -290,8 +339,9 @@ class user:
                 self.habiChoice=choice
                 break
             
-        print(self.habiChoice)
+        #test print(self.habiChoice)
         print("In the contexte that i am in if i follow my usual behavior i will choose "+self.habiChoice+" as a mode of transportation")
+        # si jamais on veut ajouter le choix habituel self.updateHabits(self.habiChoice)
         
 
      
