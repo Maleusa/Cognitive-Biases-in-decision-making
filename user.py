@@ -135,42 +135,6 @@ class user:
                 cpt+=1
             self.fitness=int(f[11])
 
-        # Mise à 0 des notes correspondants à des moyens de transport inaccessibles pour l'agent
-        """if self.means[0]==False or self.fitness < 20:
-            self.dico[BIKE][ECOLOGY] = 0
-            self.dico[BIKE][COMFORT] = 0
-            self.dico[BIKE][CHEAP] = 0
-            self.dico[BIKE][SAFETY] = 0
-            self.dico[BIKE][PRATICITY] = 0
-            self.dico[BIKE][FAST] = 0
-
-        if self.means[1]==False:
-            self.dico[CAR][ECOLOGY] = 0
-            self.dico[CAR][COMFORT] = 0
-            self.dico[CAR][CHEAP] = 0
-            self.dico[CAR][SAFETY] = 0
-            self.dico[CAR][PRATICITY] = 0
-            self.dico[CAR][FAST] = 0
-
-        if self.means[2]==False:
-            self.dico[BUS][ECOLOGY] = 0
-            self.dico[BUS][COMFORT] = 0
-            self.dico[BUS][CHEAP] = 0
-            self.dico[BUS][SAFETY] = 0
-            self.dico[BUS][PRATICITY] = 0
-            self.dico[BUS][FAST] = 0
-
-        if self.fitness < 10:
-            self.dico[WALK][ECOLOGY] = 0
-            self.dico[WALK][COMFORT] = 0
-            self.dico[WALK][CHEAP] = 0
-            self.dico[WALK][SAFETY] = 0
-            self.dico[WALK][PRATICITY] = 0
-            self.dico[WALK][FAST] = 0"""
-
-        print(self.dico)
-
-
 
     #Fonction de sauvegarde de l'agent dans un fichier      
     def saveAgent(self):
@@ -215,27 +179,6 @@ class user:
                 markmax = float(self.mark[k])
                 print(str(markmax) + "note max")
                 indexMarkMax = k
-
-        choice = LISTMODES[indexMarkMax]
-        #on verifie que notre mode favoris nous est accessible et si ce n'est pas le cas on prends le suivant dans la liste 
-        n=4
-        while n>0:
-            if (choice==CAR & self.means[1]==False) or (choice==BUS & self.means[2]==False) or (choice==BIKE & self.means[0]==False) or  (choice==WALK & self.fitness<=10):
-                print("J'aurais aimé utiliser le moyen de transport "+choice+" mais il m'est inaccessible.")
-                self.mark[indexMarkMax]=0
-                markmax = 0
-                indexMarkMax = 0
-                k=0
-
-     
-                for k in range(0,len(self.mark)):
-            
-                    if (float(self.mark[k])>markmax) :
-                        print(str(self.mark[k]) + "ma note")
-                        markmax = float(self.mark[k])
-                        print(str(markmax) + "note max")
-                        indexMarkMax = k
-            n=-1
 
         choice = LISTMODES[indexMarkMax]
         
