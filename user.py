@@ -135,6 +135,7 @@ class user:
                 cpt+=1
             self.fitness=int(f[11])
 
+<<<<<<< HEAD
         # Mise à 0 des notes correspondants à des moyens de transport inaccessibles pour l'agent (changement de méthode pour le traitement des modes inaccessible)
         """if self.means[0]==False or self.fitness < 20:
             self.dico[BIKE][ECOLOGY] = 0
@@ -173,6 +174,8 @@ class user:
         print(self.dico)
 
 
+=======
+>>>>>>> 6a7990ba6ab1aee15ef8c8e9b5dc6d392a79eae6
 
     #Fonction de sauvegarde de l'agent dans un fichier      
     def saveAgent(self):
