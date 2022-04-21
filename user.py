@@ -1,6 +1,7 @@
+from fcntl import DN_DELETE
 from environnement import *
 from pickletools import markobject
-from re import L
+from re import A, L
 from math import *
 from typing import Iterable
 import random
@@ -386,4 +387,19 @@ class user:
         res.write("Trouvez ci-dessous le moyen de transport choisi de façon rationnelle\n"+"car(PROVISOIR) \n")
         res.close()
 
+    #Ici les biais
 
+    def biasedResults():
+        aConf=False
+        aEst=False
+        x=input("Do you wish to use confirmation bias / reactance in decision making (y/n) ? :")
+        while x not in ["y","n"] :
+            x=input("Do you wish to use confirmation bias / reactance in decision making (y/n) ? :")
+        y=input("Do you wish to use under/over estimation in decision making (y/n) ? :")
+        while y not in ["y","n"] :
+            y=input("Do you wish to use under/over estimation in decision making (y/n) ? :")
+        if x=="y":
+            aConf=True
+        if y=="y":
+            aEst=True
+        #TODO Maths des deux biais 
