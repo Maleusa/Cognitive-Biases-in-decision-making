@@ -1,5 +1,3 @@
-from ast import walk
-from tkinter.filedialog import Open
 from environnement import *
 from pickletools import markobject
 from re import L
@@ -179,8 +177,8 @@ class user:
                             answer = input(elem + " ? (y/n) : ")
                         CONTEXTBOOLS[cpt] = (answer == "y")
                         cpt += 1
-                    for bool in CONTEXTBOOLS:
-                        habits.write(str(bool) + " ")
+                    for boole in CONTEXTBOOLS:
+                        habits.write(str(boole) + " ")
                     habits.write('\n')
 
 
