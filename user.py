@@ -252,8 +252,10 @@ class user:
         cont=""                    
         for bool in self.env.CONTEXTBOOLS:
             cont=cont+str(bool)+" "        #Initialisation du context actuelle
+            
         
         for lines in range(len(self.habits)) : #Initialisation du tableau weightMod qui determine combien de fois on as fait le choix n sit les circonstances étaient similiares
+             print(self.habits[lines].split(' ', 1)[1])
              if self.habits[lines].split(' ', 1)[1] == cont :
                  if self.habits[lines].split(' ', 1)[0] == "bike" :
                      weightMod[0]=weightMod[0]+1
@@ -264,6 +266,7 @@ class user:
                  if self.habits[lines].split(' ', 1)[0] == "walk" :
                      weightMod[3]=weightMod[3]+1
         totweight=weightMod[0]+weightMod[1]+weightMod[2]+weightMod[3]
+        print(weightMod)
         if totweight==0:
             print("I have no usual behavior for this specific environement")
             return
@@ -274,11 +277,14 @@ class user:
             weightMod[i]=weightMod[i]+weightMod[i-1]
 
         rand=random.randint(1,100)
-        
+        #YA UN SOUCIS JUSTE LA J'ARRIVE PAS A l4IDENTIFIER
         for i in range(len(weightMod)):
             if rand<weightMod[i]:
-                self.habiChoice=LISTMODES[i]
+                choice=LISTMODES[i]
+                print(choice)
+                self.habiChoice=choice
                 break
+        print(self.habiChoice)
         print("In the contexte that i am in if i follow my usual behavior i will choose "+self.habiChoice+" as a mode of transportation")
         
 
@@ -308,13 +314,15 @@ class user:
 
         habits.close()
 
-    #Fonction de lecture du fichier d'habitude 
+    #Fonction de lecture du fichier d'habitude (ca marche)
     def readHabits(self):
         habits = open("habits.txt","r")
         f=habits.readlines()
         for lines in range(len(f)) :
             f[lines]=f[lines].strip('\n')
-        self.habit=f
+            
+       
+        self.habits=f
 
     #Fonction permettant d'écrir dans un fichier le choix du moyen de transport avec et sans biais
     def result(self):
