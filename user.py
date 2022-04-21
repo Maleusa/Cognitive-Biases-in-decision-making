@@ -277,14 +277,19 @@ class user:
         for i in {1,2,3}: 
             weightMod[i]=weightMod[i]+weightMod[i-1]
 
-        rand=random.randint(1,100)
+        rand=float(random.randint(0,100)/100)
+
         #YA UN SOUCIS JUSTE LA J'ARRIVE PAS A l4IDENTIFIER
+        print(len(weightMod))
+
         for i in range(len(weightMod)):
+            print(rand)
             if rand<weightMod[i]:
                 choice=LISTMODES[i]
                 print(choice)
                 self.habiChoice=choice
                 break
+            
         print(self.habiChoice)
         print("In the contexte that i am in if i follow my usual behavior i will choose "+self.habiChoice+" as a mode of transportation")
         
