@@ -41,8 +41,8 @@ class user:
     critAgent=CRITERIAS
     rationalChoice=str #choix rationnel de l'utilisateur
     mark = [0,0,0,0]
-    habits=list
-    
+    habits = []
+    habiChoice= str #choix habituel de l'user
     gasPrice=float
     subPrice=float
     ratioCycleWay=float
@@ -52,6 +52,7 @@ class user:
     bikeSpeed=int
     walkSpeed=int
     busSpeed=int
+    env=environnement
     ##Initialisation de l'utilsateur avec trois choix 
 
     def __init__(self,) -> None:
@@ -133,9 +134,8 @@ class user:
                 if(f[cpt+7]=="True") : self.means[cpt]=True
                 else: self.means[cpt]=False
                 cpt+=1
-            self.fitness=int(f[11])
+            self.fitness=float(f[11])
 
-<<<<<<< HEAD
         # Mise à 0 des notes correspondants à des moyens de transport inaccessibles pour l'agent (changement de méthode pour le traitement des modes inaccessible)
         """if self.means[0]==False or self.fitness < 20:
             self.dico[BIKE][ECOLOGY] = 0
@@ -174,8 +174,6 @@ class user:
         print(self.dico)
 
 
-=======
->>>>>>> 6a7990ba6ab1aee15ef8c8e9b5dc6d392a79eae6
 
     #Fonction de sauvegarde de l'agent dans un fichier      
     def saveAgent(self):
@@ -247,8 +245,49 @@ class user:
 
         print("If i was a rationnal agent i would have chosen"+choice+" has a mode of transportation.")
         self.rationalChoice=choice
-        
 
+    #fonction de choix habituel 
+    def habitualChoice(self):
+        self.readHabits()
+        weightMod=[0,0,0,0]
+        cont=""                    
+        for bool in self.env.CONTEXTBOOLS:
+            cont=cont+str(bool)+" "        #Initialisation du context actuelle
+            
+        
+        for lines in range(len(self.habits)) : #Initialisation du tableau weightMod qui determine combien de fois on as fait le choix n sit les circonstances étaient similiares
+             print(self.habits[lines].split(' ', 1)[1])
+             if self.habits[lines].split(' ', 1)[1] == cont :
+                 if self.habits[lines].split(' ', 1)[0] == "bike" :
+                     weightMod[0]=weightMod[0]+1
+                 if self.habits[lines].split(' ', 1)[0] == "car" :
+                     weightMod[1]=weightMod[1]+1
+                 if self.habits[lines].split(' ', 1)[0] == "bus" :
+                     weightMod[2]=weightMod[2]+1
+                 if self.habits[lines].split(' ', 1)[0] == "walk" :
+                     weightMod[3]=weightMod[3]+1
+        totweight=weightMod[0]+weightMod[1]+weightMod[2]+weightMod[3]
+        print(weightMod)
+        if totweight==0:
+            print("I have no usual behavior for this specific environement")
+            return
+        for i in range(len(weightMod)):
+            weightMod[i]=weightMod[i]/totweight
+
+        for i in {1,2,3}: 
+            weightMod[i]=weightMod[i]+weightMod[i-1]
+
+        rand=random.randint(1,100)
+        #YA UN SOUCIS JUSTE LA J'ARRIVE PAS A l4IDENTIFIER
+        for i in range(len(weightMod)):
+            if rand<weightMod[i]:
+                choice=LISTMODES[i]
+                print(choice)
+                self.habiChoice=choice
+                break
+        print(self.habiChoice)
+        print("In the contexte that i am in if i follow my usual behavior i will choose "+self.habiChoice+" as a mode of transportation")
+        
 
      
 
@@ -269,22 +308,26 @@ class user:
 
         habits.write(choice+" ")
 
-        for bool in self.weather:
+        for bool in self.env.CONTEXTBOOLS:
             habits.write(str(bool) + " ")
         
         habits.write('\n')
 
         habits.close()
 
-    #Fonction de lecture du fichier d'habitude 
+    #Fonction de lecture du fichier d'habitude (ca marche)
     def readHabits(self):
         habits = open("habits.txt","r")
         f=habits.readlines()
         for lines in range(len(f)) :
             f[lines]=f[lines].strip('\n')
+            
+       
+        self.habits=f
 
     #Fonction permettant d'écrir dans un fichier le choix du moyen de transport avec et sans biais
     def result(self):
+        
         res = open("result.txt","w")
         res.write("Trouvez ci-dessous le moyen de transport choisi avec l'effet des biais\n"+"car(PROVISOIRE) \n")
         res.write("Trouvez ci-dessous le moyen de transport choisi de façon rationnelle\n"+"car(PROVISOIR) \n")

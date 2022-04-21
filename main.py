@@ -4,6 +4,6 @@ from user import *
 
 
 a = user()
-#a.updateHabits(WALK)
-
+a.updateHabits(WALK)
+a.habitualChoice()
 
