@@ -96,7 +96,7 @@ class environnement:
         self.marks[WALK][PRATICITY] = 0.5
         self.marks[WALK][FAST] = 0.25
 
-        print(self.marks)
+        
 
         # Initailisation des variables de context
         # L'utilisateur peut choisir d'utiliser les variables de contextes par défault ou de les rentrer soit même dans la console
@@ -130,7 +130,7 @@ class environnement:
             self.marksVariable()
         
         self.marksWeather()
-        print(self.marks)
+       
 
     def getMarks(self) :
         return self.marks

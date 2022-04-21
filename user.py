@@ -81,7 +81,8 @@ class user:
                 self.critAgent[cpt] = x
                 cpt += 1
 
-            
+
+
             cpt=0
             ##Initialisation des poids associés aux différents critères de choix
             for agtbool in AGENTBOOLS:
@@ -133,10 +134,35 @@ class user:
                 cpt+=1
             self.fitness=int(f[11])
 
-            
-        
-        
+        # Mise à 0 des notes correspondants à des moyens de transport inaccessibles pour l'agent
+        if self.means[0]==False | self.fitness < 20:
+            self.dico[BIKE][ECOLOGY] = 0
+            self.dico[BIKE][COMFORT] = 0
+            self.dico[BIKE][CHEAP] = 0
+            self.dico[BIKE][SAFETY] = 0
+            self.dico[BIKE][PRATICITY] = 0
 
+        if self.means[1]==False:
+            self.dico[CAR][ECOLOGY] = 0
+            self.dico[CAR][COMFORT] = 0
+            self.dico[CAR][CHEAP] = 0
+            self.dico[CAR][SAFETY] = 0
+            self.dico[CAR][PRATICITY] = 0
+
+        if self.means[2]==False:
+            self.dico[BUS][ECOLOGY] = 0
+            self.dico[BUS][COMFORT] = 0
+            self.dico[BUS][CHEAP] = 0
+            self.dico[BUS][SAFETY] = 0
+            self.dico[BUS][PRATICITY] = 0
+
+        if self.fitness < 10:
+            self.dico[WALK][ECOLOGY] = 0
+            self.dico[WALK][COMFORT] = 0
+            self.dico[WALK][CHEAP] = 0
+            self.dico[WALK][SAFETY] = 0
+            self.dico[WALK][PRATICITY] = 0
+       
 
          
     def saveAgent(self):
@@ -164,7 +190,7 @@ class user:
                 j+=1
             
             i=+1
-        print(self.mark)
+        
 
 
         
@@ -183,7 +209,7 @@ class user:
                 indexMarkMax = k
 
         choice = LISTMODES[indexMarkMax]
-        print(choice)
+        
 
 
      
