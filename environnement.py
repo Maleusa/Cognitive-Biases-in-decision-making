@@ -117,15 +117,15 @@ class environnement:
             self.carSpeed=carSpeedStandart
 
         if x == "u":
-            self.gasPrice= float(input("Gas price ?"))
-            self.subPrice= float(input("Bus subscription price ?"))
-            self.ratioCycleWay = float(input("Ration cycle way ?"))
-            self.busFrequency= float(input( "Bus frequency ?"))
-            self.busCapacity= float(input("Bus capacity ?"))
-            self.carSpeed= float(input("Car speed ?"))
-            self.bikeSpeed=float(input("Bike speed ?"))
-            self.walkSpeed=float(input("Walk speed ?"))
-            self.busSpeed=float(input("bus Speed ?"))
+            self.gasPrice= float(input("Gas price ? "))
+            self.subPrice= float(input("Bus subscription price ? "))
+            self.ratioCycleWay = float(input("Ration cycle way ? "))
+            self.busFrequency= float(input( "Bus frequency per hour? "))
+            self.busCapacity= float(input("Bus capacity ? "))
+            self.carSpeed= float(input("Car speed ? "))
+            self.bikeSpeed=float(input("Bike speed ? "))
+            self.walkSpeed=float(input("Walk speed ? "))
+            self.busSpeed=float(input("bus Speed ? "))
 
             self.marksVariable()
         

@@ -32,9 +32,9 @@ FITNESS = "agent's fitness level"
 
 
 class user:
-    dico={}
+    
   
-        
+    dico = dict      
     ##
     fitness=float
     means=AGENTBOOLS
@@ -60,7 +60,8 @@ class user:
         env = environnement()
 
         ##Initialisation des notes attribué aux différents critères de choix en fonctions des moyens des transports 
-        dico = env.getMarks()
+        self.dico = env.getMarks()
+        
 
         ##Initialisation des poids associés aux différents critères de choix
         x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
@@ -135,12 +136,13 @@ class user:
             self.fitness=int(f[11])
 
         # Mise à 0 des notes correspondants à des moyens de transport inaccessibles pour l'agent
-        if self.means[0]==False | self.fitness < 20:
+        if self.means[0]==False or self.fitness < 20:
             self.dico[BIKE][ECOLOGY] = 0
             self.dico[BIKE][COMFORT] = 0
             self.dico[BIKE][CHEAP] = 0
             self.dico[BIKE][SAFETY] = 0
             self.dico[BIKE][PRATICITY] = 0
+            self.dico[BIKE][FAST] = 0
 
         if self.means[1]==False:
             self.dico[CAR][ECOLOGY] = 0
@@ -148,6 +150,7 @@ class user:
             self.dico[CAR][CHEAP] = 0
             self.dico[CAR][SAFETY] = 0
             self.dico[CAR][PRATICITY] = 0
+            self.dico[CAR][FAST] = 0
 
         if self.means[2]==False:
             self.dico[BUS][ECOLOGY] = 0
@@ -155,6 +158,7 @@ class user:
             self.dico[BUS][CHEAP] = 0
             self.dico[BUS][SAFETY] = 0
             self.dico[BUS][PRATICITY] = 0
+            self.dico[BUS][FAST] = 0
 
         if self.fitness < 10:
             self.dico[WALK][ECOLOGY] = 0
@@ -162,9 +166,13 @@ class user:
             self.dico[WALK][CHEAP] = 0
             self.dico[WALK][SAFETY] = 0
             self.dico[WALK][PRATICITY] = 0
-       
+            self.dico[WALK][FAST] = 0
 
-         
+        print(self.dico)
+
+
+
+    #Fonction de sauvegarde de l'agent dans un fichier      
     def saveAgent(self):
         agent = open("Agent.txt","w")
         for crit in self.critAgent:
@@ -216,13 +224,13 @@ class user:
 
 
 
-    ##Fonction permettant d'effacer le contenu du fichier habits.txt et donc de d'oublier l'ensemble des abitudes de l'agent
+    #Fonction permettant d'effacer le contenu du fichier habits.txt et donc de d'oublier l'ensemble des abitudes de l'agent
     def refreshHabits(self):
         habits = open("habits.txt","w")
         habits.flush()
 
 
-    ##Fonction permttant de mettre à jour les abitudes de l'agent en ajoutant le choix du dernier trajet réalisé 
+    #Fonction permttant de mettre à jour les abitudes de l'agent en ajoutant le choix du dernier trajet réalisé 
     def updateHabits(self,choice=str):
         
         habits = open("habits.txt","a")
@@ -238,6 +246,7 @@ class user:
 
         habits.close()
 
+    #Fonction de lecture du fichier d'habitude 
     def readHabits(self):
         habits = open("habits.txt","r")
         f=habits.readlines()
