@@ -275,10 +275,10 @@ class user:
 
         for i in {1,2,3}: 
             weightMod[i]=weightMod[i]+weightMod[i-1]
-
+        
         rand=random.randint(1,100)
         #YA UN SOUCIS JUSTE LA J'ARRIVE PAS A l4IDENTIFIER
-        for i in range(len(weightMod)):
+        for i in range(4):
             if rand<weightMod[i]:
                 choice=LISTMODES[i]
                 print(choice)
