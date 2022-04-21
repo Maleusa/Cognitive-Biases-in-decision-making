@@ -52,6 +52,7 @@ class user:
     bikeSpeed=int
     walkSpeed=int
     busSpeed=int
+    env=environnement
     ##Initialisation de l'utilsateur avec trois choix 
 
     def __init__(self,) -> None:
@@ -133,7 +134,7 @@ class user:
                 if(f[cpt+7]=="True") : self.means[cpt]=True
                 else: self.means[cpt]=False
                 cpt+=1
-            self.fitness=int(f[11])
+            self.fitness=float(f[11])
 
         # Mise à 0 des notes correspondants à des moyens de transport inaccessibles pour l'agent (changement de méthode pour le traitement des modes inaccessible)
         """if self.means[0]==False or self.fitness < 20:
@@ -247,10 +248,10 @@ class user:
     #fonction de choix habituel 
     def habitualChoice(self):
         self.readHabits()
-        weightMod ={0,0,0,0}
-        cont=str                    
-        for bool in self.weather:
-            cont=cont+(str(bool) + " ")         #Initialisation du context actuelle
+        weightMod=[0,0,0,0]
+        cont=""                    
+        for bool in self.env.CONTEXTBOOLS:
+            cont=cont+str(bool)+" "        #Initialisation du context actuelle
         
         for lines in range(len(self.habits)) : #Initialisation du tableau weightMod qui determine combien de fois on as fait le choix n sit les circonstances étaient similiares
              if self.habits[lines].split(' ', 1)[1] == cont :
@@ -300,7 +301,7 @@ class user:
 
         habits.write(choice+" ")
 
-        for bool in self.weather:
+        for bool in self.env.CONTEXTBOOLS:
             habits.write(str(bool) + " ")
         
         habits.write('\n')
@@ -313,7 +314,7 @@ class user:
         f=habits.readlines()
         for lines in range(len(f)) :
             f[lines]=f[lines].strip('\n')
-        self.habits=habits
+        self.habit=f
 
     #Fonction permettant d'écrir dans un fichier le choix du moyen de transport avec et sans biais
     def result(self):
