@@ -61,7 +61,7 @@ class user:
         env = environnement()
 
         ##Initialisation des notes attribué aux différents critères de choix en fonctions des moyens des transports 
-        self.dico = env.getMarks()
+        self.dico = env.marks
         
 
         ##Initialisation des poids associés aux différents critères de choix
@@ -220,6 +220,7 @@ class user:
                 indexMarkMax = k
 
         choice = LISTMODES[indexMarkMax]
+
         #on verifie que notre mode favoris nous est accessible et si ce n'est pas le cas on prends le suivant dans la liste 
         n=4
         while n>0:
@@ -275,15 +276,20 @@ class user:
 
         for i in {1,2,3}: 
             weightMod[i]=weightMod[i]+weightMod[i-1]
-        
-        rand=random.randint(1,100)
+
+        rand=float(random.randint(0,100)/100)
+
         #YA UN SOUCIS JUSTE LA J'ARRIVE PAS A l4IDENTIFIER
-        for i in range(4):
+        print(len(weightMod))
+
+        for i in range(len(weightMod)):
+            print(rand)
             if rand<weightMod[i]:
                 choice=LISTMODES[i]
                 print(choice)
                 self.habiChoice=choice
                 break
+            
         print(self.habiChoice)
         print("In the contexte that i am in if i follow my usual behavior i will choose "+self.habiChoice+" as a mode of transportation")
         

@@ -20,3 +20,6 @@ walk True True True
 walk True True True 
 walk True True True 
 walk True True True 
+walk True True True 
+walk True True True 
+walk True True True 

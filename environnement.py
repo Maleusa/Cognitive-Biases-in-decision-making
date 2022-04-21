@@ -132,8 +132,7 @@ class environnement:
         self.marksWeather()
        
 
-    def getMarks(self) :
-        return self.marks
+    
 
     # fonction permettant de modifier les notes attribué à chaque items en fonction des variables contexte
     def marksVariable(self) :
