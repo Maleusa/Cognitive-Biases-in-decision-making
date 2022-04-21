@@ -135,7 +135,6 @@ class user:
                 cpt+=1
             self.fitness=int(f[11])
 
-<<<<<<< HEAD
         # Mise à 0 des notes correspondants à des moyens de transport inaccessibles pour l'agent (changement de méthode pour le traitement des modes inaccessible)
         """if self.means[0]==False or self.fitness < 20:
             self.dico[BIKE][ECOLOGY] = 0
@@ -174,8 +173,6 @@ class user:
         print(self.dico)
 
 
-=======
->>>>>>> 6a7990ba6ab1aee15ef8c8e9b5dc6d392a79eae6
 
     #Fonction de sauvegarde de l'agent dans un fichier      
     def saveAgent(self):
@@ -225,7 +222,7 @@ class user:
         #on verifie que notre mode favoris nous est accessible et si ce n'est pas le cas on prends le suivant dans la liste 
         n=4
         while n>0:
-            if (choice==CAR & self.means[1]==False) or (choice==BUS & self.means[2]==False) or (choice==BIKE & self.means[0]==False) or  (choice==WALK & self.fitness<=10):
+            if (choice==CAR and self.means[1]==False) or (choice==BUS and self.means[2]==False) or (choice==BIKE and self.means[0]==False) or  (choice==WALK and self.fitness<=10):
                 print("I'd like to use  "+choice+" transport mode, but it is currently unaivalable to me.")
                 self.mark[indexMarkMax]=0
                 markmax = 0
@@ -247,7 +244,7 @@ class user:
         print("If i was a rationnal agent i would have chosen"+choice+" has a mode of transportation.")
         self.rationalChoice=choice
         
-
+        
 
      
 
