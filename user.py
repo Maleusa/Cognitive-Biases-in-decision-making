@@ -39,7 +39,7 @@ class user:
     fitness=float
     means=AGENTBOOLS
     critAgent=CRITERIAS
-    
+    rationalChoice=str #choix rationnel de l'utilisateur
     mark = [0,0,0,0]
     habits=list
     
@@ -135,7 +135,7 @@ class user:
                 cpt+=1
             self.fitness=int(f[11])
 
-        # Mise à 0 des notes correspondants à des moyens de transport inaccessibles pour l'agent
+        # Mise à 0 des notes correspondants à des moyens de transport inaccessibles pour l'agent (changement de méthode pour le traitement des modes inaccessible)
         """if self.means[0]==False or self.fitness < 20:
             self.dico[BIKE][ECOLOGY] = 0
             self.dico[BIKE][COMFORT] = 0
@@ -167,6 +167,8 @@ class user:
             self.dico[WALK][SAFETY] = 0
             self.dico[WALK][PRATICITY] = 0
             self.dico[WALK][FAST] = 0"""
+        
+        
 
         print(self.dico)
 
@@ -183,12 +185,12 @@ class user:
         agent.write("\n"+str(self.fitness))
 
     #Methode retournant le choix rationel d'un agent
-    def rationalModeChoice(self):
+    def rationalModeChoice(self,envir=environnement):
         
-            
+        
         #notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
-        for p_id, p_info in self.dico.items():
+        for p_id, p_info in envir.marks.items():
             
             j=0
             for key in p_info:
@@ -211,9 +213,9 @@ class user:
         for k in range(0,len(self.mark)):
             
             if (float(self.mark[k])>markmax) :
-                print(str(self.mark[k]) + "ma note")
+                # test print(str(self.mark[k]) + "ma note")
                 markmax = float(self.mark[k])
-                print(str(markmax) + "note max")
+                # test print(str(markmax) + "note max")
                 indexMarkMax = k
 
         choice = LISTMODES[indexMarkMax]
@@ -221,7 +223,7 @@ class user:
         n=4
         while n>0:
             if (choice==CAR & self.means[1]==False) or (choice==BUS & self.means[2]==False) or (choice==BIKE & self.means[0]==False) or  (choice==WALK & self.fitness<=10):
-                print("J'aurais aimé utiliser le moyen de transport "+choice+" mais il m'est inaccessible.")
+                print("I'd like to use  "+choice+" transport mode, but it is currently unaivalable to me.")
                 self.mark[indexMarkMax]=0
                 markmax = 0
                 indexMarkMax = 0
@@ -238,6 +240,9 @@ class user:
             n=-1
 
         choice = LISTMODES[indexMarkMax]
+
+        print("If i was a rationnal agent i would have chosen"+choice+" has a mode of transportation.")
+        self.rationalChoice=choice
         
 
 
