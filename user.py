@@ -53,24 +53,24 @@ class user:
     walkSpeed=int
     busSpeed=int
     env=environnement
-    ##Initialisation de l'utilsateur avec trois choix 
+    # Initialisation de l'utilsateur avec trois choix 
 
     def __init__(self,) -> None:
 
-        ##initialisation de l'environnement de l'agent 
+        # initialisation de l'environnement de l'agent 
         env = environnement()
 
-        ##Initialisation des notes attribué aux différents critères de choix en fonctions des moyens des transports 
+        # Initialisation des notes attribué aux différents critères de choix en fonctions des moyens des transports 
         self.dico = env.marks
         
 
-        ##Initialisation des poids associés aux différents critères de choix
+        # Initialisation des poids associés aux différents critères de choix
         x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
         while x not in ["u","r","f"]:
             x = input("(u)ser agent priorities or (r)andom ? : ")
 
 
-        ###Initialisation d'un agent par input via la console 
+        # Initialisation d'un agent par input via la console 
         if x == "u": 
             
             cpt=0
@@ -86,7 +86,7 @@ class user:
 
 
             cpt=0
-            ##Initialisation des poids associés aux différents critères de choix
+            # Initialisation des poids associés aux différents critères de choix
             for agtbool in AGENTBOOLS:
                 x= (input(agtbool+" ? : (y)/(n) "))
                 while x not in ["y","n"]:
@@ -105,7 +105,7 @@ class user:
             self.fitness=x
             self.saveAgent()
 
-        #Initialisation d'un agent par le hasard   
+        # Initialisation d'un agent par le hasard   
         if x=="r" : 
             cpt=0
             for crit in CRITERIAS:
@@ -118,13 +118,13 @@ class user:
             self.fitness=random.randint(0,100)
             self.saveAgent()
 
-        #initialisation d'un agent en lisant un fichier
+        # Initialisation d'un agent en lisant un fichier
         if x=="f":
             agent=open("Agent.txt","r")
             f=agent.readlines()
             for lines in range(len(f)):
                 f[lines]=f[lines].strip('\n')
-            # ceci etait un test print(f)
+            # Ceci etait un test print(f)
             cpt=0
             for crit in CRITERIAS:
                 self.critAgent[cpt]=float(f[cpt])
@@ -175,7 +175,7 @@ class user:
 
 
 
-    #Fonction de sauvegarde de l'agent dans un fichier      
+    # Fonction de sauvegarde de l'agent dans un fichier      
     def saveAgent(self):
         agent = open("Agent.txt","w")
         for crit in self.critAgent:
@@ -185,11 +185,11 @@ class user:
             agent.write(str(bool)+"\n")
         agent.write("\n"+str(self.fitness))
 
-    #Methode retournant le choix rationel d'un agent
+    # Methode retournant le choix rationel d'un agent
     def rationalModeChoice(self,envir=environnement):
         
         
-        #notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
+        # Notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
         for p_id, p_info in envir.marks.items():
             
@@ -214,14 +214,14 @@ class user:
         for k in range(0,len(self.mark)):
             
             if (float(self.mark[k])>markmax) :
-                # test print(str(self.mark[k]) + "ma note")
+                # Test print(str(self.mark[k]) + "ma note")
                 markmax = float(self.mark[k])
-                # test print(str(markmax) + "note max")
+                # Test print(str(markmax) + "note max")
                 indexMarkMax = k
 
         choice = LISTMODES[indexMarkMax]
 
-        #on verifie que notre mode favoris nous est accessible et si ce n'est pas le cas on prends le suivant dans la liste 
+        # On verifie que notre mode favoris nous est accessible et si ce n'est pas le cas on prends le suivant dans la liste 
         n=4
         while n>0:
             if (choice==CAR and self.means[1]==False) or (choice==BUS and self.means[2]==False) or (choice==BIKE and self.means[0]==False) or  (choice==WALK and self.fitness<=10):
@@ -246,16 +246,16 @@ class user:
         print("If i was a rationnal agent i would have chosen"+choice+" has a mode of transportation.")
         self.rationalChoice=choice
 
-    #fonction de choix habituel 
+    # Fonction de choix habituel 
     def habitualChoice(self):
         self.readHabits()
         weightMod=[0,0,0,0]
         cont=""                    
         for bool in self.env.CONTEXTBOOLS:
-            cont=cont+str(bool)+" "        #Initialisation du context actuelle
+            cont=cont+str(bool)+" "        # Initialisation du context actuelle
             
         
-        for lines in range(len(self.habits)) : #Initialisation du tableau weightMod qui determine combien de fois on as fait le choix n sit les circonstances étaient similiares
+        for lines in range(len(self.habits)) : # Initialisation du tableau weightMod qui determine combien de fois on as fait le choix n sit les circonstances étaient similiares
              print(self.habits[lines].split(' ', 1)[1])
              if self.habits[lines].split(' ', 1)[1] == cont :
                  if self.habits[lines].split(' ', 1)[0] == "bike" :
@@ -279,7 +279,7 @@ class user:
 
         rand=float(random.randint(0,100)/100)
 
-        #YA UN SOUCIS JUSTE LA J'ARRIVE PAS A l4IDENTIFIER
+        # YA UN SOUCIS JUSTE LA J'ARRIVE PAS A l4IDENTIFIER
         print(len(weightMod))
 
         for i in range(len(weightMod)):
@@ -298,13 +298,13 @@ class user:
 
 
 
-    #Fonction permettant d'effacer le contenu du fichier habits.txt et donc de d'oublier l'ensemble des abitudes de l'agent
+    # Fonction permettant d'effacer le contenu du fichier habits.txt et donc de d'oublier l'ensemble des abitudes de l'agent
     def refreshHabits(self):
         habits = open("habits.txt","w")
         habits.flush()
 
 
-    #Fonction permttant de mettre à jour les abitudes de l'agent en ajoutant le choix du dernier trajet réalisé 
+    # Fonction permttant de mettre à jour les abitudes de l'agent en ajoutant le choix du dernier trajet réalisé 
     def updateHabits(self,choice=str):
         
         habits = open("habits.txt","a")
@@ -320,7 +320,7 @@ class user:
 
         habits.close()
 
-    #Fonction de lecture du fichier d'habitude (ca marche)
+    # Fonction de lecture du fichier d'habitude (ca marche)
     def readHabits(self):
         habits = open("habits.txt","r")
         f=habits.readlines()
@@ -330,7 +330,7 @@ class user:
        
         self.habits=f
 
-    #Fonction permettant d'écrir dans un fichier le choix du moyen de transport avec et sans biais
+    # Fonction permettant d'écrir dans un fichier le choix du moyen de transport avec et sans biais
     def result(self):
         
         res = open("result.txt","w")

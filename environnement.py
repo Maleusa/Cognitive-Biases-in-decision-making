@@ -136,23 +136,23 @@ class environnement:
 
     # fonction permettant de modifier les notes attribué à chaque items en fonction des variables contexte
     def marksVariable(self) :
-        ## Modification des notes liées au prix de l'essence
+        # Modification des notes liées au prix de l'essence
         self.marks[CAR][CHEAP] =  self.marks[CAR][CHEAP]*(1/self.coefMulti(self.gasPrice,gasPriceStandart))
 
-        ## Modification des notes liées au prix de l'abonnement de bus
+        # Modification des notes liées au prix de l'abonnement de bus
         self.marks[BUS][CHEAP] = self.marks[BUS][CHEAP] * (1/self.coefMulti(self.subPrice,subPriceStandart))
 
-        ## Modification des notes liées à la proportion de pristes cyclables 
+        # Modification des notes liées à la proportion de pristes cyclables 
         self.marks[BIKE][SAFETY] =  self.marks[BIKE][SAFETY] * self.coefMulti(self.ratioCycleWay,ratioCycleWayStandart)
         self.marks[BIKE][FAST] =  self.marks[BIKE][FAST] * self.coefMulti(self.ratioCycleWay,ratioCycleWayStandart)
 
-        ## Modifications des notes liées à la fréquence de bus 
+        # Modifications des notes liées à la fréquence de bus 
         self.marks[BUS][FAST] = self.marks[BUS][FAST] * self.coefMulti(self.busFrequency,busFrequencyStandart)
 
-        ## Modifications des notes liées à la capacité des bus 
+        # Modifications des notes liées à la capacité des bus 
         self.marks[BUS][COMFORT] = self.marks[BUS][COMFORT]*self.coefMulti(self.busCapacity,busCapacityStandart)
 
-        ## Modification des notes liées 
+        # Modification des notes liées 
         self.marks[BIKE][FAST] = self.marks[BIKE][FAST] * self.coefMulti(self.bikeSpeed,bikeSpeedStandart)
         self.marks[BUS][FAST] =  self.marks[BUS][FAST] * self.coefMulti(self.busSpeed,busSpeedStandart)
         self.marks[CAR][FAST] =  self.marks[CAR][FAST] * self.coefMulti(self.carSpeed,carSpeedStandart)
