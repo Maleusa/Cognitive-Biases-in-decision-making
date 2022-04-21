@@ -60,7 +60,7 @@ class user:
         env = environnement()
 
         ##Initialisation des notes attribué aux différents critères de choix en fonctions des moyens des transports 
-        self.dico = env.getMarks()
+        self.dico = env.marks
         
 
         ##Initialisation des poids associés aux différents critères de choix
@@ -222,10 +222,11 @@ class user:
                 indexMarkMax = k
 
         choice = LISTMODES[indexMarkMax]
+
         #on verifie que notre mode favoris nous est accessible et si ce n'est pas le cas on prends le suivant dans la liste 
         n=4
         while n>0:
-            if (choice==CAR & self.means[1]==False) or (choice==BUS & self.means[2]==False) or (choice==BIKE & self.means[0]==False) or  (choice==WALK & self.fitness<=10):
+            if (choice==CAR and self.means[1]==False) or (choice==BUS and self.means[2]==False) or (choice==BIKE and self.means[0]==False) or  (choice==WALK and self.fitness<=10):
                 print("I'd like to use  "+choice+" transport mode, but it is currently unaivalable to me.")
                 self.mark[indexMarkMax]=0
                 markmax = 0
