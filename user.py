@@ -305,13 +305,13 @@ class user:
         for lines in range(len(self.habits)) : #Initialisation du tableau weightMod qui determine combien de fois on as fait le choix n sit les circonstances étaient similiares
              print(self.habits[lines].split(' ', 1)[1])
              if self.habits[lines].split(' ', 1)[1] == cont :
-                 if self.habits[lines].split(' ', 1)[0] == "bike" :
+                 if self.habits[lines].split(' ', 1)[0] == BIKE :
                      weightMod[0]=weightMod[0]+1
-                 if self.habits[lines].split(' ', 1)[0] == "car" :
+                 if self.habits[lines].split(' ', 1)[0] == CAR :
                      weightMod[1]=weightMod[1]+1
-                 if self.habits[lines].split(' ', 1)[0] == "bus" :
+                 if self.habits[lines].split(' ', 1)[0] == BUS:
                      weightMod[2]=weightMod[2]+1
-                 if self.habits[lines].split(' ', 1)[0] == "walk" :
+                 if self.habits[lines].split(' ', 1)[0] == WALK:
                      weightMod[3]=weightMod[3]+1
         totweight=weightMod[0]+weightMod[1]+weightMod[2]+weightMod[3]
         print(weightMod)
