@@ -1,0 +1,2 @@
+individual car True True False 
+bike False True False 

@@ -1,4 +1,5 @@
 from fcntl import DN_DELETE
+
 from environnement import *
 from pickletools import markobject
 from re import A, L
@@ -33,7 +34,7 @@ FITNESS = "agent's fitness level"
 
 class user:
     
-  
+    ident=int
     dico = dict      
     ##
     fitness=float
@@ -55,10 +56,11 @@ class user:
     env=environnement
     # Initialisation de l'utilsateur avec trois choix 
 
-    def __init__(self,) -> None:
-
+    def __init__(self,envir=environnement) -> None:
+        #initialisation de l'identifiant de l'agent
+        self.ident=random.randint(0,100)
         # initialisation de l'environnement de l'agent 
-        env = environnement()
+        env = envir
 
         # Initialisation des notes attribué aux différents critères de choix en fonctions des moyens des transports 
         self.dico = env.marks
@@ -120,7 +122,10 @@ class user:
 
         # Initialisation d'un agent en lisant un fichier
         if x=="f":
-            agent=open("Agent.txt","r")
+            id=int(input("Please input the agent number between 0 and 100"))
+            while id<0 or id>100:
+                id=int(input("Please input the agent number between 0 and 100"))
+            agent=open("Agent"+str(id)+".txt","r")
             f=agent.readlines()
             for lines in range(len(f)):
                 f[lines]=f[lines].strip('\n')
@@ -153,7 +158,7 @@ class user:
             if z=="r":
                 
                 for i in range(h):
-                    habits = open("habits.txt","a")
+                    habits = open("habits"+str(self.ident)+".txt","a")
                     n=random.randint(0,3)
                     habits.write(LISTMODES[n]+" ")
                     for j in range(3) :
@@ -225,7 +230,7 @@ class user:
 
     # Fonction de sauvegarde de l'agent dans un fichier      
     def saveAgent(self):
-        agent = open("Agent.txt","w")
+        agent = open("Agent"+str(self.ident)+".txt","w")
         for crit in self.critAgent:
             agent.write(str(crit)+"\n")
         agent.write("\n")
@@ -349,14 +354,14 @@ class user:
 
     # Fonction permettant d'effacer le contenu du fichier habits.txt et donc de d'oublier l'ensemble des abitudes de l'agent
     def refreshHabits(self):
-        habits = open("habits.txt","w")
+        habits = open("habits"+str(self.ident)+".txt","w")
         habits.flush()
 
 
     # Fonction permttant de mettre à jour les abitudes de l'agent en ajoutant le choix du dernier trajet réalisé 
     def updateHabits(self,choice=str):
         
-        habits = open("habits.txt","a")
+        habits = open("habits"+str(self.ident)+".txt","a")
         
        
 
@@ -371,7 +376,7 @@ class user:
 
     # Fonction de lecture du fichier d'habitude (ca marche)
     def readHabits(self):
-        habits = open("habits.txt","r")
+        habits = open("habits"+str(self.ident)+".txt","r")
         f=habits.readlines()
         for lines in range(len(f)) :
             f[lines]=f[lines].strip('\n')
@@ -382,7 +387,7 @@ class user:
     # Fonction permettant d'écrir dans un fichier le choix du moyen de transport avec et sans biais
     def result(self):
         
-        res = open("result.txt","w")
+        res = open("result"+str(self.ident)+".txt","w")
         res.write("Trouvez ci-dessous le moyen de transport choisi avec l'effet des biais\n"+"car(PROVISOIRE) \n")
         res.write("Trouvez ci-dessous le moyen de transport choisi de façon rationnelle\n"+"car(PROVISOIR) \n")
         res.close()

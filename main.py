@@ -2,7 +2,7 @@ from environnement import *
 from user import *
 
 
-
-a = user()
+b =environnement()
+a = user(b)
 
 
