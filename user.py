@@ -35,8 +35,10 @@ FITNESS = "agent's fitness level"
 class user:
     
     ident=int
-    dico = dict      
+    dico = dict
+    biasMarks =dict    
     ##
+    biasChoise=str #choix biaisé de l'utilisateur
     fitness=float
     means=AGENTBOOLS
     critAgent=CRITERIAS
@@ -57,6 +59,8 @@ class user:
     # Initialisation de l'utilsateur avec trois choix 
 
     def __init__(self,envir=environnement) -> None:
+        #copie du table des notes "objectives" dans le tableau bias Marks
+        self.biasMarks=envir.marks
         #initialisation de l'identifiant de l'agent
         self.ident=random.randint(0,100)
         # initialisation de l'environnement de l'agent 
@@ -394,7 +398,8 @@ class user:
 
     #Ici les biais
 
-    def biasedResults():
+    def biasedResults(self):
+        aForbid=False
         aConf=False
         aEst=False
         x=input("Do you wish to use confirmation bias / reactance in decision making (y/n) ? :")
@@ -403,8 +408,71 @@ class user:
         y=input("Do you wish to use under/over estimation in decision making (y/n) ? :")
         while y not in ["y","n"] :
             y=input("Do you wish to use under/over estimation in decision making (y/n) ? :")
+        z=input("Do you wish to use the forbidden behavior paradigme in decision making (y)/(n) ? : ")
+        while z not in ["y","n"] :
+            z=input("Do you wish to use the forbidden behavior paradigme in decision making (y)/(n) ? : ")
+        if z=="y":
+            aForbid=True
         if x=="y":
             aConf=True
         if y=="y":
             aEst=True
-        #TODO Maths des deux biais 
+
+        #TODO Maths des deux biais en modifian les valeurs soit de nos preference (forbidden behavior paradigme), soit de nos notes biaisé pour les autres dans le dict self.biasMarks 
+
+        # Notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
+        i=0
+        for p_id, p_info in self.biasMarks.items():
+            
+            j=0
+            for key in p_info:
+               
+                self.mark[i]=self.mark[i]+(p_info[key]*self.critAgent[j])
+                
+                j+=1
+            
+            i=+1
+        
+
+
+        
+        #TODO Sortir la note la plus haute et c'est elle qui indique le mode choisis rationement
+        markmax = 0
+        indexMarkMax = 0
+        k=0
+
+     
+        for k in range(0,len(self.mark)):
+            
+            if (float(self.mark[k])>markmax) :
+                # Test print(str(self.mark[k]) + "ma note")
+                markmax = float(self.mark[k])
+                # Test print(str(markmax) + "note max")
+                indexMarkMax = k
+
+        choice = LISTMODES[indexMarkMax]
+
+        # On verifie que notre mode favoris nous est accessible et si ce n'est pas le cas on prends le suivant dans la liste 
+        n=4
+        while n>0:
+            if (choice==CAR and self.means[1]==False) or (choice==BUS and self.means[2]==False) or (choice==BIKE and self.means[0]==False) or  (choice==WALK and self.fitness<=10):
+                print("I'd like to use  "+choice+" transport mode, but it is currently unaivalable to me.")
+                self.mark[indexMarkMax]=0
+                markmax = 0
+                indexMarkMax = 0
+                k=0
+
+     
+                for k in range(0,len(self.mark)):
+            
+                    if (float(self.mark[k])>markmax) :
+                        print(str(self.mark[k]) + "ma note")
+                        markmax = float(self.mark[k])
+                        print(str(markmax) + "note max")
+                        indexMarkMax = k
+            n=-1
+
+        choice = LISTMODES[indexMarkMax]
+
+        print("As a biased agent i chose "+choice+" has a mode of transportation.")
+        self.biasChoise=choice
