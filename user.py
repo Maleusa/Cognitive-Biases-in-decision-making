@@ -585,13 +585,34 @@ class user:
         #Application du biais forbidden choice TODO
         if aForbid==True:
             if self.habiChoice==BIKE:
-                print()
+                for crit in CRITERIAS:
+                    if envir.marks[BIKE][crit]>=0.5:
+                        self.critAgent[crit]=self.critAgent[crit]+((1-self.critAgent[crit])/2)
+                    else :
+                        if envir.marks[BIKE][crit]<0.5:
+                            self.critAgent[crit]=self.critAgent[crit]-((self.critAgent[crit])/2)
             if self.habiChoice==CAR:
-                print()
+                for crit in CRITERIAS:
+                    if envir.marks[CAR][crit]>=0.5:
+                        self.critAgent[crit]=self.critAgent[crit]+((1-self.critAgent[crit])/2)
+                    else :
+                        if envir.marks[CAR][crit]<0.5:
+                            self.critAgent[crit]=self.critAgent[crit]-((self.critAgent[crit])/2)
             if self.habiChoice==BUS:
-                print()
+                for crit in CRITERIAS:
+                    if envir.marks[BUS][crit]>=0.5:
+                        self.critAgent[crit]=self.critAgent[crit]+((1-self.critAgent[crit])/2)
+                    else :
+                        if envir.marks[BUS][crit]<0.5:
+                            self.critAgent[crit]=self.critAgent[crit]-((self.critAgent[crit])/2)
             if self.habiChoice==WALK:
-                print()
+                for crit in CRITERIAS:
+                    if envir.marks[WALK][crit]>=0.5:
+                        self.critAgent[WALK]=self.critAgent[crit]+((1-self.critAgent[crit])/2)
+                    else :
+                        if envir.marks[WALK][crit]<0.5:
+                            self.critAgent[crit]=self.critAgent[crit]-((self.critAgent[crit])/2)
+            self.saveAgent()
 
         # Notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
