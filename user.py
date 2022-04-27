@@ -466,9 +466,9 @@ class user:
                 for k in range(0,len(self.mark)):
             
                     if (float(self.mark[k])>markmax) :
-                        print(str(self.mark[k]) + "ma note")
+                        # test print(str(self.mark[k]) + "ma note")
                         markmax = float(self.mark[k])
-                        print(str(markmax) + "note max")
+                        # test print(str(markmax) + "note max")
                         indexMarkMax = k
             n=-1
 
