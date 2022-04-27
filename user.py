@@ -228,7 +228,7 @@ class user:
         
         
 
-        print(self.dico)
+        # test print(self.dico)
 
 
 
@@ -313,7 +313,7 @@ class user:
             
         
         for lines in range(len(self.habits)) : # Initialisation du tableau weightMod qui determine combien de fois on as fait le choix n sit les circonstances étaient similiares
-             print(self.habits[lines].split(' ', 1)[1])
+             #test print(self.habits[lines].split(' ', 1)[1])
              if self.habits[lines].split(' ', 1)[1] == cont :
                  if self.habits[lines].split(' ', 1)[0] == BIKE :
                      weightMod[0]=weightMod[0]+1
@@ -324,7 +324,7 @@ class user:
                  if self.habits[lines].split(' ', 1)[0] == WALK:
                      weightMod[3]=weightMod[3]+1
         totweight=weightMod[0]+weightMod[1]+weightMod[2]+weightMod[3]
-        print(weightMod)
+        #test print(weightMod)
         if totweight==0:
             print("I have no usual behavior for this specific environement")
             return
@@ -336,14 +336,13 @@ class user:
 
         rand=float(random.randint(0,100)/100)
 
-        #Ca marche
-        print(len(weightMod))
+        #Ca marche print(len(weightMod))
 
         for i in range(len(weightMod)):
-            print(rand)
+            #test print(rand)
             if rand<weightMod[i]:
                 choice=LISTMODES[i]
-                print(choice)
+                #test print(choice)
                 self.habiChoice=choice
                 break
             
