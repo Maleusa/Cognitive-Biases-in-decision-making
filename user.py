@@ -129,6 +129,7 @@ class user:
             id=int(input("Please input the agent number between 0 and 100"))
             while id<0 or id>100:
                 id=int(input("Please input the agent number between 0 and 100"))
+            self.ident=id
             agent=open("Agent"+str(id)+".txt","r")
             f=agent.readlines()
             for lines in range(len(f)):

@@ -9,9 +9,9 @@ aCount=0
 eCount=0
 while off != True:
   
-    x= input("Do you want to create a new (e)nvironement, manipulate or create an (a)gent, e(x)it the program ? : ")
-    while x not in ["e","a","x"] :
-        x= input("Do you want to create a new (e)nvironement, manipulate or create an (a)gent, e(x)it the program ? : ")
+    x= input("Do you want to create a new (e)nvironement,(m)anipulate the existing environement , manipulate or create an (a)gent, e(x)it the program ? : ")
+    while x not in ["e","a","x","m"] :
+        x= input("Do you want to create a new (e)nvironement, (m)anipulate the existing environement, manipulate or create an (a)gent, e(x)it the program ? : ")
     if x=="x":
         off=True
     if x=="e" :
@@ -54,6 +54,16 @@ while off != True:
             if y=="m":
                 print("Manipulation is a bad habit quit it !") #TODO ici proposer les differentes options de manipulation de l'agent actif
                 break
-            
+    if x=="m":
+            if eCount==0:
+                y=input("You are trying to manipulate something that does not exist ! Would you like to create an environement ? (y)/(n) :")
+                while y not in ["y","n"]:
+                    y=input("You are trying to manipulate something that does not exist ! Would you like to create an environement ? (y)/(n) :")
+                if y=="y":
+                    print("Creating an environement :")
+                    envir=environnement()
+                    eCount+=1
+                else :
+                    print("Then there is nothing i can do for you, goodbye ! ")
 
 
