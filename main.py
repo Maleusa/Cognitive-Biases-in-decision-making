@@ -65,5 +65,8 @@ while off != True:
                     eCount+=1
                 else :
                     print("Then there is nothing i can do for you, goodbye ! ")
+            else :
+                print("Altering environemental variable : ")
+                envir.changVariable()
 
 

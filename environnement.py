@@ -182,3 +182,23 @@ class environnement:
 
     def coefMulti(self,valUser,valStandart):
         return valUser/valStandart
+
+    def changVariable(self):
+        cpt = 0 
+        for elem in self.CONTEXTBOOLS:
+            answer = input(elem + " ? (y/n) : ")
+            while answer not in ["y","n"]:
+                answer = input(elem + " ? (y/n) : ")
+            self.CONTEXTBOOLS[cpt] = (answer == "y")
+            cpt += 1
+        self.gasPrice= float(input("Gas price ? "))
+        self.subPrice= float(input("Bus subscription price ? "))
+        self.ratioCycleWay = float(input("Ration cycle way ? "))
+        self.busFrequency= float(input( "Bus frequency per hour? "))
+        self.busCapacity= float(input("Bus capacity ? "))
+        self.carSpeed= float(input("Car speed ? "))
+        self.bikeSpeed=float(input("Bike speed ? "))
+        self.walkSpeed=float(input("Walk speed ? "))
+        self.busSpeed=float(input("bus Speed ? "))
+        self.marksVariable()
+        self.marksWeather()
