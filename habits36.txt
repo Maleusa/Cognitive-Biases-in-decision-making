@@ -98,3 +98,8 @@ publictransport True True False
 publictransport False False False 
 bike False True True 
 car False True False 
+car True True True 
+car True True True 
+car True True True 
+car False True True 
+car True True True 

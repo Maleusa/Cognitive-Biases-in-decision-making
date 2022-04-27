@@ -13,7 +13,10 @@ SAFETY = "safety"
 PRATICITY = "praticity"
 FAST = "fast"
 CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
-
+RAINY = "rainy"
+TEMPOK = "temperature ok"
+LIGHT = "light"
+CONTEXTBOOLS = [RAINY,TEMPOK,LIGHT]
 # Variable représentants le contexte 
 gasPriceStandart=1.7 # Prix SP95 le 14/04/2022
 subPriceStandart=65.5 # Prix moyen abonnement transport en france 2022
@@ -185,7 +188,7 @@ class environnement:
 
     def changVariable(self):
         cpt = 0 
-        for elem in self.CONTEXTBOOLS:
+        for elem in CONTEXTBOOLS:
             answer = input(elem + " ? (y/n) : ")
             while answer not in ["y","n"]:
                 answer = input(elem + " ? (y/n) : ")
