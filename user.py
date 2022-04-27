@@ -392,7 +392,7 @@ class user:
     def result(self,env=environnement):
         
         res = open("Result"+str(self.ident)+".txt","a")
-        res.write("Environemental conditions : \n Rainy : "+str(env.CONTEXTBOOLS[0])+" Good temperature : "+str(env.CONTEXTBOOLS[1])+ " Presence of light : "+str(env.CONTEXTBOOLS[2])+"\n gasPrice= "+str(env.gasPrice)+"Public Transport Price:"+str(env.subPrice)+" ratioCycleWay : "+str(env.ratioCycleWay)+"Bus frequency : "+str(env.busFrequency)+"Bus Speed : "+str(env.busSpeed)+"Bus Capacity : "+str(env.busCapacity)+"Car speed : "+str(env.carSpeed)+"Cycle Speed : "+str(env.bikeSpeed)+"Walk speed : "+str(env.walkSpeed)+"\n")
+        res.write("Environemental conditions : \n Rainy : "+str(env.CONTEXTBOOLS[0])+" Good temperature : "+str(env.CONTEXTBOOLS[1])+ " Presence of light : "+str(env.CONTEXTBOOLS[2])+"\n Gas Price :"+str(env.gasPrice)+"| Public Transport Price:"+str(env.subPrice)+"| Ratio Cycle Way : "+str(env.ratioCycleWay)+"| Bus frequency : "+str(env.busFrequency)+"| Bus Speed : "+str(env.busSpeed)+"| Bus Capacity : "+str(env.busCapacity)+"| Car speed : "+str(env.carSpeed)+"| Cycle Speed : "+str(env.bikeSpeed)+"| Walk speed : "+str(env.walkSpeed)+"\n")
         res.write("Habitual choice : "+self.habiChoice+"\n")
         res.write("Rationnal choice : "+self.rationalChoice+"\n")
         res.write("Biased choice : "+ self.biasChoise+"\n \n")
