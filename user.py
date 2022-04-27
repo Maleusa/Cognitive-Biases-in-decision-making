@@ -67,6 +67,7 @@ class user:
 
         # Initialisation des notes attribué aux différents critères de choix en fonctions des moyens des transports 
         self.dico = env.marks
+        self.biasMarks = env.marks
         
 
         # Initialisation des poids associés aux différents critères de choix
@@ -582,36 +583,47 @@ class user:
             self.biasMarks[WALK][SAFETY] = self.biasMarks[WALK][SAFETY]
             self.biasMarks[WALK][PRATICITY] = self.biasMarks[WALK][PRATICITY] 
             self.biasMarks[WALK][FAST] = self.biasMarks[WALK][FAST] - random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/3)) #sur estimation du temps a pieds
-        #Application du biais forbidden choice TODO
+        #Application du biais forbidden choice TODO ca big key error faut que je fasse des test
         if aForbid==True:
+            cpt=0
+            CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
             if self.habiChoice==BIKE:
+               
                 for crit in CRITERIAS:
-                    if envir.marks[BIKE][crit]>=0.5:
-                        self.critAgent[crit]=self.critAgent[crit]+((1-self.critAgent[crit])/2)
+                    print(crit)
+                    if (envir.marks[BIKE][crit]>=0.5):
+                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
-                        if envir.marks[BIKE][crit]<0.5:
-                            self.critAgent[crit]=self.critAgent[crit]-((self.critAgent[crit])/2)
+                        if (envir.marks[BIKE][crit]<0.5):
+                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
+                            cpt+=1
             if self.habiChoice==CAR:
                 for crit in CRITERIAS:
-                    if envir.marks[CAR][crit]>=0.5:
-                        self.critAgent[crit]=self.critAgent[crit]+((1-self.critAgent[crit])/2)
+                    print(crit)
+                    if (envir.marks[CAR][crit]>=0.5):
+                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
-                        if envir.marks[CAR][crit]<0.5:
-                            self.critAgent[crit]=self.critAgent[crit]-((self.critAgent[crit])/2)
+                        if (envir.marks[CAR][crit]<0.5):
+                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
+                    cpt+=1
             if self.habiChoice==BUS:
                 for crit in CRITERIAS:
-                    if envir.marks[BUS][crit]>=0.5:
-                        self.critAgent[crit]=self.critAgent[crit]+((1-self.critAgent[crit])/2)
+                    print(crit)
+                    if (envir.marks[BUS][crit]>=0.5):
+                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
-                        if envir.marks[BUS][crit]<0.5:
-                            self.critAgent[crit]=self.critAgent[crit]-((self.critAgent[crit])/2)
+                        if float(envir.marks[BUS][crit])<0.5:
+                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
+                    cpt+=1
             if self.habiChoice==WALK:
                 for crit in CRITERIAS:
-                    if envir.marks[WALK][crit]>=0.5:
-                        self.critAgent[WALK]=self.critAgent[crit]+((1-self.critAgent[crit])/2)
+                    print(crit)
+                    if (envir.marks[WALK][crit]>=0.5):
+                       self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
-                        if envir.marks[WALK][crit]<0.5:
-                            self.critAgent[crit]=self.critAgent[crit]-((self.critAgent[crit])/2)
+                        if float(envir.marks[WALK][crit])<0.5:
+                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
+                    cpt+=1
             self.saveAgent()
 
         # Notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
