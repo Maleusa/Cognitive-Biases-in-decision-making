@@ -53,7 +53,7 @@ while off != True:
                 aCount+=1
             if y=="m":
                 print("Manipulation is a bad habit quit it !") #TODO ici proposer les differentes options de manipulation de l'agent actif
-                break
+                actifAgent.biasedResults(envir)
     if x=="m":
             if eCount==0:
                 y=input("You are trying to manipulate something that does not exist ! Would you like to create an environement ? (y)/(n) :")
