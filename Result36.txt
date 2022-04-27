@@ -1,0 +1,7 @@
+Environemental conditions : 
+Rainy : True Good temperature : True Presence of light : True
+gasPrice= 1.7Public Transport Price:65.5 ratioCycleWay : 0.5Bus frequency : 10Bus Speed : 10Bus Capacity : 100Car speed : 42.3Cycle Speed : 14Walk speed : 6.4
+Habitual choice : publictransport
+Rationnal choice : car
+Biased choice : car
+ 

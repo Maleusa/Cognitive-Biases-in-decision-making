@@ -54,6 +54,11 @@ while off != True:
             if y=="m":
                 print("Manipulation is a bad habit quit it !") #TODO ici proposer les differentes options de manipulation de l'agent actif
                 actifAgent.biasedResults(envir)
+                j=input("Would you like to save the results of the agent "+str(actifAgent.ident)+" ? (y)/(n) :")
+                while j not in ["y","n"]:
+                    j=input("Would you like to save the results of the agent "+str(actifAgent.ident)+" ? (y)/(n) :")
+                if j=="y":
+                    actifAgent.result(envir)
     if x=="m":
             if eCount==0:
                 y=input("You are trying to manipulate something that does not exist ! Would you like to create an environement ? (y)/(n) :")
