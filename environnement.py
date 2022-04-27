@@ -1,7 +1,7 @@
 # Transportation modes
 BIKE = "bike"
-CAR = "individual car"
-BUS = "public transport"
+CAR = "car"
+BUS = "publictransport"
 WALK = "walk"
 LISTMODES = [BIKE,CAR,BUS,WALK]
 

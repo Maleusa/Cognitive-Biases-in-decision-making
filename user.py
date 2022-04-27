@@ -9,8 +9,8 @@ import random
 
 # transportation modes
 BIKE = "bike"
-CAR = "individual car"
-BUS = "public transport"
+CAR = "car"
+BUS = "publictransport"
 WALK = "walk"
 LISTMODES = [BIKE,CAR,BUS,WALK]
 
@@ -301,7 +301,7 @@ class user:
 
         choice = LISTMODES[indexMarkMax]
 
-        print("If i was a rationnal agent i would have chosen"+choice+" has a mode of transportation.")
+        print("If i was a rationnal agent i would have chosen "+choice+" has a mode of transportation.")
         self.rationalChoice=choice
 
     # Fonction de choix habituel 
