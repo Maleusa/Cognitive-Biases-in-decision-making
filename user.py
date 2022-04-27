@@ -1,5 +1,4 @@
 from fcntl import DN_DELETE
-
 from environnement import *
 from pickletools import markobject
 from re import A, L
@@ -504,7 +503,7 @@ class user:
                 self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY] - random.normalvariate((envir.marks[WALK][PRATICITY]/2),(envir.marks[WALK][PRATICITY]/4))
                 self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] - random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/4))
             #TODO
-            if self.habiChoice==BIKE :
+            if self.habiChoice==WALK :
                 self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY]
                 self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT]
                 self.biasMarks[BIKE][CHEAP] = envir.marks[BIKE][CHEAP]
