@@ -53,7 +53,7 @@ while off != True:
                 actifAgent=user(envir)
                 aCount+=1
             if y=="m":
-                print("Manipulation is a bad habit quit it !") #TODO ici proposer les differentes options de manipulation de l'agent actif
+                print("Manipulation is a bad habit quit it !") #done
                 actifAgent.biasedResults(envir)
                 j=input("Would you like to save the results of the agent "+str(actifAgent.ident)+" ? (y)/(n) :")
                 while j not in ["y","n"]:
