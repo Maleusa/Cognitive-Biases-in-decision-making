@@ -1,4 +1,4 @@
-from fcntl import DN_DELETE
+
 from environnement import *
 from pickletools import markobject
 from re import A, L
@@ -246,19 +246,28 @@ class user:
     # Methode retournant le choix rationel d'un agent
     def rationalModeChoice(self,envir=environnement):
         CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]  
-        
+        LISTMODES = [BIKE,CAR,BUS,WALK]
+
         # Notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
         for mode in LISTMODES:
-            
+           
             j=0
             for key in CRITERIAS:
                
+                # print(envir.marks[mode][key])
                 self.mark[i]=self.mark[i]+(envir.marks[mode][key]*self.critAgent[j])
                 
                 j+=1
             
-            i=+1
+            i+=1
+      
+        
+        # Augmentaion de la note associé au vélo et à la marche pour les agents sportifs 
+
+        if self.fitness >= 70 :
+            self.mark[0] = self.mark[0]*2
+            self.mark[3] = self.mark[3]*2
         
 
 
@@ -398,7 +407,7 @@ class user:
         res.write("Biased choice : "+ self.biasChoise+"\n \n")
         res.close()
 
-    #Ici les biais
+    # Ici les biais
 
     def biasedResults(self,envir=environnement):
         self.rationalModeChoice()
@@ -637,7 +646,7 @@ class user:
                 
                 j+=1
             
-            i=+1
+            i+=1
         
 
 
