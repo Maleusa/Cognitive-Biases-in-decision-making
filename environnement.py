@@ -83,7 +83,7 @@ class environnement:
         self.marks[CAR][ECOLOGY] = 0.25
         self.marks[CAR][COMFORT] = 1
         self.marks[CAR][CHEAP] = 0.25
-        self.marks[CAR][SAFETY] = 0.75
+        self.marks[CAR][SAFETY] = 0.5
         self.marks[CAR][PRATICITY] = 1
         self.marks[CAR][FAST] = 1
         self.marks[BUS][ECOLOGY] = 0.5
@@ -95,7 +95,7 @@ class environnement:
         self.marks[WALK][ECOLOGY] = 1
         self.marks[WALK][COMFORT] = 0.5
         self.marks[WALK][CHEAP] = 1
-        self.marks[WALK][SAFETY] = 0.5
+        self.marks[WALK][SAFETY] = 0.75
         self.marks[WALK][PRATICITY] = 0.5
         self.marks[WALK][FAST] = 0.25
 
