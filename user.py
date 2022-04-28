@@ -276,7 +276,7 @@ class user:
                 markmax = float(self.mark[k])
                 # Test print(str(markmax) + "note max")
                 indexMarkMax = k
-
+                
         choice = LISTMODES[indexMarkMax]
 
         # On verifie que notre mode favoris nous est accessible et si ce n'est pas le cas on prends le suivant dans la liste 
