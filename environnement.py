@@ -116,7 +116,8 @@ class environnement:
        
 
     
-
+    def getEnviDico(self,mods=str,crit=str):
+        return self.marks[mods][crit]
     # fonction permettant de modifier les notes attribué à chaque items en fonction des variables contexte
     def marksVariable(self) :
         # Modification des notes liées au prix de l'essence
