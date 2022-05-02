@@ -296,7 +296,7 @@ class user:
         self.readHabits()
         weightMod=[0,0,0,0]
         cont=""                    
-        for bool in self.env.CONTEXTBOOLS:
+        for bool in CONTEXTBOOLS:
             cont=cont+str(bool)+" "        # Initialisation du context actuelle
             
         
@@ -358,7 +358,7 @@ class user:
 
         habits.write(choice+" ")
 
-        for bool in self.env.CONTEXTBOOLS:
+        for bool in CONTEXTBOOLS:
             habits.write(str(bool) + " ")
         
         habits.write('\n')
@@ -379,7 +379,7 @@ class user:
     def result(self,env=environnement):
         
         res = open("Result"+str(self.ident)+".txt","a")
-        res.write("Environemental conditions : \n Rainy : "+str(env.CONTEXTBOOLS[0])+" Good temperature : "+str(env.CONTEXTBOOLS[1])+ " Presence of light : "+str(env.CONTEXTBOOLS[2])+"\n Gas Price :"+str(env.gasPrice)+"| Public Transport Price:"+str(env.subPrice)+"| Ratio Cycle Way : "+str(env.ratioCycleWay)+"| Bus frequency : "+str(env.busFrequency)+"| Bus Speed : "+str(env.busSpeed)+"| Bus Capacity : "+str(env.busCapacity)+"| Car speed : "+str(env.carSpeed)+"| Cycle Speed : "+str(env.bikeSpeed)+"| Walk speed : "+str(env.walkSpeed)+"\n")
+        res.write("Environemental conditions : \n Rainy : "+str(CONTEXTBOOLS[0])+" Good temperature : "+str(CONTEXTBOOLS[1])+ " Presence of light : "+str(CONTEXTBOOLS[2])+"\n Gas Price :"+str(env.gasPrice)+"| Public Transport Price:"+str(env.subPrice)+"| Ratio Cycle Way : "+str(env.ratioCycleWay)+"| Bus frequency : "+str(env.busFrequency)+"| Bus Speed : "+str(env.busSpeed)+"| Bus Capacity : "+str(env.busCapacity)+"| Car speed : "+str(env.carSpeed)+"| Cycle Speed : "+str(env.bikeSpeed)+"| Walk speed : "+str(env.walkSpeed)+"\n")
         res.write("Habitual choice : "+self.habiChoice+"\n")
         res.write("Rationnal choice : "+self.rationalChoice+"\n")
         res.write("Biased choice : "+ self.biasChoise+"\n \n")

@@ -27,8 +27,11 @@ CAR = "car"
 BUS = "publictransport"
 WALK = "walk"
 LISTMODES = [BIKE,CAR,BUS,WALK]
+
 #Criteres environementaux
 RAINY = "rainy"
 TEMPOK = "temperature ok"
 LIGHT = "light"
-CONTEXTBOOLS = [RAINY,TEMPOK,LIGHT]
+CITY = "city"
+RUSHHOUR = "rush hour"
+CONTEXTBOOLS = [RAINY,TEMPOK,LIGHT,CITY,RUSHHOUR]

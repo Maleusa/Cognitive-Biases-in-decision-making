@@ -1,7 +1,0 @@
-Environemental conditions : 
- Rainy : False Good temperature : True Presence of light : True
- Gas Price :1.7| Public Transport Price:65.5| Ratio Cycle Way : 0.5| Bus frequency : 10| Bus Speed : 10| Bus Capacity : 100| Car speed : 42.3| Cycle Speed : 14| Walk speed : 6.4
-Habitual choice : walk
-Rationnal choice : walk
-Biased choice : walk
- 

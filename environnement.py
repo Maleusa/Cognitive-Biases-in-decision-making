@@ -1,3 +1,4 @@
+from multiprocessing import context
 from constant import *
 # Variable représentants le contexte 
 gasPriceStandart=1.7 # Prix SP95 le 14/04/2022
@@ -28,23 +29,19 @@ class environnement:
     crit = CRITERIAS
 
 # Variables représentants la météo
-    RAINY = "rainy"
-    TEMPOK = "temperature ok"
-    LIGHT = "light"
-    CONTEXTBOOLS = [RAINY,TEMPOK,LIGHT]
-
+    
+    context = [None]*len(CONTEXTBOOLS)
     marks = {}
-   
 
     def __init__(self) -> None:
         
         # Initialisation de la météo
         cpt = 0 
-        for elem in self.CONTEXTBOOLS:
+        for elem in CONTEXTBOOLS:
             answer = input(elem + " ? (y/n) : ")
             while answer not in ["y","n"]:
                 answer = input(elem + " ? (y/n) : ")
-            self.CONTEXTBOOLS[cpt] = (answer == "y")
+            self.context[cpt] = (answer == "y")
             cpt += 1
         
 
@@ -115,6 +112,7 @@ class environnement:
             self.marksVariable()
         
         self.marksWeather()
+        
        
 
     
@@ -146,23 +144,30 @@ class environnement:
     def marksWeather(self):
         # Modification des notes liées à la présence de pluie
         # Si il pleut, le vélo devient moins confortable et plus dangereux, la marche devient moins confortable
-        if self.CONTEXTBOOLS[0] == True :
+        if self.context[0] == True :
             self.marks[BIKE][COMFORT] =  self.marks[BIKE][COMFORT]/2
             self.marks[BIKE][SAFETY] =  self.marks[BIKE][SAFETY]/2
             self.marks[WALK][COMFORT] =  self.marks[WALK][COMFORT]/2
 
         # Modification des notes liées à la température
         # Si il fait trop froid ou trop chaud , le vélo et la marche deviennent moins confortable
-        if self.CONTEXTBOOLS[1] == False :
+        if self.context[1] == False :
             self.marks[BIKE][COMFORT] =  self.marks[BIKE][COMFORT]/2
             self.marks[WALK][COMFORT] =  self.marks[WALK][COMFORT]/2
 
         # Modification des notes liées à la lumière
         # Si il y a pas de lumière, le vélo, la marche et la voiture deviennent plus dangereux 
-        if self.CONTEXTBOOLS[2] == False :
+        if self.context[2] == False :
             self.marks[BIKE][SAFETY] =  self.marks[BIKE][SAFETY]/2
             self.marks[WALK][SAFETY] =  self.marks[WALK][SAFETY]/2
             self.marks[CAR][SAFETY] = self.marks[CAR][SAFETY]/2
+
+        if self.context[3] == True :
+            self.marks[CAR][FAST] = self.marks[CAR][FAST]/2
+            self.marks[CAR][PRATICITY] = self.marks[CAR][PRATICITY]/2
+        
+        if self.context[4] == True :
+            self.marks[CAR][FAST] = self.marks[CAR][FAST]/2
 
 
     def coefMulti(self,valUser,valStandart):
@@ -174,8 +179,9 @@ class environnement:
             answer = input(elem + " ? (y/n) : ")
             while answer not in ["y","n"]:
                 answer = input(elem + " ? (y/n) : ")
-            self.CONTEXTBOOLS[cpt] = (answer == "y")
+            self.context[cpt] = (answer == "y")
             cpt += 1
+
         self.gasPrice= float(input("Gas price ? "))
         self.subPrice= float(input("Bus subscription price ? "))
         self.ratioCycleWay = float(input("Ration cycle way ? "))
