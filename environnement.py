@@ -1,22 +1,4 @@
-# Transportation modes
-BIKE = "bike"
-CAR = "car"
-BUS = "publictransport"
-WALK = "walk"
-LISTMODES = [BIKE,CAR,BUS,WALK]
-
-# Critères permettant le choix du moyen de transport
-ECOLOGY = "ecology"
-COMFORT = "comfort"
-CHEAP = "cheap"
-SAFETY = "safety"
-PRATICITY = "praticity"
-FAST = "fast"
-CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
-RAINY = "rainy"
-TEMPOK = "temperature ok"
-LIGHT = "light"
-CONTEXTBOOLS = [RAINY,TEMPOK,LIGHT]
+from constant import *
 # Variable représentants le contexte 
 gasPriceStandart=1.7 # Prix SP95 le 14/04/2022
 subPriceStandart=65.5 # Prix moyen abonnement transport en france 2022
