@@ -1,0 +1,3 @@
+Environemental conditions : 
+ Rainy : True Good temperature : True Presence of light : True Do I live in a city ? : True Is it the rush hour ? : True
+ Gas Price :<class 'float'>| Public Transport Price:<class 'float'>| Ratio Cycle Way : <class 'float'>| Bus frequency : <class 'float'>| Bus Speed : <class 'float'>| Bus Capacity : <class 'float'>| Car speed : <class 'float'>| Cycle Speed : <class 'float'>| Walk speed : <class 'float'>

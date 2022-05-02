@@ -373,8 +373,8 @@ class user:
     # Fonction permettant d'écrir dans un fichier le choix du moyen de transport avec et sans biais
     def result(self,env=environnement):
         
-        res = open("Result"+str(self.ident)+".txt","a")
-        res.write("Environemental conditions : \n Rainy : "+str(CONTEXTBOOLS[0])+" Good temperature : "+str(CONTEXTBOOLS[1])+ " Presence of light : "+str(CONTEXTBOOLS[2])+"\n Gas Price :"+str(env.gasPrice)+"| Public Transport Price:"+str(env.subPrice)+"| Ratio Cycle Way : "+str(env.ratioCycleWay)+"| Bus frequency : "+str(env.busFrequency)+"| Bus Speed : "+str(env.busSpeed)+"| Bus Capacity : "+str(env.busCapacity)+"| Car speed : "+str(env.carSpeed)+"| Cycle Speed : "+str(env.bikeSpeed)+"| Walk speed : "+str(env.walkSpeed)+"\n")
+        res = open("result/Result"+str(self.ident)+".txt","a")
+        res.write("Environemental conditions : \n Rainy : "+str(self.env.context[0])+" Good temperature : "+str(self.env.context[1])+ " Presence of light : "+str(self.env.context[2])+ " Do I live in a city ? : "+str(self.env.context[3])+ " Is it the rush hour ? : "+str(self.env.context[4])+"\n Gas Price :"+str(env.gasPrice)+"| Public Transport Price:"+str(env.subPrice)+"| Ratio Cycle Way : "+str(env.ratioCycleWay)+"| Bus frequency : "+str(env.busFrequency)+"| Bus Speed : "+str(env.busSpeed)+"| Bus Capacity : "+str(env.busCapacity)+"| Car speed : "+str(env.carSpeed)+"| Cycle Speed : "+str(env.bikeSpeed)+"| Walk speed : "+str(env.walkSpeed)+"\n")
         res.write("Habitual choice : "+self.habiChoice+"\n")
         res.write("Rationnal choice : "+self.rationalChoice+"\n")
         res.write("Biased choice : "+ self.biasChoise+"\n \n")
