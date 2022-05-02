@@ -17,7 +17,7 @@ class user:
     ##
     biasChoise=str #choix biaisé de l'utilisateur
     fitness=float
-    means=[None]*LISTMODES.__len__()
+    means=[None]*AGENTBOOLS.__len__()
     critAgent=[None]*CRITERIAS.__len__()
     rationalChoice=str #choix rationnel de l'utilisateur
     mark = [0,0,0,0]
