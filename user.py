@@ -135,7 +135,7 @@ class user:
                     habits = open("habits/habits"+str(self.ident)+".txt","a")
                     n=random.randint(0,3)
                     habits.write(LISTMODES[n]+" ")
-                    for j in range(3) :
+                    for j in range(len(CONTEXTBOOLS)) :
                         random_bit = random.getrandbits(1)
                         habits.write(str(bool(random_bit))+" ")
                     habits.write("\n")

@@ -1,7 +1,7 @@
 Environemental conditions : 
- Rainy : True Good temperature : True Presence of light : True
+ Rainy : True Good temperature : True Presence of light : True Do I live in a city ? : True Is it the rush hour ? : False
  Gas Price :1.7| Public Transport Price:65.5| Ratio Cycle Way : 0.5| Bus frequency : 10| Bus Speed : 10| Bus Capacity : 100| Car speed : 42.3| Cycle Speed : 14| Walk speed : 6.4
-Habitual choice : walk
-Rationnal choice : walk
+Habitual choice : publictransport
+Rationnal choice : publictransport
 Biased choice : publictransport
  
