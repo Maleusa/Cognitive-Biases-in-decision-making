@@ -35,8 +35,8 @@ class user:
         env = envir
 
         # Initialisation des notes attribué aux différents critères de choix en fonctions des moyens des transports 
-        self.dico = env.marks
-        self.biasMarks = env.marks
+        self.dico = env.marks.copy()
+        self.biasMarks = env.marks.copy()
         
 
         # Initialisation des poids associés aux différents critères de choix
