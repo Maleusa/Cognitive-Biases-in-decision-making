@@ -17,21 +17,12 @@ class user:
     ##
     biasChoise=str #choix biaisé de l'utilisateur
     fitness=float
-    means=AGENTBOOLS
-    critAgent=CRITERIAS
+    means=[None]*LISTMODES.__len__()
+    critAgent=[None]*CRITERIAS.__len__()
     rationalChoice=str #choix rationnel de l'utilisateur
     mark = [0,0,0,0]
     habits = []
     habiChoice= str #choix habituel de l'user
-    gasPrice=float
-    subPrice=float
-    ratioCycleWay=float
-    busFrequency=int
-    busCapacity=int
-    carSpeed=int
-    bikeSpeed=int
-    walkSpeed=int
-    busSpeed=int
     env=environnement
     # Initialisation de l'utilsateur avec trois choix 
 
@@ -223,8 +214,8 @@ class user:
 
     # Methode retournant le choix rationel d'un agent
     def rationalModeChoice(self,envir=environnement):
-        CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]  
-        LISTMODES = [BIKE,CAR,BUS,WALK]
+        #CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]  
+        #LISTMODES = [BIKE,CAR,BUS,WALK]
 
         # Notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
@@ -374,7 +365,11 @@ class user:
             
        
         self.habits=f
-
+    #Methode prenant en parametre deux strings  mods appartenant à LISTMOD et crit apparentant a CRITERIAS retourne la valeur de biasmMarks[mods][crit]
+    def getDicoAg(self,mods=str,crit=str):
+        return self.biasMarks[mods][crit]
+    
+    
     # Fonction permettant d'écrir dans un fichier le choix du moyen de transport avec et sans biais
     def result(self,env=environnement):
         
@@ -415,6 +410,10 @@ class user:
 
             #Confirmation en dessous
             if self.habiChoice==BIKE :
+                #for mod in LISTMODES:
+                    #for crite in CRITERIAS:
+                        #if mod==BIKE :
+                            #self.biasMarks[mod][crit] =envir.getEnviDico(mod,crite) + random.normalvariate((envir.getEnviDico(mod,crite)/2),(envir.marks[BIKE][ECOLOGY]/4))
                 self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY] +random.normalvariate((envir.marks[BIKE][ECOLOGY]/2),(envir.marks[BIKE][ECOLOGY]/4))
                 self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT] +random.normalvariate((envir.marks[BIKE][COMFORT]/2),(envir.marks[BIKE][COMFORT]/4))
                 self.biasMarks[BIKE][CHEAP] = envir.marks[BIKE][CHEAP] +random.normalvariate((envir.marks[BIKE][CHEAP]/2),(envir.marks[BIKE][CHEAP]/4))
