@@ -17,7 +17,7 @@ class user:
     ##
     biasChoise=str #choix biaisé de l'utilisateur
     fitness=float
-    means=[None]*LISTMODES.__len__()
+    means=[None]*AGENTBOOLS.__len__()
     critAgent=[None]*CRITERIAS.__len__()
     rationalChoice=str #choix rationnel de l'utilisateur
     mark = [0,0,0,0]
@@ -35,8 +35,8 @@ class user:
         env = envir
 
         # Initialisation des notes attribué aux différents critères de choix en fonctions des moyens des transports 
-        self.dico = env.marks
-        self.biasMarks = env.marks
+        self.dico = env.marks.copy()
+        self.biasMarks = env.marks.copy()
         
 
         # Initialisation des poids associés aux différents critères de choix
@@ -147,17 +147,13 @@ class user:
                     habits = open("habits.txt","a")
                     habits.write(LISTMODES[int(m)]+" ")
                     cpt = 0 
-                    RAINY = "rainy"
-                    TEMPOK = "temperature ok"
-                    LIGHT = "light"
-                    CONTEXTBOOLS = [RAINY,TEMPOK,LIGHT]
                     for elem in CONTEXTBOOLS:
                         answer = input(elem + " ? (y/n) : ")
                         while answer not in ["y","n"]:
                             answer = input(elem + " ? (y/n) : ")
-                        CONTEXTBOOLS[cpt] = (answer == "y")
+                        envir.context[cpt] = (answer == "y")
                         cpt += 1
-                    for boole in CONTEXTBOOLS:
+                    for boole in envir.context:
                         habits.write(str(boole) + " ")
                     habits.write('\n')
 
@@ -287,7 +283,7 @@ class user:
         self.readHabits()
         weightMod=[0,0,0,0]
         cont=""                    
-        for bool in CONTEXTBOOLS:
+        for bool in self.env.context:
             cont=cont+str(bool)+" "        # Initialisation du context actuelle
             
         
@@ -349,7 +345,7 @@ class user:
 
         habits.write(choice+" ")
 
-        for bool in CONTEXTBOOLS:
+        for bool in self.env.context:
             habits.write(str(bool) + " ")
         
         habits.write('\n')

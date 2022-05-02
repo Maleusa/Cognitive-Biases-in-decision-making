@@ -1,0 +1,1 @@
+bike True False False 
