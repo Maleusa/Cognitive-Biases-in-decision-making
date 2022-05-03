@@ -503,7 +503,7 @@ class user:
                 self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] + random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/4))"""
         
         #Biais de sous/sur estimation seul (atm juste la distance peut etre ajouter le prix)
-        if aEst==True and aConf==False:
+        if estimation==True and confirmation==False:
             self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY]
             self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT]
             self.biasMarks[BIKE][CHEAP] = envir.marks[BIKE][CHEAP]
@@ -529,7 +529,7 @@ class user:
             self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY] 
             self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] - random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/3)) #sur estimation du temps a pieds
         #Pareil qu'au dessus mais cette fois ci avec le biais de confirmation deja appliqué
-        if aEst==True and aConf==True:
+        if estimation==True and confirmation==True:
             self.biasMarks[BIKE][ECOLOGY] = self.biasMarks[BIKE][ECOLOGY]
             self.biasMarks[BIKE][COMFORT] = self.biasMarks[BIKE][COMFORT]
             self.biasMarks[BIKE][CHEAP] = self.biasMarks[BIKE][CHEAP]
@@ -555,7 +555,7 @@ class user:
             self.biasMarks[WALK][PRATICITY] = self.biasMarks[WALK][PRATICITY] 
             self.biasMarks[WALK][FAST] = self.biasMarks[WALK][FAST] - random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/3)) #sur estimation du temps a pieds
         #Application du biais forbidden choice TODO ca big key error faut que je fasse des test
-        if aForbid==True:
+        if forbidden==True:
             cpt=0
             #CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
             if self.habiChoice==BIKE:
