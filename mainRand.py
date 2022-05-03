@@ -6,6 +6,6 @@ nbrAgent = int(input("How many agents do you want to create ? "))
 env = environnement(randBool)
 
 for i in range(nbrAgent) :
-    agent = user(env, randBool)
+    agent = user(env, randBool, i)
     agent.biasedResults(env)
     agent.result(env)
