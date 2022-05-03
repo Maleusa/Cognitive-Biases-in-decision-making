@@ -86,7 +86,7 @@ class user:
                 x=float(input("Am i fit on a scale from 0 to 100 ? :"))
         
             self.fitness=x
-            self.saveAgent()
+            #self.saveAgent()
 
         # Initialisation d'un agent par le hasard   
         if x=="r" : 
@@ -99,7 +99,7 @@ class user:
                 self.means[cpt]=random.choice([True,False])
                 cpt+=1
             self.fitness=random.randint(0,100)
-            self.saveAgent()
+            #self.saveAgent()
 
         # Initialisation d'un agent en lisant un fichier
         if x=="f":
@@ -128,7 +128,7 @@ class user:
             y = "s"
             z = "r"
             h = int(random.normalvariate(1000,10))
-            print(h)
+            #print(h)
 
         else :
             y= input("Do you want to use the (h)abits file as is,(e)rase it or erase it and create a (s)et of habits ? :")
@@ -245,7 +245,7 @@ class user:
         n=4
         while n>0:
             if (choice==CAR and self.means[1]==False) or (choice==BUS and self.means[2]==False) or (choice==BIKE and self.means[0]==False) or  (choice==WALK and self.fitness<=10):
-                print("I'd like to use  "+choice+" transport mode, but it is currently unaivalable to me.")
+                #print("I'd like to use  "+choice+" transport mode, but it is currently unaivalable to me.")
                 self.mark[indexMarkMax]=0
                 markmax = 0
                 indexMarkMax = 0
@@ -255,15 +255,13 @@ class user:
                 for k in range(0,len(self.mark)):
             
                     if (float(self.mark[k])>markmax) :
-                        print(str(self.mark[k]) + "ma note")
                         markmax = float(self.mark[k])
-                        print(str(markmax) + "note max")
                         indexMarkMax = k
             n=-1
 
         choice = LISTMODES[indexMarkMax]
 
-        print("If i was a rationnal agent i would have chosen "+choice+" has a mode of transportation.")
+        #print("If i was a rationnal agent i would have chosen "+choice+" has a mode of transportation.")
         self.rationalChoice=choice
 
     # Fonction de choix habituel 
@@ -289,7 +287,7 @@ class user:
         totweight=weightMod[0]+weightMod[1]+weightMod[2]+weightMod[3]
         #test print(weightMod)
         if totweight==0:
-            print("I have no usual behavior for this specific environement")
+            #print("I have no usual behavior for this specific environement")
             return
         for i in range(len(weightMod)):
             weightMod[i]=weightMod[i]/totweight
@@ -299,7 +297,7 @@ class user:
 
         rand=float(random.randint(0,100)/100)
 
-        #Ca marche print(len(weightMod))
+        
 
         for i in range(len(weightMod)):
             #test print(rand)
@@ -310,7 +308,7 @@ class user:
                 break
             
         #test print(self.habiChoice)
-        print("In the contexte that i am in if i follow my usual behavior i will choose "+self.habiChoice+" as a mode of transportation")
+        #print("In the contexte that i am in if i follow my usual behavior i will choose "+self.habiChoice+" as a mode of transportation")
         # si jamais on veut ajouter le choix habituel self.updateHabits(self.habiChoice)
         
 
@@ -566,7 +564,7 @@ class user:
             if self.habiChoice==BIKE:
                
                 for crit in CRITERIAS:
-                    print(crit)
+                    
                     if (envir.marks[BIKE][crit]>=0.5):
                         self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
@@ -575,7 +573,7 @@ class user:
                             cpt+=1
             if self.habiChoice==CAR:
                 for crit in CRITERIAS:
-                    print(crit)
+                    
                     if (envir.marks[CAR][crit]>=0.5):
                         self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
@@ -584,7 +582,7 @@ class user:
                     cpt+=1
             if self.habiChoice==BUS:
                 for crit in CRITERIAS:
-                    print(crit)
+                    
                     if (envir.marks[BUS][crit]>=0.5):
                         self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
@@ -593,14 +591,14 @@ class user:
                     cpt+=1
             if self.habiChoice==WALK:
                 for crit in CRITERIAS:
-                    print(crit)
+                   
                     if (envir.marks[WALK][crit]>=0.5):
                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
                         if float(envir.marks[WALK][crit])<0.5:
                             self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
                     cpt+=1
-            self.saveAgent()
+            #self.saveAgent()
 
         # Notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
@@ -638,7 +636,7 @@ class user:
         n=4
         while n>0:
             if (choice==CAR and self.means[1]==False) or (choice==BUS and self.means[2]==False) or (choice==BIKE and self.means[0]==False) or  (choice==WALK and self.fitness<=10):
-                print("I'd like to use  "+choice+" transport mode, but it is currently unaivalable to me.")
+                #print("I'd like to use  "+choice+" transport mode, but it is currently unaivalable to me.")
                 self.mark[indexMarkMax]=0
                 markmax = 0
                 indexMarkMax = 0
@@ -656,7 +654,7 @@ class user:
 
         choice = LISTMODES[indexMarkMax]
 
-        print("As a biased agent i chose "+choice+" has a mode of transportation.")
+        #print("As a biased agent i chose "+choice+" has a mode of transportation.")
         self.biasChoise=choice
-        self.updateHabits(self.biasChoise)
+        #self.updateHabits(self.biasChoise)
         self.habitualChoice()

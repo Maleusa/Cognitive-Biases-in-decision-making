@@ -1,6 +1,7 @@
 
 from environnement import *
 from user import *
+from plot import *
 randBool = True 
 nbrAgent = int(input("How many agents do you want to create ? "))
 agentList = list()
@@ -31,7 +32,9 @@ if z == "y":
 env = environnement(randBool)
 
 for i in range(nbrAgent) :
-    agent = user(env, randBool,i)
+    agent = user(env, randBool,i+1)
     agentList.append(agent)
     agent.biasedResults(env,randBool, confirmation, forbidden, estimation)
-    agent.result(env)
+    #agent.result(env)
+
+plotDecision(agentList.copy())
