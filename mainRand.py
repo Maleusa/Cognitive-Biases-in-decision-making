@@ -31,7 +31,7 @@ if z == "y":
 env = environnement(randBool)
 
 for i in range(nbrAgent) :
-    agent = user(env, randBool)
+    agent = user(env, randBool,i)
     agentList.append(agent)
     agent.biasedResults(env,randBool, confirmation, forbidden, estimation)
     agent.result(env)

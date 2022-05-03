@@ -39,7 +39,7 @@ while off != True:
                 y=input("There is no actif agent in the enviroment, would you like to create one ? (y)/(n) :")
             if y=="y":
                 print("Creating an agent :")
-                actifAgent=user(envir,randomBool)
+                actifAgent=user(envir,randomBool,0)
                 aCount+=1
             if y=="n":
                 print("Then there is nothing i can do for you, goodbye !")
@@ -51,11 +51,11 @@ while off != True:
                 y=input("Would you like to create a new (a)gent or (m)anipulate the activ one ? : ")
             if y=="a":
                 print("Creating an agent :")
-                actifAgent=user(envir,randomBool)
+                actifAgent=user(envir,randomBool,0)
                 aCount+=1
             if y=="m":
                 print("Manipulation is a bad habit quit it !") #done
-                actifAgent.biasedResults(envir,randomBool)
+                actifAgent.biasedResults(envir,randomBool,0)
                 j=input("Would you like to save the results of the agent "+str(actifAgent.ident)+" ? (y)/(n) :")
                 while j not in ["y","n"]:
                     j=input("Would you like to save the results of the agent "+str(actifAgent.ident)+" ? (y)/(n) :")
