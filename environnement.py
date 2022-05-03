@@ -163,10 +163,14 @@ class environnement:
             self.marks[WALK][SAFETY] =  self.marks[WALK][SAFETY]/2
             self.marks[CAR][SAFETY] = self.marks[CAR][SAFETY]/2
 
+        # Modification des notes liées au fait d'habiter dans une ville 
+        # Si l'agent habite dans une ville, l'usage de la voiture devient moins rapide et moins pratique
         if self.context[3] == True :
             self.marks[CAR][FAST] = self.marks[CAR][FAST]/2
             self.marks[CAR][PRATICITY] = self.marks[CAR][PRATICITY]/2
-        
+
+        # Modification des notes liées à l'utilisation en heure de pointe
+        # Si nous sommes en heure de pointe, l'usage de la voiture devient moins rapide
         if self.context[4] == True :
             self.marks[CAR][FAST] = self.marks[CAR][FAST]/2
 
