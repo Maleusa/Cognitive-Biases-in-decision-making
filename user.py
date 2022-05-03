@@ -28,11 +28,15 @@ class user:
     
     # Initialisation de l'utilsateur avec trois choix 
 
-    def __init__(self,envir=environnement,randomBool = bool):
+    def __init__(self,envir=environnement,randomBool = bool,idAg=int):
         #copie du table des notes "objectives" dans le tableau bias Marks
         self.biasMarks=envir.marks
-        #initialisation de l'identifiant de l'agent
-        self.ident=random.randint(0,100)
+        #initialisation de l'identifiant de l'agent si jamais il n'est pas fait
+        if idAg==0:
+
+            self.ident=random.randint(0,100)
+        else :
+            self.ident=idAg
         # initialisation de l'environnement de l'agent 
         env = envir
 
@@ -99,9 +103,9 @@ class user:
 
         # Initialisation d'un agent en lisant un fichier
         if x=="f":
-            id=int(input("Please input the agent number between 0 and 100"))
+            id=int(input("Please input the agent number between 0 and 100 ? : "))
             while id<0 or id>100:
-                id=int(input("Please input the agent number between 0 and 100"))
+                id=int(input("Please input the agent number between 0 and 100 ? : "))
             self.ident=id
             agent=open("agent/Agent"+str(id)+".txt","r")
             f=agent.readlines()
@@ -359,6 +363,7 @@ class user:
         res.write("Rationnal choice : "+self.rationalChoice+"\n")
         res.write("Biased choice : "+ self.biasChoise+"\n \n")
         res.close()
+    
 
     # Ici les biais
 
