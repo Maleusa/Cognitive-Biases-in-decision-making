@@ -264,7 +264,8 @@ class user:
         choice = LISTMODES[indexMarkMax]
 
         print("If i was a rationnal agent i would have chosen "+choice+" has a mode of transportation.")
-        self.rationalChoice=choice
+      
+        return choice
 
     # Fonction de choix habituel 
     def habitualChoice(self):
@@ -368,7 +369,7 @@ class user:
     # Ici les biais
 
     def biasedResults(self,envir=environnement,randomBool = bool, confirmation = False, forbidden = False, estimation = False):
-        self.rationalModeChoice()
+        self.rationalChoice=self.rationalModeChoice()
         self.habitualChoice()
        
 
@@ -432,6 +433,7 @@ class user:
                             self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
                     cpt+=1
             self.saveAgent()
+            self.biasChoise=self.rationalModeChoice()
 
         #TODO Maths des deux biais en modifian les valeurs soit de nos preference (forbidden behavior paradigme), soit de nos notes biaisé pour les autres dans le dict self.biasMarks 
         if confirmation==True:
