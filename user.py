@@ -391,12 +391,15 @@ class user:
             #TODO faire un test pour determiner si on utilise le biais de confirmation ou la reactance
 
             #Confirmation en dessous
-            if self.habiChoice==BIKE :
-                #for mod in LISTMODES:
-                    #for crite in CRITERIAS:
-                        #if mod==BIKE :
-                            #self.biasMarks[mod][crit] =envir.getEnviDico(mod,crite) + random.normalvariate((envir.getEnviDico(mod,crite)/2),(envir.marks[BIKE][ECOLOGY]/4))
-                self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY] +random.normalvariate((envir.marks[BIKE][ECOLOGY]/2),(envir.marks[BIKE][ECOLOGY]/4))
+            if self.habiChoice  in [BIKE,CAR,BUS,WALK] :
+                for mod in LISTMODES:
+                    for crite in CRITERIAS:
+                        if mod==self.habiChoice :
+                            self.biasMarks[mod][crite]=envir.marks[mod][crite] + random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
+                        else :
+                            self.biasMarks[mod][crite]=envir.marks[mod][crite] - random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
+                #En dessous version sale du calcul d'au dessus        
+                """self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY] +random.normalvariate((envir.marks[BIKE][ECOLOGY]/2),(envir.marks[BIKE][ECOLOGY]/4))
                 self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT] +random.normalvariate((envir.marks[BIKE][COMFORT]/2),(envir.marks[BIKE][COMFORT]/4))
                 self.biasMarks[BIKE][CHEAP] = envir.marks[BIKE][CHEAP] +random.normalvariate((envir.marks[BIKE][CHEAP]/2),(envir.marks[BIKE][CHEAP]/4))
                 self.biasMarks[BIKE][SAFETY] = envir.marks[BIKE][SAFETY]+random.normalvariate((envir.marks[BIKE][SAFETY]/2),(envir.marks[BIKE][SAFETY]/4))
@@ -497,7 +500,7 @@ class user:
                 self.biasMarks[WALK][CHEAP] = envir.marks[WALK][CHEAP]+random.normalvariate((envir.marks[WALK][CHEAP]/2),(envir.marks[WALK][CHEAP]/4))
                 self.biasMarks[WALK][SAFETY] = envir.marks[WALK][SAFETY]+random.normalvariate((envir.marks[WALK][SAFETY]/2),(envir.marks[WALK][SAFETY]/4))
                 self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY] + random.normalvariate((envir.marks[WALK][PRATICITY]/2),(envir.marks[WALK][PRATICITY]/4))
-                self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] + random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/4))
+                self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] + random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/4))"""
         
         #Biais de sous/sur estimation seul (atm juste la distance peut etre ajouter le prix)
         if aEst==True and aConf==False:
