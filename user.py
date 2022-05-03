@@ -390,7 +390,49 @@ class user:
                 confirmation=True
             if y=="y":
                 estimation=True
-        
+  #Application du biais forbidden choice 
+        if forbidden==True:
+            cpt=0
+            #CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
+            if self.habiChoice==BIKE:
+               
+                for crit in CRITERIAS:
+                    print(crit)
+                    if (envir.marks[BIKE][crit]>=0.5):
+                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
+                    else :
+                        if (envir.marks[BIKE][crit]<0.5):
+                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
+                            cpt+=1
+            if self.habiChoice==CAR:
+                for crit in CRITERIAS:
+                    print(crit)
+                    if (envir.marks[CAR][crit]>=0.5):
+                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
+                    else :
+                        if (envir.marks[CAR][crit]<0.5):
+                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
+                    cpt+=1
+            if self.habiChoice==BUS:
+                for crit in CRITERIAS:
+                    print(crit)
+                    if (envir.marks[BUS][crit]>=0.5):
+                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
+                    else :
+                        if float(envir.marks[BUS][crit])<0.5:
+                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
+                    cpt+=1
+            if self.habiChoice==WALK:
+                for crit in CRITERIAS:
+                    print(crit)
+                    if (envir.marks[WALK][crit]>=0.5):
+                       self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
+                    else :
+                        if float(envir.marks[WALK][crit])<0.5:
+                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
+                    cpt+=1
+            self.saveAgent()
+
         #TODO Maths des deux biais en modifian les valeurs soit de nos preference (forbidden behavior paradigme), soit de nos notes biaisé pour les autres dans le dict self.biasMarks 
         if confirmation==True:
             #TODO faire un test pour determiner si on utilise le biais de confirmation ou la reactance
@@ -559,48 +601,8 @@ class user:
             self.biasMarks[WALK][SAFETY] = self.biasMarks[WALK][SAFETY]
             self.biasMarks[WALK][PRATICITY] = self.biasMarks[WALK][PRATICITY] 
             self.biasMarks[WALK][FAST] = self.biasMarks[WALK][FAST] - random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/3)) #sur estimation du temps a pieds
-        #Application du biais forbidden choice TODO ca big key error faut que je fasse des test
-        if forbidden==True:
-            cpt=0
-            #CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
-            if self.habiChoice==BIKE:
-               
-                for crit in CRITERIAS:
-                    print(crit)
-                    if (envir.marks[BIKE][crit]>=0.5):
-                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
-                    else :
-                        if (envir.marks[BIKE][crit]<0.5):
-                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
-                            cpt+=1
-            if self.habiChoice==CAR:
-                for crit in CRITERIAS:
-                    print(crit)
-                    if (envir.marks[CAR][crit]>=0.5):
-                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
-                    else :
-                        if (envir.marks[CAR][crit]<0.5):
-                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
-                    cpt+=1
-            if self.habiChoice==BUS:
-                for crit in CRITERIAS:
-                    print(crit)
-                    if (envir.marks[BUS][crit]>=0.5):
-                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
-                    else :
-                        if float(envir.marks[BUS][crit])<0.5:
-                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
-                    cpt+=1
-            if self.habiChoice==WALK:
-                for crit in CRITERIAS:
-                    print(crit)
-                    if (envir.marks[WALK][crit]>=0.5):
-                       self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
-                    else :
-                        if float(envir.marks[WALK][crit])<0.5:
-                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
-                    cpt+=1
-            self.saveAgent()
+      
+        
 
         # Notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
