@@ -23,7 +23,7 @@ class user:
     rationalChoice=str # Choix rationnel de l'utilisateur
     mark = [0,0,0,0] 
     habits = [] 
-    habiChoice= str #Choix habituel de l'user
+    habiChoice= "aucun" #Choix habituel de l'user
     env=environnement # Représente l'environnement de l'agent 
     
     # Initialisation de l'utilsateur avec trois choix 
@@ -48,9 +48,9 @@ class user:
             x = "r"
         if randomBool == False :
         # Initialisation des poids associés aux différents critères de choix
-            x = input("Agent priorities by (u)ser input or (f)ile input? : ")
-            while x not in ["u","f"]:
-                x = input("(u)ser agent priorities or (r)andom ? : ")
+            x = input("Agent priorities by (u)ser input, (r)andom or (f)ile input? : ")
+            while x not in ["u","f","r"]:
+                x = input("(u)ser agent priorities,(f)ile or (r)andom ? : ")
 
 
         # Initialisation d'un agent par input via la console 

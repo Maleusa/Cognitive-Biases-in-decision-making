@@ -99,9 +99,9 @@ class environnement:
         # Initailisation des variables de context
         # L'utilisateur peut choisir d'utiliser les variables de contextes par défault ou de les rentrer soit même dans la console
         if randomBool == False :
-            x = input("(s)tandart context variables or (u)ser input ? : ")
-            while x not in ["u","s"]:
-                x = input("(s)tandart context variables or (u)ser input ? : ")
+            x = input("(s)tandart context variables,(r)andom or (u)ser input ? : ")
+            while x not in ["u","s","r"]:
+                x = input("(s)tandart context variables,(r)andom or (u)ser input ? : ")
 
         if randomBool == True :
             x = "s"
