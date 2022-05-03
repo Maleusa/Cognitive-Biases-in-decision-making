@@ -99,7 +99,7 @@ class user:
             while id<0 or id>100:
                 id=int(input("Please input the agent number between 0 and 100"))
             self.ident=id
-            agent=open("Agent"+str(id)+".txt","r")
+            agent=open("agent/Agent"+str(id)+".txt","r")
             f=agent.readlines()
             for lines in range(len(f)):
                 f[lines]=f[lines].strip('\n')
@@ -132,10 +132,10 @@ class user:
             if z=="r":
                 
                 for i in range(h):
-                    habits = open("habits"+str(self.ident)+".txt","a")
+                    habits = open("habits/habits"+str(self.ident)+".txt","a")
                     n=random.randint(0,3)
                     habits.write(LISTMODES[n]+" ")
-                    for j in range(3) :
+                    for j in range(len(CONTEXTBOOLS)) :
                         random_bit = random.getrandbits(1)
                         habits.write(str(bool(random_bit))+" ")
                     habits.write("\n")
@@ -144,7 +144,7 @@ class user:
                     m=input("Did i use a (0)bike, (1)car, (2)bus or did i (3)walk ? : ")
                     while m not in ["0","1","2","3"]:
                         m=input("Did i use a (0)bike, (1)car, (2)bus or did i (3)walk ? : ")
-                    habits = open("habits.txt","a")
+                    habits = open("habits/habits.txt","a")
                     habits.write(LISTMODES[int(m)]+" ")
                     cpt = 0 
                     for elem in CONTEXTBOOLS:
@@ -200,7 +200,7 @@ class user:
 
     # Fonction de sauvegarde de l'agent dans un fichier      
     def saveAgent(self):
-        agent = open("Agent"+str(self.ident)+".txt","w")
+        agent = open("agent/Agent"+str(self.ident)+".txt","w")
         for crit in self.critAgent:
             agent.write(str(crit)+"\n")
         agent.write("\n")
@@ -332,14 +332,14 @@ class user:
 
     # Fonction permettant d'effacer le contenu du fichier habits.txt et donc de d'oublier l'ensemble des abitudes de l'agent
     def refreshHabits(self):
-        habits = open("habits"+str(self.ident)+".txt","w")
+        habits = open("habits/habits"+str(self.ident)+".txt","w")
         habits.flush()
 
 
     # Fonction permttant de mettre à jour les abitudes de l'agent en ajoutant le choix du dernier trajet réalisé 
     def updateHabits(self,choice=str):
         
-        habits = open("habits"+str(self.ident)+".txt","a")
+        habits = open("habits/habits"+str(self.ident)+".txt","a")
         
        
 
@@ -354,7 +354,7 @@ class user:
 
     # Fonction de lecture du fichier d'habitude (ca marche)
     def readHabits(self):
-        habits = open("habits"+str(self.ident)+".txt","r")
+        habits = open("habits/habits"+str(self.ident)+".txt","r")
         f=habits.readlines()
         for lines in range(len(f)) :
             f[lines]=f[lines].strip('\n')
@@ -568,7 +568,7 @@ class user:
         #Application du biais forbidden choice TODO ca big key error faut que je fasse des test
         if aForbid==True:
             cpt=0
-            CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
+            #CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
             if self.habiChoice==BIKE:
                
                 for crit in CRITERIAS:
