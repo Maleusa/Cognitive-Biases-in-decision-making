@@ -1,4 +1,5 @@
 
+from xmlrpc.client import Boolean
 from environnement import *
 from pickletools import markobject
 from re import A, L
@@ -15,18 +16,19 @@ class user:
     dico = dict
     biasMarks =dict    
     ##
-    biasChoise=str #choix biaisé de l'utilisateur
-    fitness=float
-    means=[None]*AGENTBOOLS.__len__()
-    critAgent=[None]*CRITERIAS.__len__()
-    rationalChoice=str #choix rationnel de l'utilisateur
-    mark = [0,0,0,0]
-    habits = []
-    habiChoice= str #choix habituel de l'user
-    env=environnement
+    biasChoise=str # Choix biaisé de l'utilisateur
+    fitness=float # Représente le niveau sportif de l'agent 
+    means=[None]*AGENTBOOLS.__len__() # Représente les moyens de transport accessible à l'agent. Le premier booléan de la liste représente d'avoir une voiture ou non, le deuxième d'avoir un vélo ou non et le troisième d'être sur une ligne de bus ou non
+    critAgent=[None]*CRITERIAS.__len__() # Représente le niveau entre 0 et 1 de priorité de chaque critère pour l'agent (1 : crière trèsimportant pour l'agent, 0 : critère négligeable pour l'agent)
+    rationalChoice=str # Choix rationnel de l'utilisateur
+    mark = [0,0,0,0] 
+    habits = [] 
+    habiChoice= str #Choix habituel de l'user
+    env=environnement # Représente l'environnement de l'agent 
+    
     # Initialisation de l'utilsateur avec trois choix 
 
-    def __init__(self,envir=environnement) -> None:
+    def __init__(self,envir=environnement,randomBool = bool):
         #copie du table des notes "objectives" dans le tableau bias Marks
         self.biasMarks=envir.marks
         #initialisation de l'identifiant de l'agent
@@ -38,11 +40,13 @@ class user:
         self.dico = env.marks.copy()
         self.biasMarks = env.marks.copy()
         
-
+        if randomBool == True :
+            x = "r"
+        if randomBool == False :
         # Initialisation des poids associés aux différents critères de choix
-        x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
-        while x not in ["u","r","f"]:
-            x = input("(u)ser agent priorities or (r)andom ? : ")
+            x = input("Agent priorities by (u)ser input or (f)ile input? : ")
+            while x not in ["u","f"]:
+                x = input("(u)ser agent priorities or (r)andom ? : ")
 
 
         # Initialisation d'un agent par input via la console 
@@ -114,21 +118,37 @@ class user:
                 else: self.means[cpt]=False
                 cpt+=1
             self.fitness=float(f[11])
+        
         ##Initialisation des habitudes
-        y= input("Do you want to use the (h)abits file as is,(e)rase it or erase it and create a (s)et of habits ? :")
-        while y not in ["h","e","s"] :
+        if randomBool == True :
+            y = "s"
+            z = "r"
+            h = int(random.normalvariate(1000,10))
+            print(h)
+
+        else :
             y= input("Do you want to use the (h)abits file as is,(e)rase it or erase it and create a (s)et of habits ? :")
-        #On efface le fichier habits.txt
+            while y not in ["h","e","s"] :
+                y= input("Do you want to use the (h)abits file as is,(e)rase it or erase it and create a (s)et of habits ? :")
+            #On efface le fichier habits.txt
         if y=="e":
             self.refreshHabits()
         
         if y=="s":
+
+            # Remet à zéro les habitudes 
             self.refreshHabits()
-            z=input("Do you want to (r)andomize a certain number of habits or (e)nter them by hand ? : ")
-            while z not in ["r","e"]:
+
+            # Si l'agent n'est pas créé en random, on demande si l'utilisateur veut utiliser un set de données randomisé ou les rentrer à la main 
+            if randomBool == False :
                 z=input("Do you want to (r)andomize a certain number of habits or (e)nter them by hand ? : ")
-            h=int(input ("How many habits would you like to create ? :"))
-            
+                while z not in ["r","e"]:
+                    z=input("Do you want to (r)andomize a certain number of habits or (e)nter them by hand ? : ")
+                
+                # Permet de définir le nombre d'habtude de l'agent 
+                h=int(input ("How many habits would you like to create ? :"))
+
+            # Création  de h habitudes randomisées    
             if z=="r":
                 
                 for i in range(h):
@@ -139,6 +159,9 @@ class user:
                         random_bit = random.getrandbits(1)
                         habits.write(str(bool(random_bit))+" ")
                     habits.write("\n")
+            
+
+            # Création de h habitudes à la main par l'utilisateur 
             if z=="e":
                 for i in range(h):
                     m=input("Did i use a (0)bike, (1)car, (2)bus or did i (3)walk ? : ")
@@ -156,45 +179,6 @@ class user:
                     for boole in envir.context:
                         habits.write(str(boole) + " ")
                     habits.write('\n')
-
-
-
-        # Mise à 0 des notes correspondants à des moyens de transport inaccessibles pour l'agent (changement de méthode pour le traitement des modes inaccessible)
-        """if self.means[0]==False or self.fitness < 20:
-            self.dico[BIKE][ECOLOGY] = 0
-            self.dico[BIKE][COMFORT] = 0
-            self.dico[BIKE][CHEAP] = 0
-            self.dico[BIKE][SAFETY] = 0
-            self.dico[BIKE][PRATICITY] = 0
-            self.dico[BIKE][FAST] = 0
-
-        if self.means[1]==False:
-            self.dico[CAR][ECOLOGY] = 0
-            self.dico[CAR][COMFORT] = 0
-            self.dico[CAR][CHEAP] = 0
-            self.dico[CAR][SAFETY] = 0
-            self.dico[CAR][PRATICITY] = 0
-            self.dico[CAR][FAST] = 0
-
-        if self.means[2]==False:
-            self.dico[BUS][ECOLOGY] = 0
-            self.dico[BUS][COMFORT] = 0
-            self.dico[BUS][CHEAP] = 0
-            self.dico[BUS][SAFETY] = 0
-            self.dico[BUS][PRATICITY] = 0
-            self.dico[BUS][FAST] = 0
-
-        if self.fitness < 10:
-            self.dico[WALK][ECOLOGY] = 0
-            self.dico[WALK][COMFORT] = 0
-            self.dico[WALK][CHEAP] = 0
-            self.dico[WALK][SAFETY] = 0
-            self.dico[WALK][PRATICITY] = 0
-            self.dico[WALK][FAST] = 0"""
-        
-        
-
-        # test print(self.dico)
 
 
 
@@ -378,30 +362,32 @@ class user:
 
     # Ici les biais
 
-    def biasedResults(self,envir=environnement):
+    def biasedResults(self,envir=environnement,randomBool = bool, confirmation = False, forbidden = False, estimation = False):
         self.rationalModeChoice()
         self.habitualChoice()
-        aForbid=False
-        aConf=False
-        aEst=False
-        x=input("Do you wish to use confirmation bias / reactance in decision making (y/n) ? :")
-        while x not in ["y","n"] :
+       
+
+        if randomBool == False :
             x=input("Do you wish to use confirmation bias / reactance in decision making (y/n) ? :")
-        y=input("Do you wish to use under/over estimation in decision making (y/n) ? :")
-        while y not in ["y","n"] :
+            while x not in ["y","n"] :
+                x=input("Do you wish to use confirmation bias / reactance in decision making (y/n) ? :")
             y=input("Do you wish to use under/over estimation in decision making (y/n) ? :")
-        z=input("Do you wish to use the forbidden behavior paradigme in decision making (y)/(n) ? : ")
-        while z not in ["y","n"] :
+            while y not in ["y","n"] :
+                y=input("Do you wish to use under/over estimation in decision making (y/n) ? :")
             z=input("Do you wish to use the forbidden behavior paradigme in decision making (y)/(n) ? : ")
-        if z=="y":
-            aForbid=True
-        if x=="y":
-            aConf=True
-        if y=="y":
-            aEst=True
+            while z not in ["y","n"] :
+                z=input("Do you wish to use the forbidden behavior paradigme in decision making (y)/(n) ? : ")
+        
+
+            if z=="y":
+                forbidden=True
+            if x=="y":
+                confirmation=True
+            if y=="y":
+                estimation=True
         
         #TODO Maths des deux biais en modifian les valeurs soit de nos preference (forbidden behavior paradigme), soit de nos notes biaisé pour les autres dans le dict self.biasMarks 
-        if aConf==True:
+        if confirmation==True:
             #TODO faire un test pour determiner si on utilise le biais de confirmation ou la reactance
 
             #Confirmation en dessous

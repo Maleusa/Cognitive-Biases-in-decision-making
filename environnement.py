@@ -1,4 +1,5 @@
 from multiprocessing import context
+from random import random
 from constant import *
 # Variable représentants le contexte 
 gasPriceStandart=1.7 # Prix SP95 le 14/04/2022
@@ -33,15 +34,30 @@ class environnement:
     context = [None]*len(CONTEXTBOOLS)
     marks = {}
 
-    def __init__(self) -> None:
+    def __init__(self,randomBool = bool) -> None:
         
         # Initialisation de la météo
+        if randomBool == True :
+            y = "r"
+        
+        if randomBool == False :
+            y = "u"
+       
+
         cpt = 0 
         for elem in CONTEXTBOOLS:
-            answer = input(elem + " ? (y/n) : ")
-            while answer not in ["y","n"]:
+            if y == "u" :
                 answer = input(elem + " ? (y/n) : ")
-            self.context[cpt] = (answer == "y")
+                while answer not in ["y","n"]:
+                    answer = input(elem + " ? (y/n) : ")
+                self.context[cpt] = (answer == "y")
+
+            if y == "r" :
+                rd = random()
+                if rd <= 0.5 :
+                    self.context[cpt] = True
+                else :
+                     self.context[cpt] = False
             cpt += 1
         
 
@@ -82,10 +98,13 @@ class environnement:
 
         # Initailisation des variables de context
         # L'utilisateur peut choisir d'utiliser les variables de contextes par défault ou de les rentrer soit même dans la console
-
-        x = input("(s)tandart context variables or (u)ser input ? : ")
-        while x not in ["u","s"]:
+        if randomBool == False :
             x = input("(s)tandart context variables or (u)ser input ? : ")
+            while x not in ["u","s"]:
+                x = input("(s)tandart context variables or (u)ser input ? : ")
+
+        if randomBool == True :
+            x = "s"
         
         if x == "s":
             self.gasPrice=gasPriceStandart
