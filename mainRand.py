@@ -37,4 +37,4 @@ for i in range(nbrAgent) :
     agent.biasedResults(env,randBool, confirmation, forbidden, estimation)
     #agent.result(env)
 
-plotDecision(agentList.copy())
+plotDecision(agentList)

@@ -8,7 +8,8 @@ def plotDecision(list=list):
     rationalDecision=[0,0,0,0]
     biasedDecision=[0,0,0,0]
     habitualDecision=[0,0,0,0]
-    
+    decisio=[None]*len(list)
+    crit=[None]*len(list)
     for agent in list:
         
         if agent.biasChoise==BIKE:
@@ -38,7 +39,8 @@ def plotDecision(list=list):
         if agent.habiChoice==WALK:
             habitualDecision[3]+=1
     names = LISTMODES
-
+   
+    
 
     plt.figure(figsize=(9, 3))
 
@@ -52,4 +54,6 @@ def plotDecision(list=list):
     plt.title('Habitual Decision')
     plt.bar(names, habitualDecision)
     plt.suptitle('Bias effect on decision making')
+    
     plt.show()
+    

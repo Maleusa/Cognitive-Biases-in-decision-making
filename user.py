@@ -218,7 +218,7 @@ class user:
         
         # Augmentaion de la note associé au vélo et à la marche pour les agents sportifs 
 
-        if self.fitness >= 70 :
+        if self.fitness >= 95 :
             self.mark[0] = self.mark[0]*2
             self.mark[3] = self.mark[3]*2
         
@@ -261,7 +261,7 @@ class user:
 
         choice = LISTMODES[indexMarkMax]
 
-        print("If i was a rationnal agent i would have chosen "+choice+" has a mode of transportation.")
+        #print("If i was a rationnal agent i would have chosen "+choice+" has a mode of transportation.")
       
         return choice
 
@@ -396,7 +396,7 @@ class user:
             if self.habiChoice==BIKE:
                
                 for crit in CRITERIAS:
-                    print(crit)
+                    #print(crit)
                     if (envir.marks[BIKE][crit]>=0.5):
                         self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
@@ -405,7 +405,7 @@ class user:
                             cpt+=1
             if self.habiChoice==CAR:
                 for crit in CRITERIAS:
-                    print(crit)
+                    #print(crit)
                     if (envir.marks[CAR][crit]>=0.5):
                         self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
@@ -414,7 +414,7 @@ class user:
                     cpt+=1
             if self.habiChoice==BUS:
                 for crit in CRITERIAS:
-                    print(crit)
+                    #print(crit)
                     if (envir.marks[BUS][crit]>=0.5):
                         self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
@@ -423,7 +423,7 @@ class user:
                     cpt+=1
             if self.habiChoice==WALK:
                 for crit in CRITERIAS:
-                    print(crit)
+                    #print(crit)
                     if (envir.marks[WALK][crit]>=0.5):
                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
