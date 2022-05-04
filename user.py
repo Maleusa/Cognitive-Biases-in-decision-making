@@ -233,7 +233,7 @@ class user:
             for key in CRITERIAS:
                
                 # print(envir.marks[mode][key])
-                self.mark[i]=self.mark[i]+(envir.marks[mode][key]*self.critAgent[j])
+                self.mark[i]=float(self.mark[i]+(envir.marks[mode][key]*self.critAgent[j]))
                 
                 j+=1
             
@@ -627,7 +627,7 @@ class user:
                         if float(envir.marks[WALK][crit])<0.5:
                             self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
                     cpt+=1
-            self.saveAgent()
+            #self.saveAgent()
 
         # Notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
@@ -636,7 +636,7 @@ class user:
             j=0
             for key in CRITERIAS:
                
-                self.mark[i]=self.mark[i]+(self.biasMarks[mode][key]*self.critAgent[j])
+                self.mark[i]=float(self.mark[i]+(self.biasMarks[mode][key]*self.critAgent[j]))
                 
                 j+=1
             
@@ -665,7 +665,7 @@ class user:
         n=4
         while n>0:
             if (choice==CAR and self.means[1]==False) or (choice==BUS and self.means[2]==False) or (choice==BIKE and self.means[0]==False) or  (choice==WALK and self.fitness<=10):
-                print("I'd like to use  "+choice+" transport mode, but it is currently unaivalable to me.")
+                #print("I'd like to use  "+choice+" transport mode, but it is currently unaivalable to me.")
                 self.mark[indexMarkMax]=0
                 markmax = 0
                 indexMarkMax = 0
@@ -685,5 +685,6 @@ class user:
 
         #print("As a biased agent i chose "+choice+" has a mode of transportation.")
         self.biasChoise=choice
+        #print(self.biasMarks)
         #self.updateHabits(self.biasChoise)
         #self.habitualChoice()

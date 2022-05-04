@@ -112,6 +112,7 @@ class environnement:
             self.marksVariable()
         
         self.marksWeather()
+        print(self.marks)
         
        
 
@@ -194,3 +195,4 @@ class environnement:
         self.busSpeed=float(input("bus Speed ? "))
         self.marksVariable()
         self.marksWeather()
+        
