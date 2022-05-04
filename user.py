@@ -1,6 +1,6 @@
+
 from environnement import *
 from math import *
-from typing import Iterable
 import random
 from constant import *
 
@@ -12,27 +12,25 @@ class user:
     dico = dict
     biasMarks =dict    
     ##
-    biasChoise=str # Choix biaisé de l'utilisateur
-    fitness=float # Représente le niveau sportif de l'agent 
-    means=[None]*AGENTBOOLS.__len__() # Représente les moyens de transport accessible à l'agent. Le premier booléan de la liste représente d'avoir une voiture ou non, le deuxième d'avoir un vélo ou non et le troisième d'être sur une ligne de bus ou non
-    critAgent=[None]*CRITERIAS.__len__() # Représente le niveau entre 0 et 1 de priorité de chaque critère pour l'agent (1 : crière trèsimportant pour l'agent, 0 : critère négligeable pour l'agent)
-    rationalChoice=str # Choix rationnel de l'utilisateur
-    mark = [0,0,0,0] 
-    habits = [] 
-    habiChoice= "aucun" #Choix habituel de l'user
-    env=environnement # Représente l'environnement de l'agent 
-    
+    biasChoise=str #choix biaisé de l'utilisateur
+    fitness=float
+    means=[None]*AGENTBOOLS.__len__()
+    critAgent=[None]*CRITERIAS.__len__()
+    rationalChoice=str #choix rationnel de l'utilisateur
+    mark = [0,0,0,0]
+    habits = []
+    habiChoice= str #choix habituel de l'user
+    env=environnement
     # Initialisation de l'utilsateur avec trois choix 
 
-    def __init__(self,envir=environnement,randomBool = bool,idAg=int):
+    def __init__(self,envir=environnement,mode=str,id=int):
         #copie du table des notes "objectives" dans le tableau bias Marks
         self.biasMarks=envir.marks
-        #initialisation de l'identifiant de l'agent si jamais il n'est pas fait
-        if idAg==0:
-
+        #initialisation de l'identifiant de l'agent
+        if id==0:
             self.ident=random.randint(0,100)
-        else :
-            self.ident=idAg
+        else:
+            self.ident=id
         # initialisation de l'environnement de l'agent 
         env = envir
 
@@ -40,14 +38,13 @@ class user:
         self.dico = env.marks.copy()
         self.biasMarks = env.marks.copy()
         
-        if randomBool == True :
-            x = "r"
-        if randomBool == False :
+        if mode=="Manual":
         # Initialisation des poids associés aux différents critères de choix
-            x = input("Agent priorities by (u)ser input or (f)ile input? : ")
-            while x not in ["u","f"]:
+            x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
+            while x not in ["u","r","f"]:
                 x = input("(u)ser agent priorities or (r)andom ? : ")
-
+        else:
+            x="r"
 
         # Initialisation d'un agent par input via la console 
         if x == "u": 
@@ -99,9 +96,9 @@ class user:
 
         # Initialisation d'un agent en lisant un fichier
         if x=="f":
-            id=int(input("Please input the agent number between 0 and 100 ? : "))
+            id=int(input("Please input the agent number between 0 and 100"))
             while id<0 or id>100:
-                id=int(input("Please input the agent number between 0 and 100 ? : "))
+                id=int(input("Please input the agent number between 0 and 100"))
             self.ident=id
             agent=open("agent/Agent"+str(id)+".txt","r")
             f=agent.readlines()
@@ -118,37 +115,21 @@ class user:
                 else: self.means[cpt]=False
                 cpt+=1
             self.fitness=float(f[11])
-        
         ##Initialisation des habitudes
-        if randomBool == True :
-            y = "s"
-            z = "r"
-            h = int(random.normalvariate(1000,10))
-            print(h)
-
-        else :
+        y= input("Do you want to use the (h)abits file as is,(e)rase it or erase it and create a (s)et of habits ? :")
+        while y not in ["h","e","s"] :
             y= input("Do you want to use the (h)abits file as is,(e)rase it or erase it and create a (s)et of habits ? :")
-            while y not in ["h","e","s"] :
-                y= input("Do you want to use the (h)abits file as is,(e)rase it or erase it and create a (s)et of habits ? :")
-            #On efface le fichier habits.txt
+        #On efface le fichier habits.txt
         if y=="e":
             self.refreshHabits()
         
         if y=="s":
-
-            # Remet à zéro les habitudes 
             self.refreshHabits()
-
-            # Si l'agent n'est pas créé en random, on demande si l'utilisateur veut utiliser un set de données randomisé ou les rentrer à la main 
-            if randomBool == False :
+            z=input("Do you want to (r)andomize a certain number of habits or (e)nter them by hand ? : ")
+            while z not in ["r","e"]:
                 z=input("Do you want to (r)andomize a certain number of habits or (e)nter them by hand ? : ")
-                while z not in ["r","e"]:
-                    z=input("Do you want to (r)andomize a certain number of habits or (e)nter them by hand ? : ")
-                
-                # Permet de définir le nombre d'habtude de l'agent 
-                h=int(input ("How many habits would you like to create ? :"))
-
-            # Création  de h habitudes randomisées    
+            h=int(input ("How many habits would you like to create ? :"))
+            
             if z=="r":
                 
                 for i in range(h):
@@ -159,9 +140,6 @@ class user:
                         random_bit = random.getrandbits(1)
                         habits.write(str(bool(random_bit))+" ")
                     habits.write("\n")
-            
-
-            # Création de h habitudes à la main par l'utilisateur 
             if z=="e":
                 for i in range(h):
                     m=input("Did i use a (0)bike, (1)car, (2)bus or did i (3)walk ? : ")
@@ -179,6 +157,45 @@ class user:
                     for boole in envir.context:
                         habits.write(str(boole) + " ")
                     habits.write('\n')
+
+
+
+        # Mise à 0 des notes correspondants à des moyens de transport inaccessibles pour l'agent (changement de méthode pour le traitement des modes inaccessible)
+        """if self.means[0]==False or self.fitness < 20:
+            self.dico[BIKE][ECOLOGY] = 0
+            self.dico[BIKE][COMFORT] = 0
+            self.dico[BIKE][CHEAP] = 0
+            self.dico[BIKE][SAFETY] = 0
+            self.dico[BIKE][PRATICITY] = 0
+            self.dico[BIKE][FAST] = 0
+
+        if self.means[1]==False:
+            self.dico[CAR][ECOLOGY] = 0
+            self.dico[CAR][COMFORT] = 0
+            self.dico[CAR][CHEAP] = 0
+            self.dico[CAR][SAFETY] = 0
+            self.dico[CAR][PRATICITY] = 0
+            self.dico[CAR][FAST] = 0
+
+        if self.means[2]==False:
+            self.dico[BUS][ECOLOGY] = 0
+            self.dico[BUS][COMFORT] = 0
+            self.dico[BUS][CHEAP] = 0
+            self.dico[BUS][SAFETY] = 0
+            self.dico[BUS][PRATICITY] = 0
+            self.dico[BUS][FAST] = 0
+
+        if self.fitness < 10:
+            self.dico[WALK][ECOLOGY] = 0
+            self.dico[WALK][COMFORT] = 0
+            self.dico[WALK][CHEAP] = 0
+            self.dico[WALK][SAFETY] = 0
+            self.dico[WALK][PRATICITY] = 0
+            self.dico[WALK][FAST] = 0"""
+        
+        
+
+        # test print(self.dico)
 
 
 
@@ -214,7 +231,7 @@ class user:
         
         # Augmentaion de la note associé au vélo et à la marche pour les agents sportifs 
 
-        if self.fitness >= 95 :
+        if self.fitness >= 70 :
             self.mark[0] = self.mark[0]*2
             self.mark[3] = self.mark[3]*2
         
@@ -359,16 +376,16 @@ class user:
         res.write("Rationnal choice : "+self.rationalChoice+"\n")
         res.write("Biased choice : "+ self.biasChoise+"\n \n")
         res.close()
-    
 
     # Ici les biais
 
-    def biasedResults(self,envir=environnement,randomBool = bool, confirmation = False, forbidden = False, estimation = False):
+    def biasedResults(self,envir=environnement,mode=str):
         self.rationalModeChoice()
         self.habitualChoice()
-       
-
-        if randomBool == False :
+        aForbid=False
+        aConf=False
+        aEst=False
+        if mode=="Manual":
             x=input("Do you wish to use confirmation bias / reactance in decision making (y/n) ? :")
             while x not in ["y","n"] :
                 x=input("Do you wish to use confirmation bias / reactance in decision making (y/n) ? :")
@@ -378,29 +395,28 @@ class user:
             z=input("Do you wish to use the forbidden behavior paradigme in decision making (y)/(n) ? : ")
             while z not in ["y","n"] :
                 z=input("Do you wish to use the forbidden behavior paradigme in decision making (y)/(n) ? : ")
-        
-
-            if z=="y":
-                forbidden=True
-            if x=="y":
-                confirmation=True
-            if y=="y":
-                estimation=True
+        else :
+            aForbid=True
+            aConf=True
+            aEst=True
+        if z=="y":
+            aForbid=True
+        if x=="y":
+            aConf=True
+        if y=="y":
+            aEst=True
         
         #TODO Maths des deux biais en modifian les valeurs soit de nos preference (forbidden behavior paradigme), soit de nos notes biaisé pour les autres dans le dict self.biasMarks 
-        if confirmation==True:
+        if aConf==True:
             #TODO faire un test pour determiner si on utilise le biais de confirmation ou la reactance
 
             #Confirmation en dessous
-            if self.habiChoice  in [BIKE,CAR,BUS,WALK] :
-                for mod in LISTMODES:
-                    for crite in CRITERIAS:
-                        if mod==self.habiChoice :
-                            self.biasMarks[mod][crite]=envir.marks[mod][crite] + random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
-                        else :
-                            self.biasMarks[mod][crite]=envir.marks[mod][crite] - random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
-                #En dessous version sale du calcul d'au dessus        
-                """self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY] +random.normalvariate((envir.marks[BIKE][ECOLOGY]/2),(envir.marks[BIKE][ECOLOGY]/4))
+            if self.habiChoice==BIKE :
+                #for mod in LISTMODES:
+                    #for crite in CRITERIAS:
+                        #if mod==BIKE :
+                            #self.biasMarks[mod][crit] =envir.getEnviDico(mod,crite) + random.normalvariate((envir.getEnviDico(mod,crite)/2),(envir.marks[BIKE][ECOLOGY]/4))
+                self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY] +random.normalvariate((envir.marks[BIKE][ECOLOGY]/2),(envir.marks[BIKE][ECOLOGY]/4))
                 self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT] +random.normalvariate((envir.marks[BIKE][COMFORT]/2),(envir.marks[BIKE][COMFORT]/4))
                 self.biasMarks[BIKE][CHEAP] = envir.marks[BIKE][CHEAP] +random.normalvariate((envir.marks[BIKE][CHEAP]/2),(envir.marks[BIKE][CHEAP]/4))
                 self.biasMarks[BIKE][SAFETY] = envir.marks[BIKE][SAFETY]+random.normalvariate((envir.marks[BIKE][SAFETY]/2),(envir.marks[BIKE][SAFETY]/4))
@@ -501,10 +517,10 @@ class user:
                 self.biasMarks[WALK][CHEAP] = envir.marks[WALK][CHEAP]+random.normalvariate((envir.marks[WALK][CHEAP]/2),(envir.marks[WALK][CHEAP]/4))
                 self.biasMarks[WALK][SAFETY] = envir.marks[WALK][SAFETY]+random.normalvariate((envir.marks[WALK][SAFETY]/2),(envir.marks[WALK][SAFETY]/4))
                 self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY] + random.normalvariate((envir.marks[WALK][PRATICITY]/2),(envir.marks[WALK][PRATICITY]/4))
-                self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] + random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/4))"""
+                self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] + random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/4))
         
         #Biais de sous/sur estimation seul (atm juste la distance peut etre ajouter le prix)
-        if estimation==True and confirmation==False:
+        if aEst==True and aConf==False:
             self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY]
             self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT]
             self.biasMarks[BIKE][CHEAP] = envir.marks[BIKE][CHEAP]
@@ -530,7 +546,7 @@ class user:
             self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY] 
             self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] - random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/3)) #sur estimation du temps a pieds
         #Pareil qu'au dessus mais cette fois ci avec le biais de confirmation deja appliqué
-        if estimation==True and confirmation==True:
+        if aEst==True and aConf==True:
             self.biasMarks[BIKE][ECOLOGY] = self.biasMarks[BIKE][ECOLOGY]
             self.biasMarks[BIKE][COMFORT] = self.biasMarks[BIKE][COMFORT]
             self.biasMarks[BIKE][CHEAP] = self.biasMarks[BIKE][CHEAP]
@@ -556,7 +572,7 @@ class user:
             self.biasMarks[WALK][PRATICITY] = self.biasMarks[WALK][PRATICITY] 
             self.biasMarks[WALK][FAST] = self.biasMarks[WALK][FAST] - random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/3)) #sur estimation du temps a pieds
         #Application du biais forbidden choice TODO ca big key error faut que je fasse des test
-        if forbidden==True:
+        if aForbid==True:
             cpt=0
             #CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
             if self.habiChoice==BIKE:
@@ -654,7 +670,5 @@ class user:
 
         print("As a biased agent i chose "+choice+" has a mode of transportation.")
         self.biasChoise=choice
-        self.updateHabits(self.biasChoise)
-        self.habitualChoice()
-
-
+        #self.updateHabits(self.biasChoise)
+        #self.habitualChoice()

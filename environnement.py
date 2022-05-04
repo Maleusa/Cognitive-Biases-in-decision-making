@@ -1,5 +1,4 @@
-from multiprocessing import context
-from random import random
+
 from constant import *
 # Variable représentants le contexte 
 gasPriceStandart=1.7 # Prix SP95 le 14/04/2022
@@ -34,17 +33,16 @@ class environnement:
     context = [None]*len(CONTEXTBOOLS)
     marks = {}
 
-    def __init__(self):
+    def __init__(self) :
         
-        #
-       
-
+        # Initialisation de la météo
         cpt = 0 
         for elem in CONTEXTBOOLS:
             answer = input(elem + " ? (y/n) : ")
             while answer not in ["y","n"]:
-                    answer = input(elem + " ? (y/n) : ")
+                answer = input(elem + " ? (y/n) : ")
             self.context[cpt] = (answer == "y")
+            cpt += 1
         
 
         # Initialisation de la note objective associée à chaque critères en fonction du moyen de transport
@@ -84,12 +82,10 @@ class environnement:
 
         # Initailisation des variables de context
         # L'utilisateur peut choisir d'utiliser les variables de contextes par défault ou de les rentrer soit même dans la console
-       
-        x = input("(s)tandart context variables,(r)andom or (u)ser input ? : ")
-        while x not in ["u","s","r"]:
-            x = input("(s)tandart context variables,(r)andom or (u)ser input ? : ")
 
-        
+        x = input("(s)tandart context variables or (u)ser input ? : ")
+        while x not in ["u","s"]:
+            x = input("(s)tandart context variables or (u)ser input ? : ")
         
         if x == "s":
             self.gasPrice=gasPriceStandart
@@ -167,14 +163,10 @@ class environnement:
             self.marks[WALK][SAFETY] =  self.marks[WALK][SAFETY]/2
             self.marks[CAR][SAFETY] = self.marks[CAR][SAFETY]/2
 
-        # Modification des notes liées au fait d'habiter dans une ville 
-        # Si l'agent habite dans une ville, l'usage de la voiture devient moins rapide et moins pratique
         if self.context[3] == True :
             self.marks[CAR][FAST] = self.marks[CAR][FAST]/2
             self.marks[CAR][PRATICITY] = self.marks[CAR][PRATICITY]/2
-
-        # Modification des notes liées à l'utilisation en heure de pointe
-        # Si nous sommes en heure de pointe, l'usage de la voiture devient moins rapide
+        
         if self.context[4] == True :
             self.marks[CAR][FAST] = self.marks[CAR][FAST]/2
 
