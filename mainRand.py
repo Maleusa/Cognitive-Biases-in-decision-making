@@ -29,7 +29,7 @@ if z == "y":
     forbidden = True
 
 
-env = environnement(randBool)
+env = environnement()
 
 for i in range(nbrAgent) :
     agent = user(env, randBool,i+1)

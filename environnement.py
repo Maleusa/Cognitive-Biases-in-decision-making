@@ -34,31 +34,17 @@ class environnement:
     context = [None]*len(CONTEXTBOOLS)
     marks = {}
 
-    def __init__(self,randomBool = bool) -> None:
+    def __init__(self):
         
-        # Initialisation de la météo
-        if randomBool == True :
-            y = "r"
-        
-        if randomBool == False :
-            y = "u"
+        #
        
 
         cpt = 0 
         for elem in CONTEXTBOOLS:
-            if y == "u" :
-                answer = input(elem + " ? (y/n) : ")
-                while answer not in ["y","n"]:
+            answer = input(elem + " ? (y/n) : ")
+            while answer not in ["y","n"]:
                     answer = input(elem + " ? (y/n) : ")
-                self.context[cpt] = (answer == "y")
-
-            if y == "r" :
-                rd = random()
-                if rd <= 0.5 :
-                    self.context[cpt] = True
-                else :
-                     self.context[cpt] = False
-            cpt += 1
+            self.context[cpt] = (answer == "y")
         
 
         # Initialisation de la note objective associée à chaque critères en fonction du moyen de transport
@@ -98,13 +84,12 @@ class environnement:
 
         # Initailisation des variables de context
         # L'utilisateur peut choisir d'utiliser les variables de contextes par défault ou de les rentrer soit même dans la console
-        if randomBool == False :
+       
+        x = input("(s)tandart context variables,(r)andom or (u)ser input ? : ")
+        while x not in ["u","s","r"]:
             x = input("(s)tandart context variables,(r)andom or (u)ser input ? : ")
-            while x not in ["u","s","r"]:
-                x = input("(s)tandart context variables,(r)andom or (u)ser input ? : ")
 
-        if randomBool == True :
-            x = "s"
+        
         
         if x == "s":
             self.gasPrice=gasPriceStandart
