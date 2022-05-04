@@ -21,6 +21,7 @@ HASBUS = "agent is on bus line"
 AGENTBOOLS = [HASBIKE, HASCAR, HASBUS]
 
 FITNESS = "agent's fitness level"
+
 # Transportation modes
 BIKE = "bike"
 CAR = "car"
