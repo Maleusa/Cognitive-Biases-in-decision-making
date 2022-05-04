@@ -391,6 +391,7 @@ class user:
     # Ici les biais
 
     def biasedResults(self,envir=environnement,mode=str):
+        print(self.mark)
         self.mark=[0,0,0,0]
         self.rationalModeChoice()
         self.habitualChoice()
