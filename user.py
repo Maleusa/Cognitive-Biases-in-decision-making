@@ -214,7 +214,7 @@ class user:
         
         # Augmentaion de la note associé au vélo et à la marche pour les agents sportifs 
 
-        if self.fitness >= 70 :
+        if self.fitness >= 95 :
             self.mark[0] = self.mark[0]*2
             self.mark[3] = self.mark[3]*2
         
