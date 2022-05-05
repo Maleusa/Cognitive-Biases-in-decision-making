@@ -53,11 +53,11 @@ class environnement:
                 self.marks[mode][crit]=0
 
         # Notes objectives 
-        self.marks[BIKE][ECOLOGY] = 0.75
+        self.marks[BIKE][ECOLOGY] = 1
         self.marks[BIKE][COMFORT] = 0.25
-        self.marks[BIKE][CHEAP] = 0.75
+        self.marks[BIKE][CHEAP] = 1
         self.marks[BIKE][SAFETY] = 0.25
-        self.marks[BIKE][PRATICITY] = 0.25
+        self.marks[BIKE][PRATICITY] = 0.75
         self.marks[BIKE][FAST] = 0.75
         self.marks[CAR][ECOLOGY] = 0.25
         self.marks[CAR][COMFORT] = 1

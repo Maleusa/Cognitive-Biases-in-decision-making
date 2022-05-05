@@ -1,4 +1,4 @@
-
+import copy
 from environnement import *
 from math import *
 import random
@@ -25,7 +25,7 @@ class user:
 
     def __init__(self,envir=environnement,mode=str,id=int):
         #copie du table des notes "objectives" dans le tableau bias Marks
-        self.biasMarks=envir.marks
+        #self.biasMarks=envir.marks
         #initialisation de l'identifiant de l'agent
         if id==0:
             self.ident=random.randint(0,100)
@@ -35,8 +35,8 @@ class user:
         env = envir
 
         # Initialisation des notes attribué aux différents critères de choix en fonctions des moyens des transports 
-        self.dico = env.marks.copy()
-        self.biasMarks = env.marks.copy()
+        self.dico = copy.deepcopy(env.marks.copy())
+        self.biasMarks = copy.deepcopy(env.marks.copy(                                                                ))
         
         if mode=="Manual":
         # Initialisation des poids associés aux différents critères de choix
@@ -233,16 +233,16 @@ class user:
             for key in CRITERIAS:
                
                 # print(envir.marks[mode][key])
-                self.mark[i]=float(self.mark[i]+(envir.marks[mode][key]*self.critAgent[j]))
+                self.mark[i]=float(self.mark[i]+(self.dico[mode][key]*self.critAgent[j]))
                 
                 j+=1
             
             i+=1
       
-        
+        #print(self.dico)
         # Augmentaion de la note associé au vélo et à la marche pour les agents sportifs 
 
-        if self.fitness >= 70 :
+        if self.fitness >= 95 :
             self.mark[0] = self.mark[0]*2
             self.mark[3] = self.mark[3]*2
         
@@ -375,7 +375,7 @@ class user:
         self.habits=f
     #Methode prenant en parametre deux strings  mods appartenant à LISTMOD et crit apparentant a CRITERIAS retourne la valeur de biasmMarks[mods][crit]
     def getDicoAg(self,mods=str,crit=str):
-        return self.biasMarks[mods][crit]
+        return self.dico[mods][crit]
     
     
     # Fonction permettant d'écrir dans un fichier le choix du moyen de transport avec et sans biais
@@ -391,10 +391,11 @@ class user:
     # Ici les biais
 
     def biasedResults(self,envir=environnement,mode=str):
-        print(self.mark)
-        self.mark=[0,0,0,0]
+        #print(self.mark)
+        
         self.rationalModeChoice()
         self.habitualChoice()
+        self.mark=[0,0,0,0]
         x=""
         y=""
         z=""
@@ -412,8 +413,8 @@ class user:
             while z not in ["y","n"] :
                 z=input("Do you wish to use the forbidden behavior paradigme in decision making (y)/(n) ? : ")
         else :
-            x="y"
-            y="y"
+            x="n"
+            y="n"
             z="y"
         if z=="y":
             aForbid=True
@@ -427,11 +428,18 @@ class user:
             #TODO faire un test pour determiner si on utilise le biais de confirmation ou la reactance
 
             #Confirmation en dessous
-            if self.habiChoice==BIKE :
-                #for mod in LISTMODES:
-                    #for crite in CRITERIAS:
-                        #if mod==BIKE :
-                            #self.biasMarks[mod][crit] =envir.getEnviDico(mod,crite) + random.normalvariate((envir.getEnviDico(mod,crite)/2),(envir.marks[BIKE][ECOLOGY]/4))
+            if self.habiChoice  in [BIKE,CAR,BUS,WALK] :
+                for mod in LISTMODES:
+                    for crite in CRITERIAS:
+                        if mod==self.habiChoice :
+                            self.biasMarks[mod][crite]=self.dico[mod][crite] + random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
+                        else :
+                            self.biasMarks[mod][crite]=self.dico[mod][crite] - random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
+            """if self.habiChoice==BIKE :
+                for mod in LISTMODES:
+                    for crite in CRITERIAS:
+                        if mod==BIKE :
+                            self.biasMarks[mod][crit] =envir.getEnviDico(mod,crite) + random.normalvariate((envir.getEnviDico(mod,crite)/2),(envir.marks[BIKE][ECOLOGY]/4))
                 self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY] +random.normalvariate((envir.marks[BIKE][ECOLOGY]/2),(envir.marks[BIKE][ECOLOGY]/4))
                 self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT] +random.normalvariate((envir.marks[BIKE][COMFORT]/2),(envir.marks[BIKE][COMFORT]/4))
                 self.biasMarks[BIKE][CHEAP] = envir.marks[BIKE][CHEAP] +random.normalvariate((envir.marks[BIKE][CHEAP]/2),(envir.marks[BIKE][CHEAP]/4))
@@ -533,11 +541,11 @@ class user:
                 self.biasMarks[WALK][CHEAP] = envir.marks[WALK][CHEAP]+random.normalvariate((envir.marks[WALK][CHEAP]/2),(envir.marks[WALK][CHEAP]/4))
                 self.biasMarks[WALK][SAFETY] = envir.marks[WALK][SAFETY]+random.normalvariate((envir.marks[WALK][SAFETY]/2),(envir.marks[WALK][SAFETY]/4))
                 self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY] + random.normalvariate((envir.marks[WALK][PRATICITY]/2),(envir.marks[WALK][PRATICITY]/4))
-                self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] + random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/4))
+                self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] + random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/4))"""
         
         #Biais de sous/sur estimation seul (atm juste la distance peut etre ajouter le prix)
         if aEst==True and aConf==False:
-            self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY]
+            """self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY]
             self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT]
             self.biasMarks[BIKE][CHEAP] = envir.marks[BIKE][CHEAP]
             self.biasMarks[BIKE][SAFETY] = envir.marks[BIKE][SAFETY]
@@ -547,45 +555,27 @@ class user:
             self.biasMarks[CAR][COMFORT] = envir.marks[CAR][COMFORT] 
             self.biasMarks[CAR][CHEAP] = envir.marks[CAR][CHEAP] 
             self.biasMarks[CAR][SAFETY] = envir.marks[CAR][SAFETY]
-            self.biasMarks[CAR][PRATICITY] = envir.marks[CAR][PRATICITY] 
-            self.biasMarks[CAR][FAST] = envir.marks[CAR][FAST] + random.normalvariate((envir.marks[CAR][FAST]/2),(envir.marks[CAR][FAST]/4)) #sous estimation du temps en voiture
-            self.biasMarks[BUS][ECOLOGY] = envir.marks[BUS][ECOLOGY] 
+            self.biasMarks[CAR][PRATICITY] = envir.marks[CAR][PRATICITY]"""
+            self.biasMarks[CAR][FAST] = float(self.dico[CAR][FAST]) + random.normalvariate((envir.marks[CAR][FAST]/2),(envir.marks[CAR][FAST]/4))#sous estimation du temps en voiture
+            """self.biasMarks[BUS][ECOLOGY] = envir.marks[BUS][ECOLOGY] 
             self.biasMarks[BUS][COMFORT] = envir.marks[BUS][COMFORT] 
             self.biasMarks[BUS][CHEAP] = envir.marks[BUS][CHEAP]
             self.biasMarks[BUS][SAFETY] = envir.marks[BUS][SAFETY]
-            self.biasMarks[BUS][PRATICITY] = envir.marks[BUS][PRATICITY] 
-            self.biasMarks[BUS][FAST] = envir.marks[BUS][FAST] - random.normalvariate((envir.marks[BUS][FAST]/2),(envir.marks[BUS][FAST] /4)) #sur estimation du temps en transport en commun
-            self.biasMarks[WALK][ECOLOGY] = envir.marks[WALK][ECOLOGY] 
+            self.biasMarks[BUS][PRATICITY] = envir.marks[BUS][PRATICITY] """
+            self.biasMarks[BUS][FAST] = float(self.dico[BUS][FAST]) - random.normalvariate((envir.marks[BUS][FAST]/2),(envir.marks[BUS][FAST] /4)) #sur estimation du temps en transport en commun
+            """self.biasMarks[WALK][ECOLOGY] = envir.marks[WALK][ECOLOGY] 
             self.biasMarks[WALK][COMFORT] = envir.marks[WALK][COMFORT]
             self.biasMarks[WALK][CHEAP] = envir.marks[WALK][CHEAP]
             self.biasMarks[WALK][SAFETY] = envir.marks[WALK][SAFETY]
-            self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY] 
-            self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] - random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/3)) #sur estimation du temps a pieds
+            self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY]""" 
+            self.biasMarks[WALK][FAST] = float(self.dico[WALK][FAST])- random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/3))#sur estimation du temps a pieds
         #Pareil qu'au dessus mais cette fois ci avec le biais de confirmation deja appliqué
         if aEst==True and aConf==True:
-            self.biasMarks[BIKE][ECOLOGY] = self.biasMarks[BIKE][ECOLOGY]
-            self.biasMarks[BIKE][COMFORT] = self.biasMarks[BIKE][COMFORT]
-            self.biasMarks[BIKE][CHEAP] = self.biasMarks[BIKE][CHEAP]
-            self.biasMarks[BIKE][SAFETY] = self.biasMarks[BIKE][SAFETY]
-            self.biasMarks[BIKE][PRATICITY] = self.biasMarks[BIKE][PRATICITY]
-            self.biasMarks[BIKE][FAST] = self.biasMarks[BIKE][FAST]
-            self.biasMarks[CAR][ECOLOGY] = self.biasMarks[CAR][ECOLOGY] 
-            self.biasMarks[CAR][COMFORT] = self.biasMarks[CAR][COMFORT] 
-            self.biasMarks[CAR][CHEAP] = self.biasMarks[CAR][CHEAP] 
-            self.biasMarks[CAR][SAFETY] = self.biasMarks[CAR][SAFETY]
-            self.biasMarks[CAR][PRATICITY] = self.biasMarks[CAR][PRATICITY] 
+            
             self.biasMarks[CAR][FAST] = self.biasMarks[CAR][FAST] + random.normalvariate((envir.marks[CAR][FAST]/2),(envir.marks[CAR][FAST]/4)) #sous estimation du temps en voiture
-            self.biasMarks[BUS][ECOLOGY] = self.biasMarks[BUS][ECOLOGY] 
-            self.biasMarks[BUS][COMFORT] = self.biasMarks[BUS][COMFORT] 
-            self.biasMarks[BUS][CHEAP] =self.biasMarks[BUS][CHEAP]
-            self.biasMarks[BUS][SAFETY] = self.biasMarks[BUS][SAFETY]
-            self.biasMarks[BUS][PRATICITY] = self.biasMarks[BUS][PRATICITY] 
+            
             self.biasMarks[BUS][FAST] = self.biasMarks[BUS][FAST] - random.normalvariate((envir.marks[BUS][FAST]/2),(envir.marks[BUS][FAST] /4)) #sur estimation du temps en transport en commun
-            self.biasMarks[WALK][ECOLOGY] = self.biasMarks[WALK][ECOLOGY] 
-            self.biasMarks[WALK][COMFORT] = self.biasMarks[WALK][COMFORT]
-            self.biasMarks[WALK][CHEAP] = self.biasMarks[WALK][CHEAP]
-            self.biasMarks[WALK][SAFETY] = self.biasMarks[WALK][SAFETY]
-            self.biasMarks[WALK][PRATICITY] = self.biasMarks[WALK][PRATICITY] 
+            
             self.biasMarks[WALK][FAST] = self.biasMarks[WALK][FAST] - random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/3)) #sur estimation du temps a pieds
         #Application du biais forbidden choice TODO ca big key error faut que je fasse des test
         if aForbid==True:
@@ -686,6 +676,6 @@ class user:
 
         #print("As a biased agent i chose "+choice+" has a mode of transportation.")
         self.biasChoise=choice
-        #print(self.biasMarks)
+        #print(self.dico)
         #self.updateHabits(self.biasChoise)
         #self.habitualChoice()
