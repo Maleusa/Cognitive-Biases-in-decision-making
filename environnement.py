@@ -34,8 +34,9 @@ class environnement:
     context = [None]*len(CONTEXTBOOLS)
     marks = {}
 
-    def __init__(self,randomBool = bool) -> None:
+    def __init__(self,randomBool = bool) :
         
+
         # Initialisation de la météo
         if randomBool == True :
             y = "r"
