@@ -1,10 +1,6 @@
-
-from xmlrpc.client import Boolean
+import copy
 from environnement import *
-from pickletools import markobject
-from re import A, L
 from math import *
-from typing import Iterable
 import random
 from constant import *
 
@@ -16,42 +12,39 @@ class user:
     dico = dict
     biasMarks =dict    
     ##
-    biasChoise=str # Choix biaisé de l'utilisateur
-    fitness=float # Représente le niveau sportif de l'agent 
-    means=[None]*AGENTBOOLS.__len__() # Représente les moyens de transport accessible à l'agent. Le premier booléan de la liste représente d'avoir une voiture ou non, le deuxième d'avoir un vélo ou non et le troisième d'être sur une ligne de bus ou non
-    critAgent=[None]*CRITERIAS.__len__() # Représente le niveau entre 0 et 1 de priorité de chaque critère pour l'agent (1 : crière trèsimportant pour l'agent, 0 : critère négligeable pour l'agent)
-    rationalChoice=str # Choix rationnel de l'utilisateur
-    mark = [0,0,0,0] 
-    habits = [] 
-    habiChoice= "aucun" #Choix habituel de l'user
-    env=environnement # Représente l'environnement de l'agent 
-    
+    biasChoise=str #choix biaisé de l'utilisateur
+    fitness=float
+    means=[None]*AGENTBOOLS.__len__()
+    critAgent=[None]*CRITERIAS.__len__()
+    rationalChoice=str #choix rationnel de l'utilisateur
+    mark = [0,0,0,0]
+    habits = []
+    habiChoice= str #choix habituel de l'user
+    env=environnement
     # Initialisation de l'utilsateur avec trois choix 
 
-    def __init__(self,envir=environnement,randomBool = bool,idAg=int):
+    def __init__(self,envir=environnement,mode=str,id=int):
         #copie du table des notes "objectives" dans le tableau bias Marks
-        self.biasMarks=envir.marks
-        #initialisation de l'identifiant de l'agent si jamais il n'est pas fait
-        if idAg==0:
-
+        #self.biasMarks=envir.marks
+        #initialisation de l'identifiant de l'agent
+        if id==0:
             self.ident=random.randint(0,100)
-        else :
-            self.ident=idAg
+        else:
+            self.ident=id
         # initialisation de l'environnement de l'agent 
         env = envir
 
         # Initialisation des notes attribué aux différents critères de choix en fonctions des moyens des transports 
-        self.dico = env.marks.copy()
-        self.biasMarks = env.marks.copy()
+        self.dico = copy.deepcopy(env.marks.copy())
+        self.biasMarks = copy.deepcopy(env.marks.copy(                                                                ))
         
-        if randomBool == True :
-            x = "r"
-        if randomBool == False :
+        if mode=="Manual":
         # Initialisation des poids associés aux différents critères de choix
-            x = input("Agent priorities by (u)ser input, (r)andom or (f)ile input? : ")
-            while x not in ["u","f","r"]:
-                x = input("(u)ser agent priorities,(f)ile or (r)andom ? : ")
-
+            x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
+            while x not in ["u","r","f"]:
+                x = input("(u)ser agent priorities or (r)andom ? : ")
+        else:
+            x="r"
 
         # Initialisation d'un agent par input via la console 
         if x == "u": 
@@ -86,7 +79,7 @@ class user:
                 x=float(input("Am i fit on a scale from 0 to 100 ? :"))
         
             self.fitness=x
-            #self.saveAgent()
+            self.saveAgent()
 
         # Initialisation d'un agent par le hasard   
         if x=="r" : 
@@ -99,13 +92,13 @@ class user:
                 self.means[cpt]=random.choice([True,False])
                 cpt+=1
             self.fitness=random.randint(0,100)
-            #self.saveAgent()
+            self.saveAgent()
 
         # Initialisation d'un agent en lisant un fichier
         if x=="f":
-            id=int(input("Please input the agent number between 0 and 100 ? : "))
+            id=int(input("Please input the agent number between 0 and 100"))
             while id<0 or id>100:
-                id=int(input("Please input the agent number between 0 and 100 ? : "))
+                id=int(input("Please input the agent number between 0 and 100"))
             self.ident=id
             agent=open("agent/Agent"+str(id)+".txt","r")
             f=agent.readlines()
@@ -122,37 +115,32 @@ class user:
                 else: self.means[cpt]=False
                 cpt+=1
             self.fitness=float(f[11])
-        
         ##Initialisation des habitudes
-        if randomBool == True :
-            y = "s"
-            z = "r"
-            h = int(random.normalvariate(1000,10))
-            #print(h)
-
-        else :
+        y="a"
+        if mode=="Manual":
             y= input("Do you want to use the (h)abits file as is,(e)rase it or erase it and create a (s)et of habits ? :")
             while y not in ["h","e","s"] :
                 y= input("Do you want to use the (h)abits file as is,(e)rase it or erase it and create a (s)et of habits ? :")
-            #On efface le fichier habits.txt
+        #On efface le fichier habits.txt
         if y=="e":
             self.refreshHabits()
-        
+        if y=="a":
+              
+            for i in range(1000):
+                habits = open("habits/habits"+str(self.ident)+".txt","a")
+                n=random.randint(0,3)
+                habits.write(LISTMODES[n]+" ")
+                for j in range(len(CONTEXTBOOLS)) :
+                    random_bit = random.getrandbits(1)
+                    habits.write(str(bool(random_bit))+" ")
+                habits.write("\n")
         if y=="s":
-
-            # Remet à zéro les habitudes 
             self.refreshHabits()
-
-            # Si l'agent n'est pas créé en random, on demande si l'utilisateur veut utiliser un set de données randomisé ou les rentrer à la main 
-            if randomBool == False :
+            z=input("Do you want to (r)andomize a certain number of habits or (e)nter them by hand ? : ")
+            while z not in ["r","e"]:
                 z=input("Do you want to (r)andomize a certain number of habits or (e)nter them by hand ? : ")
-                while z not in ["r","e"]:
-                    z=input("Do you want to (r)andomize a certain number of habits or (e)nter them by hand ? : ")
-                
-                # Permet de définir le nombre d'habtude de l'agent 
-                h=int(input ("How many habits would you like to create ? :"))
-
-            # Création  de h habitudes randomisées    
+            h=int(input ("How many habits would you like to create ? :"))
+            
             if z=="r":
                 
                 for i in range(h):
@@ -163,9 +151,6 @@ class user:
                         random_bit = random.getrandbits(1)
                         habits.write(str(bool(random_bit))+" ")
                     habits.write("\n")
-            
-
-            # Création de h habitudes à la main par l'utilisateur 
             if z=="e":
                 for i in range(h):
                     m=input("Did i use a (0)bike, (1)car, (2)bus or did i (3)walk ? : ")
@@ -186,6 +171,45 @@ class user:
 
 
 
+        # Mise à 0 des notes correspondants à des moyens de transport inaccessibles pour l'agent (changement de méthode pour le traitement des modes inaccessible)
+        """if self.means[0]==False or self.fitness < 20:
+            self.dico[BIKE][ECOLOGY] = 0
+            self.dico[BIKE][COMFORT] = 0
+            self.dico[BIKE][CHEAP] = 0
+            self.dico[BIKE][SAFETY] = 0
+            self.dico[BIKE][PRATICITY] = 0
+            self.dico[BIKE][FAST] = 0
+
+        if self.means[1]==False:
+            self.dico[CAR][ECOLOGY] = 0
+            self.dico[CAR][COMFORT] = 0
+            self.dico[CAR][CHEAP] = 0
+            self.dico[CAR][SAFETY] = 0
+            self.dico[CAR][PRATICITY] = 0
+            self.dico[CAR][FAST] = 0
+
+        if self.means[2]==False:
+            self.dico[BUS][ECOLOGY] = 0
+            self.dico[BUS][COMFORT] = 0
+            self.dico[BUS][CHEAP] = 0
+            self.dico[BUS][SAFETY] = 0
+            self.dico[BUS][PRATICITY] = 0
+            self.dico[BUS][FAST] = 0
+
+        if self.fitness < 10:
+            self.dico[WALK][ECOLOGY] = 0
+            self.dico[WALK][COMFORT] = 0
+            self.dico[WALK][CHEAP] = 0
+            self.dico[WALK][SAFETY] = 0
+            self.dico[WALK][PRATICITY] = 0
+            self.dico[WALK][FAST] = 0"""
+        
+        
+
+        # test print(self.dico)
+
+
+
     # Fonction de sauvegarde de l'agent dans un fichier      
     def saveAgent(self):
         agent = open("agent/Agent"+str(self.ident)+".txt","w")
@@ -200,7 +224,7 @@ class user:
     def rationalModeChoice(self,envir=environnement):
         #CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]  
         #LISTMODES = [BIKE,CAR,BUS,WALK]
-
+        self.mark=[0,0,0,0]
         # Notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
         for mode in LISTMODES:
@@ -209,13 +233,13 @@ class user:
             for key in CRITERIAS:
                
                 # print(envir.marks[mode][key])
-                self.mark[i]=self.mark[i]+(envir.marks[mode][key]*self.critAgent[j])
+                self.mark[i]=float(self.mark[i]+(self.dico[mode][key]*self.critAgent[j]))
                 
                 j+=1
             
             i+=1
       
-        
+        #print(self.dico)
         # Augmentaion de la note associé au vélo et à la marche pour les agents sportifs 
 
         if self.fitness >= 95 :
@@ -255,15 +279,16 @@ class user:
                 for k in range(0,len(self.mark)):
             
                     if (float(self.mark[k])>markmax) :
+                        #print(str(self.mark[k]) + "ma note")
                         markmax = float(self.mark[k])
+                        #print(str(markmax) + "note max")
                         indexMarkMax = k
             n=-1
 
         choice = LISTMODES[indexMarkMax]
 
         #print("If i was a rationnal agent i would have chosen "+choice+" has a mode of transportation.")
-      
-        return choice
+        self.rationalChoice=choice
 
     # Fonction de choix habituel 
     def habitualChoice(self):
@@ -298,7 +323,7 @@ class user:
 
         rand=float(random.randint(0,100)/100)
 
-        
+        #Ca marche print(len(weightMod))
 
         for i in range(len(weightMod)):
             #test print(rand)
@@ -350,7 +375,7 @@ class user:
         self.habits=f
     #Methode prenant en parametre deux strings  mods appartenant à LISTMOD et crit apparentant a CRITERIAS retourne la valeur de biasmMarks[mods][crit]
     def getDicoAg(self,mods=str,crit=str):
-        return self.biasMarks[mods][crit]
+        return self.dico[mods][crit]
     
     
     # Fonction permettant d'écrir dans un fichier le choix du moyen de transport avec et sans biais
@@ -362,16 +387,22 @@ class user:
         res.write("Rationnal choice : "+self.rationalChoice+"\n")
         res.write("Biased choice : "+ self.biasChoise+"\n \n")
         res.close()
-    
 
     # Ici les biais
 
-    def biasedResults(self,envir=environnement,randomBool = bool, confirmation = False, forbidden = False, estimation = False):
-        self.rationalChoice=self.rationalModeChoice()
+    def biasedResults(self,envir=environnement,mode=str):
+        #print(self.mark)
+        
+        self.rationalModeChoice()
         self.habitualChoice()
-       
-
-        if randomBool == False :
+        self.mark=[0,0,0,0]
+        x=""
+        y=""
+        z=""
+        aForbid=False
+        aConf=False
+        aEst=False
+        if mode=="Manual":
             x=input("Do you wish to use confirmation bias / reactance in decision making (y/n) ? :")
             while x not in ["y","n"] :
                 x=input("Do you wish to use confirmation bias / reactance in decision making (y/n) ? :")
@@ -381,60 +412,19 @@ class user:
             z=input("Do you wish to use the forbidden behavior paradigme in decision making (y)/(n) ? : ")
             while z not in ["y","n"] :
                 z=input("Do you wish to use the forbidden behavior paradigme in decision making (y)/(n) ? : ")
+        else :
+            x="n"
+            y="n"
+            z="y"
+        if z=="y":
+            aForbid=True
+        if x=="y":
+            aConf=True
+        if y=="y":
+            aEst=True
         
-
-            if z=="y":
-                forbidden=True
-            if x=="y":
-                confirmation=True
-            if y=="y":
-                estimation=True
-  #Application du biais forbidden choice 
-        if forbidden==True:
-            cpt=0
-            #CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
-            if self.habiChoice==BIKE:
-               
-                for crit in CRITERIAS:
-                    #print(crit)
-                    if (envir.marks[BIKE][crit]>=0.5):
-                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
-                    else :
-                        if (envir.marks[BIKE][crit]<0.5):
-                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
-                            cpt+=1
-            if self.habiChoice==CAR:
-                for crit in CRITERIAS:
-                    #print(crit)
-                    if (envir.marks[CAR][crit]>=0.5):
-                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
-                    else :
-                        if (envir.marks[CAR][crit]<0.5):
-                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
-                    cpt+=1
-            if self.habiChoice==BUS:
-                for crit in CRITERIAS:
-                    #print(crit)
-                    if (envir.marks[BUS][crit]>=0.5):
-                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
-                    else :
-                        if float(envir.marks[BUS][crit])<0.5:
-                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
-                    cpt+=1
-            if self.habiChoice==WALK:
-                for crit in CRITERIAS:
-                    #print(crit)
-                    if (envir.marks[WALK][crit]>=0.5):
-                       self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
-                    else :
-                        if float(envir.marks[WALK][crit])<0.5:
-                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
-                    cpt+=1
-            self.saveAgent()
-            self.biasChoise=self.rationalModeChoice()
-
         #TODO Maths des deux biais en modifian les valeurs soit de nos preference (forbidden behavior paradigme), soit de nos notes biaisé pour les autres dans le dict self.biasMarks 
-        if confirmation==True:
+        if aConf==True:
             #TODO faire un test pour determiner si on utilise le biais de confirmation ou la reactance
 
             #Confirmation en dessous
@@ -442,11 +432,15 @@ class user:
                 for mod in LISTMODES:
                     for crite in CRITERIAS:
                         if mod==self.habiChoice :
-                            self.biasMarks[mod][crite]=envir.marks[mod][crite] + random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
+                            self.biasMarks[mod][crite]=self.dico[mod][crite] + random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
                         else :
-                            self.biasMarks[mod][crite]=envir.marks[mod][crite] - random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
-                #En dessous version sale du calcul d'au dessus        
-                """self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY] +random.normalvariate((envir.marks[BIKE][ECOLOGY]/2),(envir.marks[BIKE][ECOLOGY]/4))
+                            self.biasMarks[mod][crite]=self.dico[mod][crite] - random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
+            """if self.habiChoice==BIKE :
+                for mod in LISTMODES:
+                    for crite in CRITERIAS:
+                        if mod==BIKE :
+                            self.biasMarks[mod][crit] =envir.getEnviDico(mod,crite) + random.normalvariate((envir.getEnviDico(mod,crite)/2),(envir.marks[BIKE][ECOLOGY]/4))
+                self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY] +random.normalvariate((envir.marks[BIKE][ECOLOGY]/2),(envir.marks[BIKE][ECOLOGY]/4))
                 self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT] +random.normalvariate((envir.marks[BIKE][COMFORT]/2),(envir.marks[BIKE][COMFORT]/4))
                 self.biasMarks[BIKE][CHEAP] = envir.marks[BIKE][CHEAP] +random.normalvariate((envir.marks[BIKE][CHEAP]/2),(envir.marks[BIKE][CHEAP]/4))
                 self.biasMarks[BIKE][SAFETY] = envir.marks[BIKE][SAFETY]+random.normalvariate((envir.marks[BIKE][SAFETY]/2),(envir.marks[BIKE][SAFETY]/4))
@@ -550,8 +544,8 @@ class user:
                 self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] + random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/4))"""
         
         #Biais de sous/sur estimation seul (atm juste la distance peut etre ajouter le prix)
-        if estimation==True and confirmation==False:
-            self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY]
+        if aEst==True and aConf==False:
+            """self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY]
             self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT]
             self.biasMarks[BIKE][CHEAP] = envir.marks[BIKE][CHEAP]
             self.biasMarks[BIKE][SAFETY] = envir.marks[BIKE][SAFETY]
@@ -561,48 +555,70 @@ class user:
             self.biasMarks[CAR][COMFORT] = envir.marks[CAR][COMFORT] 
             self.biasMarks[CAR][CHEAP] = envir.marks[CAR][CHEAP] 
             self.biasMarks[CAR][SAFETY] = envir.marks[CAR][SAFETY]
-            self.biasMarks[CAR][PRATICITY] = envir.marks[CAR][PRATICITY] 
-            self.biasMarks[CAR][FAST] = envir.marks[CAR][FAST] + random.normalvariate((envir.marks[CAR][FAST]/2),(envir.marks[CAR][FAST]/4)) #sous estimation du temps en voiture
-            self.biasMarks[BUS][ECOLOGY] = envir.marks[BUS][ECOLOGY] 
+            self.biasMarks[CAR][PRATICITY] = envir.marks[CAR][PRATICITY]"""
+            self.biasMarks[CAR][FAST] = float(self.dico[CAR][FAST]) + random.normalvariate((envir.marks[CAR][FAST]/2),(envir.marks[CAR][FAST]/4))#sous estimation du temps en voiture
+            """self.biasMarks[BUS][ECOLOGY] = envir.marks[BUS][ECOLOGY] 
             self.biasMarks[BUS][COMFORT] = envir.marks[BUS][COMFORT] 
             self.biasMarks[BUS][CHEAP] = envir.marks[BUS][CHEAP]
             self.biasMarks[BUS][SAFETY] = envir.marks[BUS][SAFETY]
-            self.biasMarks[BUS][PRATICITY] = envir.marks[BUS][PRATICITY] 
-            self.biasMarks[BUS][FAST] = envir.marks[BUS][FAST] - random.normalvariate((envir.marks[BUS][FAST]/2),(envir.marks[BUS][FAST] /4)) #sur estimation du temps en transport en commun
-            self.biasMarks[WALK][ECOLOGY] = envir.marks[WALK][ECOLOGY] 
+            self.biasMarks[BUS][PRATICITY] = envir.marks[BUS][PRATICITY] """
+            self.biasMarks[BUS][FAST] = float(self.dico[BUS][FAST]) - random.normalvariate((envir.marks[BUS][FAST]/2),(envir.marks[BUS][FAST] /4)) #sur estimation du temps en transport en commun
+            """self.biasMarks[WALK][ECOLOGY] = envir.marks[WALK][ECOLOGY] 
             self.biasMarks[WALK][COMFORT] = envir.marks[WALK][COMFORT]
             self.biasMarks[WALK][CHEAP] = envir.marks[WALK][CHEAP]
             self.biasMarks[WALK][SAFETY] = envir.marks[WALK][SAFETY]
-            self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY] 
-            self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] - random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/3)) #sur estimation du temps a pieds
+            self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY]""" 
+            self.biasMarks[WALK][FAST] = float(self.dico[WALK][FAST])- random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/3))#sur estimation du temps a pieds
         #Pareil qu'au dessus mais cette fois ci avec le biais de confirmation deja appliqué
-        if estimation==True and confirmation==True:
-            self.biasMarks[BIKE][ECOLOGY] = self.biasMarks[BIKE][ECOLOGY]
-            self.biasMarks[BIKE][COMFORT] = self.biasMarks[BIKE][COMFORT]
-            self.biasMarks[BIKE][CHEAP] = self.biasMarks[BIKE][CHEAP]
-            self.biasMarks[BIKE][SAFETY] = self.biasMarks[BIKE][SAFETY]
-            self.biasMarks[BIKE][PRATICITY] = self.biasMarks[BIKE][PRATICITY]
-            self.biasMarks[BIKE][FAST] = self.biasMarks[BIKE][FAST]
-            self.biasMarks[CAR][ECOLOGY] = self.biasMarks[CAR][ECOLOGY] 
-            self.biasMarks[CAR][COMFORT] = self.biasMarks[CAR][COMFORT] 
-            self.biasMarks[CAR][CHEAP] = self.biasMarks[CAR][CHEAP] 
-            self.biasMarks[CAR][SAFETY] = self.biasMarks[CAR][SAFETY]
-            self.biasMarks[CAR][PRATICITY] = self.biasMarks[CAR][PRATICITY] 
+        if aEst==True and aConf==True:
+            
             self.biasMarks[CAR][FAST] = self.biasMarks[CAR][FAST] + random.normalvariate((envir.marks[CAR][FAST]/2),(envir.marks[CAR][FAST]/4)) #sous estimation du temps en voiture
-            self.biasMarks[BUS][ECOLOGY] = self.biasMarks[BUS][ECOLOGY] 
-            self.biasMarks[BUS][COMFORT] = self.biasMarks[BUS][COMFORT] 
-            self.biasMarks[BUS][CHEAP] =self.biasMarks[BUS][CHEAP]
-            self.biasMarks[BUS][SAFETY] = self.biasMarks[BUS][SAFETY]
-            self.biasMarks[BUS][PRATICITY] = self.biasMarks[BUS][PRATICITY] 
+            
             self.biasMarks[BUS][FAST] = self.biasMarks[BUS][FAST] - random.normalvariate((envir.marks[BUS][FAST]/2),(envir.marks[BUS][FAST] /4)) #sur estimation du temps en transport en commun
-            self.biasMarks[WALK][ECOLOGY] = self.biasMarks[WALK][ECOLOGY] 
-            self.biasMarks[WALK][COMFORT] = self.biasMarks[WALK][COMFORT]
-            self.biasMarks[WALK][CHEAP] = self.biasMarks[WALK][CHEAP]
-            self.biasMarks[WALK][SAFETY] = self.biasMarks[WALK][SAFETY]
-            self.biasMarks[WALK][PRATICITY] = self.biasMarks[WALK][PRATICITY] 
+            
             self.biasMarks[WALK][FAST] = self.biasMarks[WALK][FAST] - random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/3)) #sur estimation du temps a pieds
-      
-        
+        #Application du biais forbidden choice TODO ca big key error faut que je fasse des test
+        if aForbid==True:
+            cpt=0
+            #CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
+            if self.habiChoice==BIKE:
+               
+                for crit in CRITERIAS:
+                    #print(crit)
+                    if (envir.marks[BIKE][crit]>=0.5):
+                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
+                    else :
+                        if (envir.marks[BIKE][crit]<0.5):
+                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
+                            cpt+=1
+            if self.habiChoice==CAR:
+                for crit in CRITERIAS:
+                    #print(crit)
+                    if (envir.marks[CAR][crit]>=0.5):
+                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
+                    else :
+                        if (envir.marks[CAR][crit]<0.5):
+                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
+                    cpt+=1
+            if self.habiChoice==BUS:
+                for crit in CRITERIAS:
+                    #print(crit)
+                    if (envir.marks[BUS][crit]>=0.5):
+                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
+                    else :
+                        if float(envir.marks[BUS][crit])<0.5:
+                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
+                    cpt+=1
+            if self.habiChoice==WALK:
+                for crit in CRITERIAS:
+                    #print(crit)
+                    if (envir.marks[WALK][crit]>=0.5):
+                       self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
+                    else :
+                        if float(envir.marks[WALK][crit])<0.5:
+                            self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
+                    cpt+=1
+            #self.saveAgent()
 
         # Notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
@@ -611,7 +627,7 @@ class user:
             j=0
             for key in CRITERIAS:
                
-                self.mark[i]=self.mark[i]+(self.biasMarks[mode][key]*self.critAgent[j])
+                self.mark[i]=float(self.mark[i]+(self.biasMarks[mode][key]*self.critAgent[j]))
                 
                 j+=1
             
@@ -660,5 +676,6 @@ class user:
 
         #print("As a biased agent i chose "+choice+" has a mode of transportation.")
         self.biasChoise=choice
+        #print(self.dico)
         #self.updateHabits(self.biasChoise)
-        self.habitualChoice()
+        #self.habitualChoice()

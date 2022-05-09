@@ -1,5 +1,4 @@
-from multiprocessing import context
-from random import random
+
 from constant import *
 # Variable représentants le contexte 
 gasPriceStandart=1.7 # Prix SP95 le 14/04/2022
@@ -34,31 +33,16 @@ class environnement:
     context = [None]*len(CONTEXTBOOLS)
     marks = {}
 
-    def __init__(self,randomBool = bool) :
+    def __init__(self) :
         
 
         # Initialisation de la météo
-        if randomBool == True :
-            y = "r"
-        
-        if randomBool == False :
-            y = "u"
-       
-
         cpt = 0 
         for elem in CONTEXTBOOLS:
-            if y == "u" :
+            answer = input(elem + " ? (y/n) : ")
+            while answer not in ["y","n"]:
                 answer = input(elem + " ? (y/n) : ")
-                while answer not in ["y","n"]:
-                    answer = input(elem + " ? (y/n) : ")
-                self.context[cpt] = (answer == "y")
-
-            if y == "r" :
-                rd = random()
-                if rd <= 0.5 :
-                    self.context[cpt] = True
-                else :
-                     self.context[cpt] = False
+            self.context[cpt] = (answer == "y")
             cpt += 1
         
 
@@ -70,11 +54,11 @@ class environnement:
                 self.marks[mode][crit]=0
 
         # Notes objectives 
-        self.marks[BIKE][ECOLOGY] = 0.75
+        self.marks[BIKE][ECOLOGY] = 1
         self.marks[BIKE][COMFORT] = 0.25
-        self.marks[BIKE][CHEAP] = 0.75
+        self.marks[BIKE][CHEAP] = 1
         self.marks[BIKE][SAFETY] = 0.25
-        self.marks[BIKE][PRATICITY] = 0.25
+        self.marks[BIKE][PRATICITY] = 0.75
         self.marks[BIKE][FAST] = 0.75
         self.marks[CAR][ECOLOGY] = 0.25
         self.marks[CAR][COMFORT] = 1
@@ -99,13 +83,10 @@ class environnement:
 
         # Initailisation des variables de context
         # L'utilisateur peut choisir d'utiliser les variables de contextes par défault ou de les rentrer soit même dans la console
-        if randomBool == False :
-            x = input("(s)tandart context variables,(r)andom or (u)ser input ? : ")
-            while x not in ["u","s","r"]:
-                x = input("(s)tandart context variables,(r)andom or (u)ser input ? : ")
 
-        if randomBool == True :
-            x = "s"
+        x = input("(s)tandart context variables or (u)ser input ? : ")
+        while x not in ["u","s"]:
+            x = input("(s)tandart context variables or (u)ser input ? : ")
         
         if x == "s":
             self.gasPrice=gasPriceStandart
@@ -132,6 +113,7 @@ class environnement:
             self.marksVariable()
         
         self.marksWeather()
+        print(self.marks)
         
        
 
@@ -183,14 +165,10 @@ class environnement:
             self.marks[WALK][SAFETY] =  self.marks[WALK][SAFETY]/2
             self.marks[CAR][SAFETY] = self.marks[CAR][SAFETY]/2
 
-        # Modification des notes liées au fait d'habiter dans une ville 
-        # Si l'agent habite dans une ville, l'usage de la voiture devient moins rapide et moins pratique
         if self.context[3] == True :
             self.marks[CAR][FAST] = self.marks[CAR][FAST]/2
             self.marks[CAR][PRATICITY] = self.marks[CAR][PRATICITY]/2
-
-        # Modification des notes liées à l'utilisation en heure de pointe
-        # Si nous sommes en heure de pointe, l'usage de la voiture devient moins rapide
+        
         if self.context[4] == True :
             self.marks[CAR][FAST] = self.marks[CAR][FAST]/2
 
@@ -218,3 +196,4 @@ class environnement:
         self.busSpeed=float(input("bus Speed ? "))
         self.marksVariable()
         self.marksWeather()
+        
