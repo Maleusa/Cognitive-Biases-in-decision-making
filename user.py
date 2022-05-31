@@ -24,8 +24,7 @@ class user:
     # Initialisation de l'utilsateur avec trois choix 
 
     def __init__(self,envir=environnement,mode=str,id=int):
-        #copie du table des notes "objectives" dans le tableau bias Marks
-        #self.biasMarks=envir.marks
+        
         #initialisation de l'identifiant de l'agent
         if id==0:
             self.ident=random.randint(0,100)
@@ -104,7 +103,7 @@ class user:
             f=agent.readlines()
             for lines in range(len(f)):
                 f[lines]=f[lines].strip('\n')
-            # Ceci etait un test print(f)
+            
             cpt=0
             for crit in CRITERIAS:
                 self.critAgent[cpt]=float(f[cpt])
@@ -171,43 +170,10 @@ class user:
 
 
 
-        # Mise à 0 des notes correspondants à des moyens de transport inaccessibles pour l'agent (changement de méthode pour le traitement des modes inaccessible)
-        """if self.means[0]==False or self.fitness < 20:
-            self.dico[BIKE][ECOLOGY] = 0
-            self.dico[BIKE][COMFORT] = 0
-            self.dico[BIKE][CHEAP] = 0
-            self.dico[BIKE][SAFETY] = 0
-            self.dico[BIKE][PRATICITY] = 0
-            self.dico[BIKE][FAST] = 0
-
-        if self.means[1]==False:
-            self.dico[CAR][ECOLOGY] = 0
-            self.dico[CAR][COMFORT] = 0
-            self.dico[CAR][CHEAP] = 0
-            self.dico[CAR][SAFETY] = 0
-            self.dico[CAR][PRATICITY] = 0
-            self.dico[CAR][FAST] = 0
-
-        if self.means[2]==False:
-            self.dico[BUS][ECOLOGY] = 0
-            self.dico[BUS][COMFORT] = 0
-            self.dico[BUS][CHEAP] = 0
-            self.dico[BUS][SAFETY] = 0
-            self.dico[BUS][PRATICITY] = 0
-            self.dico[BUS][FAST] = 0
-
-        if self.fitness < 10:
-            self.dico[WALK][ECOLOGY] = 0
-            self.dico[WALK][COMFORT] = 0
-            self.dico[WALK][CHEAP] = 0
-            self.dico[WALK][SAFETY] = 0
-            self.dico[WALK][PRATICITY] = 0
-            self.dico[WALK][FAST] = 0"""
         
         
 
-        # test print(self.dico)
-
+        
 
 
     # Fonction de sauvegarde de l'agent dans un fichier      
@@ -222,8 +188,7 @@ class user:
 
     # Methode retournant le choix rationel d'un agent
     def rationalModeChoice(self,envir=environnement):
-        #CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]  
-        #LISTMODES = [BIKE,CAR,BUS,WALK]
+        
         self.mark=[0,0,0,0]
         # Notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
@@ -232,7 +197,7 @@ class user:
             j=0
             for key in CRITERIAS:
                
-                # print(envir.marks[mode][key])
+                
                 self.mark[i]=float(self.mark[i]+(self.dico[mode][key]*self.critAgent[j]))
                 
                 j+=1
@@ -249,7 +214,7 @@ class user:
 
 
         
-        #TODO Sortir la note la plus haute et c'est elle qui indique le mode choisis rationement
+        
         markmax = 0
         indexMarkMax = 0
         k=0
@@ -258,9 +223,7 @@ class user:
         for k in range(0,len(self.mark)):
             
             if (float(self.mark[k])>markmax) :
-                # Test print(str(self.mark[k]) + "ma note")
                 markmax = float(self.mark[k])
-                # Test print(str(markmax) + "note max")
                 indexMarkMax = k
                 
         choice = LISTMODES[indexMarkMax]
@@ -279,14 +242,13 @@ class user:
                 for k in range(0,len(self.mark)):
             
                     if (float(self.mark[k])>markmax) :
-                        #print(str(self.mark[k]) + "ma note")
+                        
                         markmax = float(self.mark[k])
-                        #print(str(markmax) + "note max")
                         indexMarkMax = k
             n=-1
 
         choice = LISTMODES[indexMarkMax]
-
+        #print qui peut etre de commenté en mode un seul agent
         #print("If i was a rationnal agent i would have chosen "+choice+" has a mode of transportation.")
         self.rationalChoice=choice
 
@@ -299,8 +261,8 @@ class user:
             cont=cont+str(bool)+" "        # Initialisation du context actuelle
             
         
-        for lines in range(len(self.habits)) : # Initialisation du tableau weightMod qui determine combien de fois on as fait le choix n sit les circonstances étaient similiares
-             #test print(self.habits[lines].split(' ', 1)[1])
+        for lines in range(len(self.habits)) : # Initialisation du tableau weightMod qui determine combien de fois on as fait le choix n si les circonstances étaient similiares
+             
              if self.habits[lines].split(' ', 1)[1] == cont :
                  if self.habits[lines].split(' ', 1)[0] == BIKE :
                      weightMod[0]=weightMod[0]+1
@@ -311,9 +273,8 @@ class user:
                  if self.habits[lines].split(' ', 1)[0] == WALK:
                      weightMod[3]=weightMod[3]+1
         totweight=weightMod[0]+weightMod[1]+weightMod[2]+weightMod[3]
-        #test print(weightMod)
+        
         if totweight==0:
-            #print("I have no usual behavior for this specific environement")
             return
         for i in range(len(weightMod)):
             weightMod[i]=weightMod[i]/totweight
@@ -323,17 +284,16 @@ class user:
 
         rand=float(random.randint(0,100)/100)
 
-        #Ca marche print(len(weightMod))
+        
 
         for i in range(len(weightMod)):
-            #test print(rand)
+           
             if rand<weightMod[i]:
                 choice=LISTMODES[i]
-                #test print(choice)
                 self.habiChoice=choice
                 break
             
-        #test print(self.habiChoice)
+        #On peut activer le print ci dessous en mode agent unique
         #print("In the contexte that i am in if i follow my usual behavior i will choose "+self.habiChoice+" as a mode of transportation")
         # si jamais on veut ajouter le choix habituel self.updateHabits(self.habiChoice)
         
@@ -388,10 +348,10 @@ class user:
         res.write("Biased choice : "+ self.biasChoise+"\n \n")
         res.close()
 
-    # Ici les biais
+    # Ici les biais, en mode manual c'est cette fonction qui propose quels biais on desire activer en mode automatique c'est dans le main rand que l'on determine cela
 
-    def biasedResults(self,envir=environnement,mode=str):
-        #print(self.mark)
+    def biasedResults(self,envir=environnement,mode=str,estimation=bool,confirmation=bool,forbidden=bool):
+        
         
         self.rationalModeChoice()
         self.habitualChoice()
@@ -412,18 +372,19 @@ class user:
             z=input("Do you wish to use the forbidden behavior paradigme in decision making (y)/(n) ? : ")
             while z not in ["y","n"] :
                 z=input("Do you wish to use the forbidden behavior paradigme in decision making (y)/(n) ? : ")
+            if z=="y":
+             aForbid=True
+            if x=="y":
+             aConf=True
+            if y=="y":
+             aEst=True
         else :
-            x="y"
-            y="n"
-            z="n"
-        if z=="y":
-            aForbid=True
-        if x=="y":
-            aConf=True
-        if y=="y":
-            aEst=True
+            aForbid=forbidden
+            aConf=confirmation
+            aEst=estimation
         
-        #TODO Maths des deux biais en modifian les valeurs soit de nos preference (forbidden behavior paradigme), soit de nos notes biaisé pour les autres dans le dict self.biasMarks 
+        
+        
         if aConf==True:
             #TODO faire un test pour determiner si on utilise le biais de confirmation ou la reactance
 
@@ -435,123 +396,9 @@ class user:
                             self.biasMarks[mod][crite]=self.dico[mod][crite] + random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
                         else :
                             self.biasMarks[mod][crite]=self.dico[mod][crite] - random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
-           
-           
-           
-           
-           
-           
-           """if self.habiChoice==BIKE :
-                for mod in LISTMODES:
-                    for crite in CRITERIAS:
-                        if mod==BIKE :
-                            self.biasMarks[mod][crit] =envir.getEnviDico(mod,crite) + random.normalvariate((envir.getEnviDico(mod,crite)/2),(envir.marks[BIKE][ECOLOGY]/4))
-                self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY] +random.normalvariate((envir.marks[BIKE][ECOLOGY]/2),(envir.marks[BIKE][ECOLOGY]/4))
-                self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT] +random.normalvariate((envir.marks[BIKE][COMFORT]/2),(envir.marks[BIKE][COMFORT]/4))
-                self.biasMarks[BIKE][CHEAP] = envir.marks[BIKE][CHEAP] +random.normalvariate((envir.marks[BIKE][CHEAP]/2),(envir.marks[BIKE][CHEAP]/4))
-                self.biasMarks[BIKE][SAFETY] = envir.marks[BIKE][SAFETY]+random.normalvariate((envir.marks[BIKE][SAFETY]/2),(envir.marks[BIKE][SAFETY]/4))
-                self.biasMarks[BIKE][PRATICITY] = envir.marks[BIKE][PRATICITY] +random.normalvariate((envir.marks[BIKE][PRATICITY]/2),(envir.marks[BIKE][PRATICITY]/4))
-                self.biasMarks[BIKE][FAST] = envir.marks[BIKE][FAST]+random.normalvariate((envir.marks[BIKE][FAST]/2),(envir.marks[BIKE][FAST]/4))
-                self.biasMarks[CAR][ECOLOGY] = envir.marks[CAR][ECOLOGY] - random.normalvariate((envir.marks[CAR][ECOLOGY]/2),(envir.marks[CAR][ECOLOGY]/4)) #Ici on genere du bruit avec un float entre 0 et la valeur objective de la note selon une repartition normal avec pour moyenne note/2 et et note/4 (estimation a la louche)
-                self.biasMarks[CAR][COMFORT] = envir.marks[CAR][COMFORT] -random.normalvariate((envir.marks[CAR][COMFORT]/2),(envir.marks[CAR][COMFORT] /4))
-                self.biasMarks[CAR][CHEAP] = envir.marks[CAR][CHEAP] - random.normalvariate((envir.marks[CAR][CHEAP]/2),(envir.marks[CAR][CHEAP]/4))
-                self.biasMarks[CAR][SAFETY] = envir.marks[CAR][SAFETY]- random.normalvariate((envir.marks[CAR][SAFETY]/2),(envir.marks[CAR][SAFETY]/4))
-                self.biasMarks[CAR][PRATICITY] = envir.marks[CAR][PRATICITY] - random.normalvariate((envir.marks[CAR][PRATICITY]/2),(envir.marks[CAR][PRATICITY]/4))
-                self.biasMarks[CAR][FAST] = envir.marks[CAR][FAST] - random.normalvariate((envir.marks[CAR][FAST]/2),(envir.marks[CAR][FAST]/4))
-                self.biasMarks[BUS][ECOLOGY] = envir.marks[BUS][ECOLOGY] - random.normalvariate((envir.marks[BUS][ECOLOGY]/2),(envir.marks[BUS][ECOLOGY]/4))
-                self.biasMarks[BUS][COMFORT] = envir.marks[BUS][COMFORT] - random.normalvariate((envir.marks[BUS][COMFORT]/2),(envir.marks[BUS][COMFORT]/4))
-                self.biasMarks[BUS][CHEAP] = envir.marks[BUS][CHEAP] - random.normalvariate((envir.marks[BUS][CHEAP]/2),(envir.marks[BUS][CHEAP]/4))
-                self.biasMarks[BUS][SAFETY] = envir.marks[BUS][SAFETY] - random.normalvariate((envir.marks[BUS][SAFETY]/2),(envir.marks[BUS][SAFETY]/4))
-                self.biasMarks[BUS][PRATICITY] = envir.marks[BUS][PRATICITY] - random.normalvariate((envir.marks[BUS][PRATICITY]/2 ),(envir.marks[BUS][PRATICITY]/4 ))
-                self.biasMarks[BUS][FAST] = envir.marks[BUS][FAST] - random.normalvariate((envir.marks[BUS][FAST]/2),(envir.marks[BUS][FAST] /4))
-                self.biasMarks[WALK][ECOLOGY] = envir.marks[WALK][ECOLOGY] -random.normalvariate((envir.marks[WALK][ECOLOGY]/2),(envir.marks[WALK][ECOLOGY]/4))
-                self.biasMarks[WALK][COMFORT] = envir.marks[WALK][COMFORT] -random.normalvariate((envir.marks[WALK][COMFORT]/2),(envir.marks[WALK][COMFORT]/4))
-                self.biasMarks[WALK][CHEAP] = envir.marks[WALK][CHEAP]-random.normalvariate((envir.marks[WALK][CHEAP]/2),(envir.marks[WALK][CHEAP]/4))
-                self.biasMarks[WALK][SAFETY] = envir.marks[WALK][SAFETY]-random.normalvariate((envir.marks[WALK][SAFETY]/2),(envir.marks[WALK][SAFETY]/4))
-                self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY] - random.normalvariate((envir.marks[WALK][PRATICITY]/2),(envir.marks[WALK][PRATICITY]/4))
-                self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] - random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/4))
-            #DONE
-            if self.habiChoice==CAR :
-                self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY] -random.normalvariate((envir.marks[BIKE][ECOLOGY]/2),(envir.marks[BIKE][ECOLOGY]/4))
-                self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT] -random.normalvariate((envir.marks[BIKE][COMFORT]/2),(envir.marks[BIKE][COMFORT]/4))
-                self.biasMarks[BIKE][CHEAP] = envir.marks[BIKE][CHEAP] -random.normalvariate((envir.marks[BIKE][CHEAP]/2),(envir.marks[BIKE][CHEAP]/4))
-                self.biasMarks[BIKE][SAFETY] = envir.marks[BIKE][SAFETY]-random.normalvariate((envir.marks[BIKE][SAFETY]/2),(envir.marks[BIKE][SAFETY]/4))
-                self.biasMarks[BIKE][PRATICITY] = envir.marks[BIKE][PRATICITY] -random.normalvariate((envir.marks[BIKE][PRATICITY]/2),(envir.marks[BIKE][PRATICITY]/4))
-                self.biasMarks[BIKE][FAST] = envir.marks[BIKE][FAST]-random.normalvariate((envir.marks[BIKE][FAST]/2),(envir.marks[BIKE][FAST]/4))
-                self.biasMarks[CAR][ECOLOGY] = envir.marks[CAR][ECOLOGY] + random.normalvariate((envir.marks[CAR][ECOLOGY]/2),(envir.marks[CAR][ECOLOGY]/4)) #Ici on genere du bruit avec un float entre 0 et la valeur objective de la note selon une repartition normal avec pour moyenne note/2 et et note/4 (estimation a la louche)
-                self.biasMarks[CAR][COMFORT] = envir.marks[CAR][COMFORT] +random.normalvariate((envir.marks[CAR][COMFORT]/2),(envir.marks[CAR][COMFORT] /4))
-                self.biasMarks[CAR][CHEAP] = envir.marks[CAR][CHEAP] + random.normalvariate((envir.marks[CAR][CHEAP]/2),(envir.marks[CAR][CHEAP]/4))
-                self.biasMarks[CAR][SAFETY] = envir.marks[CAR][SAFETY]+ random.normalvariate((envir.marks[CAR][SAFETY]/2),(envir.marks[CAR][SAFETY]/4))
-                self.biasMarks[CAR][PRATICITY] = envir.marks[CAR][PRATICITY] + random.normalvariate((envir.marks[CAR][PRATICITY]/2),(envir.marks[CAR][PRATICITY]/4))
-                self.biasMarks[CAR][FAST] = envir.marks[CAR][FAST] + random.normalvariate((envir.marks[CAR][FAST]/2),(envir.marks[CAR][FAST]/4))
-                self.biasMarks[BUS][ECOLOGY] = envir.marks[BUS][ECOLOGY] - random.normalvariate((envir.marks[BUS][ECOLOGY]/2),(envir.marks[BUS][ECOLOGY]/4))
-                self.biasMarks[BUS][COMFORT] = envir.marks[BUS][COMFORT] - random.normalvariate((envir.marks[BUS][COMFORT]/2),(envir.marks[BUS][COMFORT]/4))
-                self.biasMarks[BUS][CHEAP] = envir.marks[BUS][CHEAP] - random.normalvariate((envir.marks[BUS][CHEAP]/2),(envir.marks[BUS][CHEAP]/4))
-                self.biasMarks[BUS][SAFETY] = envir.marks[BUS][SAFETY] - random.normalvariate((envir.marks[BUS][SAFETY]/2),(envir.marks[BUS][SAFETY]/4))
-                self.biasMarks[BUS][PRATICITY] = envir.marks[BUS][PRATICITY] - random.normalvariate((envir.marks[BUS][PRATICITY]/2 ),(envir.marks[BUS][PRATICITY]/4 ))
-                self.biasMarks[BUS][FAST] = envir.marks[BUS][FAST] - random.normalvariate((envir.marks[BUS][FAST]/2),(envir.marks[BUS][FAST] /4))
-                self.biasMarks[WALK][ECOLOGY] = envir.marks[WALK][ECOLOGY] -random.normalvariate((envir.marks[WALK][ECOLOGY]/2),(envir.marks[WALK][ECOLOGY]/4))
-                self.biasMarks[WALK][COMFORT] = envir.marks[WALK][COMFORT] -random.normalvariate((envir.marks[WALK][COMFORT]/2),(envir.marks[WALK][COMFORT]/4))
-                self.biasMarks[WALK][CHEAP] = envir.marks[WALK][CHEAP]-random.normalvariate((envir.marks[WALK][CHEAP]/2),(envir.marks[WALK][CHEAP]/4))
-                self.biasMarks[WALK][SAFETY] = envir.marks[WALK][SAFETY]-random.normalvariate((envir.marks[WALK][SAFETY]/2),(envir.marks[WALK][SAFETY]/4))
-                self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY] - random.normalvariate((envir.marks[WALK][PRATICITY]/2),(envir.marks[WALK][PRATICITY]/4))
-                self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] - random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/4))
-            #DONE
-            if self.habiChoice==BUS :
-                self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY] -random.normalvariate((envir.marks[BIKE][ECOLOGY]/2),(envir.marks[BIKE][ECOLOGY]/4))
-                self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT] -random.normalvariate((envir.marks[BIKE][COMFORT]/2),(envir.marks[BIKE][COMFORT]/4))
-                self.biasMarks[BIKE][CHEAP] = envir.marks[BIKE][CHEAP] -random.normalvariate((envir.marks[BIKE][CHEAP]/2),(envir.marks[BIKE][CHEAP]/4))
-                self.biasMarks[BIKE][SAFETY] = envir.marks[BIKE][SAFETY]-random.normalvariate((envir.marks[BIKE][SAFETY]/2),(envir.marks[BIKE][SAFETY]/4))
-                self.biasMarks[BIKE][PRATICITY] = envir.marks[BIKE][PRATICITY] -random.normalvariate((envir.marks[BIKE][PRATICITY]/2),(envir.marks[BIKE][PRATICITY]/4))
-                self.biasMarks[BIKE][FAST] = envir.marks[BIKE][FAST]-random.normalvariate((envir.marks[BIKE][FAST]/2),(envir.marks[BIKE][FAST]/4))
-                self.biasMarks[CAR][ECOLOGY] = envir.marks[CAR][ECOLOGY] - random.normalvariate((envir.marks[CAR][ECOLOGY]/2),(envir.marks[CAR][ECOLOGY]/4)) #Ici on genere du bruit avec un float entre 0 et la valeur objective de la note selon une repartition normal avec pour moyenne note/2 et et note/4 (estimation a la louche)
-                self.biasMarks[CAR][COMFORT] = envir.marks[CAR][COMFORT] -random.normalvariate((envir.marks[CAR][COMFORT]/2),(envir.marks[CAR][COMFORT] /4))
-                self.biasMarks[CAR][CHEAP] = envir.marks[CAR][CHEAP] - random.normalvariate((envir.marks[CAR][CHEAP]/2),(envir.marks[CAR][CHEAP]/4))
-                self.biasMarks[CAR][SAFETY] = envir.marks[CAR][SAFETY]- random.normalvariate((envir.marks[CAR][SAFETY]/2),(envir.marks[CAR][SAFETY]/4))
-                self.biasMarks[CAR][PRATICITY] = envir.marks[CAR][PRATICITY] - random.normalvariate((envir.marks[CAR][PRATICITY]/2),(envir.marks[CAR][PRATICITY]/4))
-                self.biasMarks[CAR][FAST] = envir.marks[CAR][FAST] - random.normalvariate((envir.marks[CAR][FAST]/2),(envir.marks[CAR][FAST]/4))
-                self.biasMarks[BUS][ECOLOGY] = envir.marks[BUS][ECOLOGY] + random.normalvariate((envir.marks[BUS][ECOLOGY]/2),(envir.marks[BUS][ECOLOGY]/4))
-                self.biasMarks[BUS][COMFORT] = envir.marks[BUS][COMFORT] + random.normalvariate((envir.marks[BUS][COMFORT]/2),(envir.marks[BUS][COMFORT]/4))
-                self.biasMarks[BUS][CHEAP] = envir.marks[BUS][CHEAP] + random.normalvariate((envir.marks[BUS][CHEAP]/2),(envir.marks[BUS][CHEAP]/4))
-                self.biasMarks[BUS][SAFETY] = envir.marks[BUS][SAFETY] + random.normalvariate((envir.marks[BUS][SAFETY]/2),(envir.marks[BUS][SAFETY]/4))
-                self.biasMarks[BUS][PRATICITY] = envir.marks[BUS][PRATICITY] + random.normalvariate((envir.marks[BUS][PRATICITY]/2 ),(envir.marks[BUS][PRATICITY]/4 ))
-                self.biasMarks[BUS][FAST] = envir.marks[BUS][FAST] + random.normalvariate((envir.marks[BUS][FAST]/2),(envir.marks[BUS][FAST] /4))
-                self.biasMarks[WALK][ECOLOGY] = envir.marks[WALK][ECOLOGY] -random.normalvariate((envir.marks[WALK][ECOLOGY]/2),(envir.marks[WALK][ECOLOGY]/4))
-                self.biasMarks[WALK][COMFORT] = envir.marks[WALK][COMFORT] -random.normalvariate((envir.marks[WALK][COMFORT]/2),(envir.marks[WALK][COMFORT]/4))
-                self.biasMarks[WALK][CHEAP] = envir.marks[WALK][CHEAP]-random.normalvariate((envir.marks[WALK][CHEAP]/2),(envir.marks[WALK][CHEAP]/4))
-                self.biasMarks[WALK][SAFETY] = envir.marks[WALK][SAFETY]-random.normalvariate((envir.marks[WALK][SAFETY]/2),(envir.marks[WALK][SAFETY]/4))
-                self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY] - random.normalvariate((envir.marks[WALK][PRATICITY]/2),(envir.marks[WALK][PRATICITY]/4))
-                self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] - random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/4))
-            #DONE
-            if self.habiChoice==WALK :
-                self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY] -random.normalvariate((envir.marks[BIKE][ECOLOGY]/2),(envir.marks[BIKE][ECOLOGY]/4))
-                self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT] -random.normalvariate((envir.marks[BIKE][COMFORT]/2),(envir.marks[BIKE][COMFORT]/4))
-                self.biasMarks[BIKE][CHEAP] = envir.marks[BIKE][CHEAP] -random.normalvariate((envir.marks[BIKE][CHEAP]/2),(envir.marks[BIKE][CHEAP]/4))
-                self.biasMarks[BIKE][SAFETY] = envir.marks[BIKE][SAFETY]-random.normalvariate((envir.marks[BIKE][SAFETY]/2),(envir.marks[BIKE][SAFETY]/4))
-                self.biasMarks[BIKE][PRATICITY] = envir.marks[BIKE][PRATICITY] -random.normalvariate((envir.marks[BIKE][PRATICITY]/2),(envir.marks[BIKE][PRATICITY]/4))
-                self.biasMarks[BIKE][FAST] = envir.marks[BIKE][FAST]-random.normalvariate((envir.marks[BIKE][FAST]/2),(envir.marks[BIKE][FAST]/4))
-                self.biasMarks[CAR][ECOLOGY] = envir.marks[CAR][ECOLOGY] - random.normalvariate((envir.marks[CAR][ECOLOGY]/2),(envir.marks[CAR][ECOLOGY]/4)) #Ici on genere du bruit avec un float entre 0 et la valeur objective de la note selon une repartition normal avec pour moyenne note/2 et et note/4 (estimation a la louche)
-                self.biasMarks[CAR][COMFORT] = envir.marks[CAR][COMFORT] -random.normalvariate((envir.marks[CAR][COMFORT]/2),(envir.marks[CAR][COMFORT] /4))
-                self.biasMarks[CAR][CHEAP] = envir.marks[CAR][CHEAP] - random.normalvariate((envir.marks[CAR][CHEAP]/2),(envir.marks[CAR][CHEAP]/4))
-                self.biasMarks[CAR][SAFETY] = envir.marks[CAR][SAFETY]- random.normalvariate((envir.marks[CAR][SAFETY]/2),(envir.marks[CAR][SAFETY]/4))
-                self.biasMarks[CAR][PRATICITY] = envir.marks[CAR][PRATICITY] - random.normalvariate((envir.marks[CAR][PRATICITY]/2),(envir.marks[CAR][PRATICITY]/4))
-                self.biasMarks[CAR][FAST] = envir.marks[CAR][FAST] - random.normalvariate((envir.marks[CAR][FAST]/2),(envir.marks[CAR][FAST]/4))
-                self.biasMarks[BUS][ECOLOGY] = envir.marks[BUS][ECOLOGY] - random.normalvariate((envir.marks[BUS][ECOLOGY]/2),(envir.marks[BUS][ECOLOGY]/4))
-                self.biasMarks[BUS][COMFORT] = envir.marks[BUS][COMFORT] - random.normalvariate((envir.marks[BUS][COMFORT]/2),(envir.marks[BUS][COMFORT]/4))
-                self.biasMarks[BUS][CHEAP] = envir.marks[BUS][CHEAP] - random.normalvariate((envir.marks[BUS][CHEAP]/2),(envir.marks[BUS][CHEAP]/4))
-                self.biasMarks[BUS][SAFETY] = envir.marks[BUS][SAFETY] - random.normalvariate((envir.marks[BUS][SAFETY]/2),(envir.marks[BUS][SAFETY]/4))
-                self.biasMarks[BUS][PRATICITY] = envir.marks[BUS][PRATICITY] - random.normalvariate((envir.marks[BUS][PRATICITY]/2 ),(envir.marks[BUS][PRATICITY]/4 ))
-                self.biasMarks[BUS][FAST] = envir.marks[BUS][FAST] - random.normalvariate((envir.marks[BUS][FAST]/2),(envir.marks[BUS][FAST] /4))
-                self.biasMarks[WALK][ECOLOGY] = envir.marks[WALK][ECOLOGY] +random.normalvariate((envir.marks[WALK][ECOLOGY]/2),(envir.marks[WALK][ECOLOGY]/4))
-                self.biasMarks[WALK][COMFORT] = envir.marks[WALK][COMFORT] +random.normalvariate((envir.marks[WALK][COMFORT]/2),(envir.marks[WALK][COMFORT]/4))
-                self.biasMarks[WALK][CHEAP] = envir.marks[WALK][CHEAP]+random.normalvariate((envir.marks[WALK][CHEAP]/2),(envir.marks[WALK][CHEAP]/4))
-                self.biasMarks[WALK][SAFETY] = envir.marks[WALK][SAFETY]+random.normalvariate((envir.marks[WALK][SAFETY]/2),(envir.marks[WALK][SAFETY]/4))
-                self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY] + random.normalvariate((envir.marks[WALK][PRATICITY]/2),(envir.marks[WALK][PRATICITY]/4))
-                self.biasMarks[WALK][FAST] = envir.marks[WALK][FAST] + random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/4))"""
-        
         #Biais de sous/sur estimation seul (atm juste la distance peut etre ajouter le prix)
         if aEst==True and aConf==False:
-            """self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY]
+            self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY]
             self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT]
             self.biasMarks[BIKE][CHEAP] = envir.marks[BIKE][CHEAP]
             self.biasMarks[BIKE][SAFETY] = envir.marks[BIKE][SAFETY]
@@ -561,19 +408,19 @@ class user:
             self.biasMarks[CAR][COMFORT] = envir.marks[CAR][COMFORT] 
             self.biasMarks[CAR][CHEAP] = envir.marks[CAR][CHEAP] 
             self.biasMarks[CAR][SAFETY] = envir.marks[CAR][SAFETY]
-            self.biasMarks[CAR][PRATICITY] = envir.marks[CAR][PRATICITY]"""
+            self.biasMarks[CAR][PRATICITY] = envir.marks[CAR][PRATICITY]
             self.biasMarks[CAR][FAST] = float(self.dico[CAR][FAST]) + random.normalvariate((envir.marks[CAR][FAST]/2),(envir.marks[CAR][FAST]/4))#sous estimation du temps en voiture
-            """self.biasMarks[BUS][ECOLOGY] = envir.marks[BUS][ECOLOGY] 
+            self.biasMarks[BUS][ECOLOGY] = envir.marks[BUS][ECOLOGY] 
             self.biasMarks[BUS][COMFORT] = envir.marks[BUS][COMFORT] 
             self.biasMarks[BUS][CHEAP] = envir.marks[BUS][CHEAP]
             self.biasMarks[BUS][SAFETY] = envir.marks[BUS][SAFETY]
-            self.biasMarks[BUS][PRATICITY] = envir.marks[BUS][PRATICITY] """
+            self.biasMarks[BUS][PRATICITY] = envir.marks[BUS][PRATICITY] 
             self.biasMarks[BUS][FAST] = float(self.dico[BUS][FAST]) - random.normalvariate((envir.marks[BUS][FAST]/2),(envir.marks[BUS][FAST] /4)) #sur estimation du temps en transport en commun
-            """self.biasMarks[WALK][ECOLOGY] = envir.marks[WALK][ECOLOGY] 
+            self.biasMarks[WALK][ECOLOGY] = envir.marks[WALK][ECOLOGY] 
             self.biasMarks[WALK][COMFORT] = envir.marks[WALK][COMFORT]
             self.biasMarks[WALK][CHEAP] = envir.marks[WALK][CHEAP]
             self.biasMarks[WALK][SAFETY] = envir.marks[WALK][SAFETY]
-            self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY]""" 
+            self.biasMarks[WALK][PRATICITY] = envir.marks[WALK][PRATICITY]
             self.biasMarks[WALK][FAST] = float(self.dico[WALK][FAST])- random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/3))#sur estimation du temps a pieds
         #Pareil qu'au dessus mais cette fois ci avec le biais de confirmation deja appliqué
         if aEst==True and aConf==True:
@@ -583,14 +430,13 @@ class user:
             self.biasMarks[BUS][FAST] = self.biasMarks[BUS][FAST] - random.normalvariate((envir.marks[BUS][FAST]/2),(envir.marks[BUS][FAST] /4)) #sur estimation du temps en transport en commun
             
             self.biasMarks[WALK][FAST] = self.biasMarks[WALK][FAST] - random.normalvariate((envir.marks[WALK][FAST]/2),(envir.marks[WALK][FAST]/3)) #sur estimation du temps a pieds
-        #Application du biais forbidden choice TODO ca big key error faut que je fasse des test
+        #Application du biais forbidden choice
         if aForbid==True:
             cpt=0
-            #CRITERIAS = [ECOLOGY, COMFORT, CHEAP, SAFETY, PRATICITY, FAST]
             if self.habiChoice==BIKE:
                
                 for crit in CRITERIAS:
-                    #print(crit)
+                    
                     if (envir.marks[BIKE][crit]>=0.5):
                         self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
@@ -599,7 +445,7 @@ class user:
                             cpt+=1
             if self.habiChoice==CAR:
                 for crit in CRITERIAS:
-                    #print(crit)
+                    
                     if (envir.marks[CAR][crit]>=0.5):
                         self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
@@ -608,7 +454,7 @@ class user:
                     cpt+=1
             if self.habiChoice==BUS:
                 for crit in CRITERIAS:
-                    #print(crit)
+                    
                     if (envir.marks[BUS][crit]>=0.5):
                         self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
@@ -617,14 +463,14 @@ class user:
                     cpt+=1
             if self.habiChoice==WALK:
                 for crit in CRITERIAS:
-                    #print(crit)
+                    
                     if (envir.marks[WALK][crit]>=0.5):
                        self.critAgent[cpt]=self.critAgent[cpt]+((1-self.critAgent[cpt])/2)
                     else :
                         if float(envir.marks[WALK][crit])<0.5:
                             self.critAgent[cpt]=self.critAgent[cpt]-((self.critAgent[cpt])/2)
                     cpt+=1
-            #self.saveAgent()
+            self.saveAgent()
 
         # Notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
@@ -642,7 +488,7 @@ class user:
 
 
         
-        #TODO Sortir la note la plus haute et c'est elle qui indique le mode choisis rationement
+       
         markmax = 0
         indexMarkMax = 0
         k=0
@@ -651,9 +497,9 @@ class user:
         for k in range(0,len(self.mark)):
             
             if (float(self.mark[k])>markmax) :
-                # Test print(str(self.mark[k]) + "ma note")
+                
                 markmax = float(self.mark[k])
-                # Test print(str(markmax) + "note max")
+                
                 indexMarkMax = k
 
         choice = LISTMODES[indexMarkMax]
@@ -662,6 +508,7 @@ class user:
         n=4
         while n>0:
             if (choice==CAR and self.means[1]==False) or (choice==BUS and self.means[2]==False) or (choice==BIKE and self.means[0]==False) or  (choice==WALK and self.fitness<=10):
+                #Print ci desssous que l'on peut de commenter si on utilise un seul agent
                 #print("I'd like to use  "+choice+" transport mode, but it is currently unaivalable to me.")
                 self.mark[indexMarkMax]=0
                 markmax = 0
@@ -680,8 +527,8 @@ class user:
 
         choice = LISTMODES[indexMarkMax]
 
+        #Print ci desssous que l'on peut de commenter si on utilise un seul agent
         #print("As a biased agent i chose "+choice+" has a mode of transportation.")
         self.biasChoise=choice
-        #print(self.dico)
-        #self.updateHabits(self.biasChoise)
-        #self.habitualChoice()
+        self.updateHabits(self.biasChoise)
+        self.habitualChoice()

@@ -41,7 +41,7 @@ env = environnement()
 
 # création des agents et récupération de leur différentes décisions (rationnelle + biaisée + habituelle) et stockage de ces agents dans la liste agentList
 for i in range(nbrAgent) :
-    agent = user(env, "Auto",i+1)
+    agent = user(env, "Auto",i+1,estimation,confirmation,forbidden)
     agentList.append(agent)
     agent.biasedResults(env,"Auto")
     #agent.result(env)
