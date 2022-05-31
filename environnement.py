@@ -15,6 +15,7 @@ busSpeedStandart=10 # Km/h vitesse moyenne des bus a Paris en 2020
 
 class environnement:
 
+    # Déclaration des varaibales de contexte 
     gasPrice= float
     subPrice= float
     ratioCycleWay = float
@@ -25,12 +26,16 @@ class environnement:
     walkSpeed=float
     busSpeed=float
 
+    # Récupération de la liste des transports disponibles dans cetn environnement 
     TransportMode = LISTMODES
+
+    # Récupération de la liste des critères de choix des agents 
     crit = CRITERIAS
 
-# Variables représentants la météo
-    
+    # Variables représentants la météo
     context = [None]*len(CONTEXTBOOLS)
+
+    # Dictionnaire des notes qui pour chaque moyen de transport évaluera chaque critère
     marks = {}
 
     def __init__(self) :
@@ -47,13 +52,12 @@ class environnement:
         
 
         # Initialisation de la note objective associée à chaque critères en fonction du moyen de transport
-        
         for mode in self.TransportMode:
             self.marks[mode] = {}
             for crit in self.crit:
                 self.marks[mode][crit]=0
 
-        # Notes objectives 
+        # Notes objectives (à estimer avec questionnaire, définie arbitrairement pour le moment)
         self.marks[BIKE][ECOLOGY] = 1
         self.marks[BIKE][COMFORT] = 0.25
         self.marks[BIKE][CHEAP] = 1
@@ -88,6 +92,7 @@ class environnement:
         while x not in ["u","s"]:
             x = input("(s)tandart context variables or (u)ser input ? : ")
         
+        # Initialisation des variables d'environnement à leur valeur standart 
         if x == "s":
             self.gasPrice=gasPriceStandart
             self.subPrice=subPriceStandart
@@ -99,6 +104,7 @@ class environnement:
             self.walkSpeed=walkSpeedStandart
             self.carSpeed=carSpeedStandart
 
+        # Initialisation des variables d'environnement à des valeurs rentrées par l'utilisateur 
         if x == "u":
             self.gasPrice= float(input("Gas price ? "))
             self.subPrice= float(input("Bus subscription price ? "))
@@ -110,16 +116,12 @@ class environnement:
             self.walkSpeed=float(input("Walk speed ? "))
             self.busSpeed=float(input("bus Speed ? "))
 
+            # Modification des notes en fonctions des variables d'environnement 
             self.marksVariable()
-        
-        self.marksWeather()
-        print(self.marks)
-        
-       
 
+        # Modification des notes en fonction des booléens de contextes (météo + ville + heure de pointe)
+        self.marksWeather()
     
-    def getEnviDico(self,mods=str,crit=str):
-        return self.marks[mods][crit]
     # fonction permettant de modifier les notes attribué à chaque items en fonction des variables contexte
     def marksVariable(self) :
         # Modification des notes liées au prix de l'essence
@@ -138,7 +140,7 @@ class environnement:
         # Modifications des notes liées à la capacité des bus 
         self.marks[BUS][COMFORT] = self.marks[BUS][COMFORT]*self.coefMulti(self.busCapacity,busCapacityStandart)
 
-        # Modification des notes liées 
+        # Modification des notes liées aux vitesses de déplacement des différents moyens de transport 
         self.marks[BIKE][FAST] = self.marks[BIKE][FAST] * self.coefMulti(self.bikeSpeed,bikeSpeedStandart)
         self.marks[BUS][FAST] =  self.marks[BUS][FAST] * self.coefMulti(self.busSpeed,busSpeedStandart)
         self.marks[CAR][FAST] =  self.marks[CAR][FAST] * self.coefMulti(self.carSpeed,carSpeedStandart)
@@ -165,26 +167,35 @@ class environnement:
             self.marks[WALK][SAFETY] =  self.marks[WALK][SAFETY]/2
             self.marks[CAR][SAFETY] = self.marks[CAR][SAFETY]/2
 
+        # Modification des notes liées au fait de vivre en ville 
+        # Si l'agent vit en ville, la voiture devient moins rapide et moins pratique 
         if self.context[3] == True :
             self.marks[CAR][FAST] = self.marks[CAR][FAST]/2
             self.marks[CAR][PRATICITY] = self.marks[CAR][PRATICITY]/2
         
+        # Modification des notes liées au fait de circuler en heure de pointe 
+        # Si l'agent circule en heure de pointe, la voiture devient moins rapide 
         if self.context[4] == True :
             self.marks[CAR][FAST] = self.marks[CAR][FAST]/2
 
+    # Fonction permettant de calculer le coefficiant multiplicateur permettant de passer de valStandard à valUser
+    def coefMulti(self,valUser,valStandard):
+        return valUser/valStandard
 
-    def coefMulti(self,valUser,valStandart):
-        return valUser/valStandart
-
+    # Fonction permettant de modifier les valeurs des différentes variables (booleens de contexte + variables d'environnement) après l'initialisation de l'environnement 
     def changVariable(self):
+
         cpt = 0 
         for elem in CONTEXTBOOLS:
+
+            # Modification des booléens de contexte
             answer = input(elem + " ? (y/n) : ")
             while answer not in ["y","n"]:
                 answer = input(elem + " ? (y/n) : ")
             self.context[cpt] = (answer == "y")
             cpt += 1
 
+        #Modification des variables d'environnement 
         self.gasPrice= float(input("Gas price ? "))
         self.subPrice= float(input("Bus subscription price ? "))
         self.ratioCycleWay = float(input("Ration cycle way ? "))
@@ -194,6 +205,10 @@ class environnement:
         self.bikeSpeed=float(input("Bike speed ? "))
         self.walkSpeed=float(input("Walk speed ? "))
         self.busSpeed=float(input("bus Speed ? "))
+
+        # Modification des notes en fonction des nouveaux booleens de contexte
         self.marksVariable()
+
+        # Modification des notes en fonction des variables d'environnement 
         self.marksWeather()
         
