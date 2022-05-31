@@ -32,7 +32,7 @@ if z == "y":
 env = environnement()
 
 for i in range(nbrAgent) :
-    agent = user(env, "Auto",i+1)
+    agent = user(env, "Auto",i+1,estimation,confirmation,forbidden)
     agentList.append(agent)
     agent.biasedResults(env,"Auto")
     #agent.result(env)
