@@ -413,9 +413,9 @@ class user:
             while z not in ["y","n"] :
                 z=input("Do you wish to use the forbidden behavior paradigme in decision making (y)/(n) ? : ")
         else :
-            x="n"
+            x="y"
             y="n"
-            z="y"
+            z="n"
         if z=="y":
             aForbid=True
         if x=="y":
@@ -435,7 +435,13 @@ class user:
                             self.biasMarks[mod][crite]=self.dico[mod][crite] + random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
                         else :
                             self.biasMarks[mod][crite]=self.dico[mod][crite] - random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
-            """if self.habiChoice==BIKE :
+           
+           
+           
+           
+           
+           
+           """if self.habiChoice==BIKE :
                 for mod in LISTMODES:
                     for crite in CRITERIAS:
                         if mod==BIKE :
