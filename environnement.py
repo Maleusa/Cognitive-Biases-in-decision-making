@@ -155,7 +155,7 @@ class environnement:
             self.marks[WALK][COMFORT] =  self.marks[WALK][COMFORT]/2
 
         # Modification des notes liées à la température
-        # Si il fait trop froid ou trop chaud , le vélo et la marche deviennent moins confortable
+        # Si il fait trop froid ou trop chaud, le vélo et la marche deviennent moins confortable
         if self.context[1] == False :
             self.marks[BIKE][COMFORT] =  self.marks[BIKE][COMFORT]/2
             self.marks[WALK][COMFORT] =  self.marks[WALK][COMFORT]/2
@@ -179,11 +179,11 @@ class environnement:
             self.marks[CAR][FAST] = self.marks[CAR][FAST]/2
 
     # Fonction permettant de calculer le coefficiant multiplicateur permettant de passer de valStandard à valUser
-    def coefMulti(self,valUser,valStandard):
+    def coefMulti(self,valUser,valStandard) :
         return valUser/valStandard
 
     # Fonction permettant de modifier les valeurs des différentes variables (booleens de contexte + variables d'environnement) après l'initialisation de l'environnement 
-    def changVariable(self):
+    def changVariable(self) :
 
         cpt = 0 
         for elem in CONTEXTBOOLS:

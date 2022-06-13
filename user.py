@@ -1,4 +1,5 @@
 import copy
+import pickle
 from environnement import *
 from math import *
 import random
@@ -9,17 +10,17 @@ from constant import *
 class user:
     
     ident=int
-    dico = dict
-    biasMarks =dict    
+    dico = {}
+    biasMarks ={}  
     ##
     biasChoise=str #choix biaisé de l'utilisateur
-    fitness=float
+    fitness = 50
     means=[None]*AGENTBOOLS.__len__()
     critAgent=[None]*CRITERIAS.__len__()
-    rationalChoice=str #choix rationnel de l'utilisateur
+    rationalChoice= "none" #choix rationnel de l'utilisateur
     mark = [0,0,0,0]
     habits = []
-    habiChoice= str #choix habituel de l'user
+    habiChoice="none" #choix habituel de l'user
     env=environnement
     # Initialisation de l'utilsateur avec trois choix 
 
@@ -30,15 +31,16 @@ class user:
             self.ident=random.randint(0,100)
         else:
             self.ident=id
-        # initialisation de l'environnement de l'agent 
-        env = envir
 
-        # Initialisation des notes attribué aux différents critères de choix en fonctions des moyens des transports 
-        self.dico = copy.deepcopy(env.marks.copy())
-        self.biasMarks = copy.deepcopy(env.marks.copy(                                                                ))
+        # initialisation de l'environnement de l'agent 
+        self.env = envir
+
+        # Initialisation des notes attribuées aux différents critères de choix en fonctions des moyens des transports 
+        self.dico = copy.deepcopy(self.env.marks)
+        self.biasMarks = copy.deepcopy(self.env.marks)
         
         if mode=="Manual":
-        # Initialisation des poids associés aux différents critères de choix
+            # Demande à l'utilisateur s'il souhaite créé son agent grâce à un fichier, de façon aléatoire ou à la main 
             x = input("(r)andom agent priorities or (u)ser input or (f)ile input? : ")
             while x not in ["u","r","f"]:
                 x = input("(u)ser agent priorities or (r)andom ? : ")
@@ -47,21 +49,17 @@ class user:
 
         # Initialisation d'un agent par input via la console 
         if x == "u": 
-            
             cpt=0
             for crit in CRITERIAS :
-                
                 x = float(input("Priority (0-1) of " + crit + " ? : "))
-                
                 while x<0 or x>1:
                     x = float(input("Priority (0-1) of "+crit+" ? : "))		
                 self.critAgent[cpt] = x
                 cpt += 1
 
 
-
-            cpt=0
             # Initialisation des poids associés aux différents critères de choix
+            cpt=0
             for agtbool in AGENTBOOLS:
                 x= (input(agtbool+" ? : (y)/(n) "))
                 while x not in ["y","n"]:
@@ -73,11 +71,13 @@ class user:
                     self.means[cpt]=False
                     cpt+=1
 
+            # Initialisation de la valeur de fitness de l'agent
             x=float(input("Am i fit on a scale from 0 to 100 ? :"))
             while x<0 or x>100:
                 x=float(input("Am i fit on a scale from 0 to 100 ? :"))
-        
             self.fitness=x
+
+            # Sauvegarde de l'agent dans un fichier 
             self.saveAgent()
 
         # Initialisation d'un agent par le hasard   
@@ -99,64 +99,60 @@ class user:
             while id<0 or id>100:
                 id=int(input("Please input the agent number between 0 and 100"))
             self.ident=id
-            agent=open("agent/Agent"+str(id)+".txt","r")
-            f=agent.readlines()
-            for lines in range(len(f)):
-                f[lines]=f[lines].strip('\n')
-            
-            cpt=0
-            for crit in CRITERIAS:
-                self.critAgent[cpt]=float(f[cpt])
-                cpt+=1
-            cpt=0
-            for agtbool in AGENTBOOLS:
-                if(f[cpt+7]=="True") : self.means[cpt]=True
-                else: self.means[cpt]=False
-                cpt+=1
-            self.fitness=float(f[11])
-        ##Initialisation des habitudes
+            file = open("agent/Agent"+str(id)+".txt","rb")
+            agent = pickle.load(file)
+            self = agent
+            file.close()
+
+        # Initialisation des habitudes
         y="a"
         if mode=="Manual":
             y= input("Do you want to use the (h)abits file as is,(e)rase it or erase it and create a (s)et of habits ? :")
             while y not in ["h","e","s"] :
                 y= input("Do you want to use the (h)abits file as is,(e)rase it or erase it and create a (s)et of habits ? :")
+
         #On efface le fichier habits.txt
         if y=="e":
-            self.refreshHabits()
+            self.habits = []
+
         if y=="a":
-              
+            self.habits = []
             for i in range(1000):
-                habits = open("habits/habits"+str(self.ident)+".txt","a")
                 n=random.randint(0,3)
-                habits.write(LISTMODES[n]+" ")
-                for j in range(len(CONTEXTBOOLS)) :
+                stringHabits = LISTMODES[n]+" "
+                for j in CONTEXTBOOLS :
                     random_bit = random.getrandbits(1)
-                    habits.write(str(bool(random_bit))+" ")
-                habits.write("\n")
+                    stringHabits += str(bool(random_bit))+" "
+                self.habits.append(stringHabits)
+                    
+               
+
         if y=="s":
-            self.refreshHabits()
+            self.habits = []
             z=input("Do you want to (r)andomize a certain number of habits or (e)nter them by hand ? : ")
             while z not in ["r","e"]:
                 z=input("Do you want to (r)andomize a certain number of habits or (e)nter them by hand ? : ")
             h=int(input ("How many habits would you like to create ? :"))
             
             if z=="r":
-                
+                self.habits = []
                 for i in range(h):
-                    habits = open("habits/habits"+str(self.ident)+".txt","a")
                     n=random.randint(0,3)
-                    habits.write(LISTMODES[n]+" ")
-                    for j in range(len(CONTEXTBOOLS)) :
+                    stringHabits = LISTMODES[n]+" "
+                    for j in CONTEXTBOOLS :
                         random_bit = random.getrandbits(1)
-                        habits.write(str(bool(random_bit))+" ")
-                    habits.write("\n")
+                        stringHabits += str(bool(random_bit))+" "
+                    self.habits.append(stringHabits)
+                    
+
             if z=="e":
+
                 for i in range(h):
                     m=input("Did i use a (0)bike, (1)car, (2)bus or did i (3)walk ? : ")
                     while m not in ["0","1","2","3"]:
                         m=input("Did i use a (0)bike, (1)car, (2)bus or did i (3)walk ? : ")
-                    habits = open("habits/habits.txt","a")
-                    habits.write(LISTMODES[int(m)]+" ")
+                    stringHabits = LISTMODES[int(m)]+" "
+                
                     cpt = 0 
                     for elem in CONTEXTBOOLS:
                         answer = input(elem + " ? (y/n) : ")
@@ -165,56 +161,39 @@ class user:
                         envir.context[cpt] = (answer == "y")
                         cpt += 1
                     for boole in envir.context:
-                        habits.write(str(boole) + " ")
-                    habits.write('\n')
-
-
-
+                        stringHabits += str(boole) + " "
+                    self.habits.append(stringHabits)
         
         
-
+                    
         
 
 
     # Fonction de sauvegarde de l'agent dans un fichier      
     def saveAgent(self):
-        agent = open("agent/Agent"+str(self.ident)+".txt","w")
-        for crit in self.critAgent:
-            agent.write(str(crit)+"\n")
-        agent.write("\n")
-        for bool in self.means:
-            agent.write(str(bool)+"\n")
-        agent.write("\n"+str(self.fitness))
+        agent = open("agent/Agent"+str(self.ident)+".txt","wb")
+        pickle.dump(self,agent)
+        agent.close()
 
     # Methode retournant le choix rationel d'un agent
     def rationalModeChoice(self,envir=environnement):
-        
         self.mark=[0,0,0,0]
         # Notation de chacun des modes de transport en fonction de l'evaluation de chaque mode
         i=0
         for mode in LISTMODES:
-           
             j=0
             for key in CRITERIAS:
-               
-                
-                self.mark[i]=float(self.mark[i]+(self.dico[mode][key]*self.critAgent[j]))
-                
+                self.mark[i]=float(self.mark[i]+(self.dico[mode][key]*self.critAgent[j]))  
                 j+=1
-            
             i+=1
       
-        #print(self.dico)
+       
         # Augmentaion de la note associé au vélo et à la marche pour les agents sportifs 
 
         if self.fitness >= 95 :
             self.mark[0] = self.mark[0]*2
             self.mark[3] = self.mark[3]*2
-        
 
-
-        
-        
         markmax = 0
         indexMarkMax = 0
         k=0
@@ -254,7 +233,7 @@ class user:
 
     # Fonction de choix habituel 
     def habitualChoice(self):
-        self.readHabits()
+        # self.readHabits()
         weightMod=[0,0,0,0]
         cont=""                    
         for bool in self.env.context:
@@ -262,16 +241,18 @@ class user:
             
         
         for lines in range(len(self.habits)) : # Initialisation du tableau weightMod qui determine combien de fois on as fait le choix n si les circonstances étaient similiares
-             
+             split = self.habits[lines].split(' ', 1)[0]
+
              if self.habits[lines].split(' ', 1)[1] == cont :
-                 if self.habits[lines].split(' ', 1)[0] == BIKE :
+                 if split  == BIKE :
                      weightMod[0]=weightMod[0]+1
-                 if self.habits[lines].split(' ', 1)[0] == CAR :
+                 if split == CAR :
                      weightMod[1]=weightMod[1]+1
-                 if self.habits[lines].split(' ', 1)[0] == BUS:
+                 if split == BUS:
                      weightMod[2]=weightMod[2]+1
-                 if self.habits[lines].split(' ', 1)[0] == WALK:
+                 if split == WALK:
                      weightMod[3]=weightMod[3]+1
+
         totweight=weightMod[0]+weightMod[1]+weightMod[2]+weightMod[3]
         
         if totweight==0:
@@ -296,33 +277,21 @@ class user:
         #On peut activer le print ci dessous en mode agent unique
         #print("In the contexte that i am in if i follow my usual behavior i will choose "+self.habiChoice+" as a mode of transportation")
         # si jamais on veut ajouter le choix habituel self.updateHabits(self.habiChoice)
-        
-
-     
-
-
-
+    
     # Fonction permettant d'effacer le contenu du fichier habits.txt et donc de d'oublier l'ensemble des abitudes de l'agent
     def refreshHabits(self):
         habits = open("habits/habits"+str(self.ident)+".txt","w")
         habits.flush()
+        habits.close()
 
 
     # Fonction permttant de mettre à jour les abitudes de l'agent en ajoutant le choix du dernier trajet réalisé 
     def updateHabits(self,choice=str):
-        
-        habits = open("habits/habits"+str(self.ident)+".txt","a")
-        
-       
-
-        habits.write(choice+" ")
-
+        stringHabits = choice + " "
         for bool in self.env.context:
-            habits.write(str(bool) + " ")
-        
-        habits.write('\n')
-
-        habits.close()
+            stringHabits += str(bool) + " "
+        self.habits.append(stringHabits)
+       
 
     # Fonction de lecture du fichier d'habitude (ca marche)
     def readHabits(self):
@@ -330,17 +299,17 @@ class user:
         f=habits.readlines()
         for lines in range(len(f)) :
             f[lines]=f[lines].strip('\n')
-            
-       
         self.habits=f
-    #Methode prenant en parametre deux strings  mods appartenant à LISTMOD et crit apparentant a CRITERIAS retourne la valeur de biasmMarks[mods][crit]
+        habits.close()
+        
+
+    # Methode prenant en parametre deux strings  mods appartenant à LISTMOD et crit apparentant a CRITERIAS retourne la valeur de biasmMarks[mods][crit]
     def getDicoAg(self,mods=str,crit=str):
         return self.dico[mods][crit]
     
     
     # Fonction permettant d'écrir dans un fichier le choix du moyen de transport avec et sans biais
     def result(self,env=environnement):
-        
         res = open("result/Result"+str(self.ident)+".txt","a")
         res.write("Environemental conditions : \n Rainy : "+str(self.env.context[0])+" Good temperature : "+str(self.env.context[1])+ " Presence of light : "+str(self.env.context[2])+ " Do I live in a city ? : "+str(self.env.context[3])+ " Is it the rush hour ? : "+str(self.env.context[4])+"\n Gas Price :"+str(env.gasPrice)+"| Public Transport Price:"+str(env.subPrice)+"| Ratio Cycle Way : "+str(env.ratioCycleWay)+"| Bus frequency : "+str(env.busFrequency)+"| Bus Speed : "+str(env.busSpeed)+"| Bus Capacity : "+str(env.busCapacity)+"| Car speed : "+str(env.carSpeed)+"| Cycle Speed : "+str(env.bikeSpeed)+"| Walk speed : "+str(env.walkSpeed)+"\n")
         res.write("Habitual choice : "+self.habiChoice+"\n")
@@ -351,8 +320,7 @@ class user:
     # Ici les biais, en mode manual c'est cette fonction qui propose quels biais on desire activer en mode automatique c'est dans le main rand que l'on determine cela
 
     def biasedResults(self,envir=environnement,mode=str,estimation=bool,confirmation=bool,forbidden=bool):
-        
-        
+
         self.rationalModeChoice()
         self.habitualChoice()
         self.mark=[0,0,0,0]
@@ -388,7 +356,7 @@ class user:
         if aConf==True:
             #TODO faire un test pour determiner si on utilise le biais de confirmation ou la reactance
 
-            #Confirmation en dessous
+            # Confirmation en dessous
             if self.habiChoice  in [BIKE,CAR,BUS,WALK] :
                 for mod in LISTMODES:
                     for crite in CRITERIAS:
@@ -396,7 +364,7 @@ class user:
                             self.biasMarks[mod][crite]=self.dico[mod][crite] + random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
                         else :
                             self.biasMarks[mod][crite]=self.dico[mod][crite] - random.normalvariate((envir.marks[mod][crite]/2),(envir.marks[mod][crite]/4))
-        #Biais de sous/sur estimation seul (atm juste la distance peut etre ajouter le prix)
+        # Biais de sous/sur estimation seul (atm juste la distance peut etre ajouter le prix)
         if aEst==True and aConf==False:
             self.biasMarks[BIKE][ECOLOGY] = envir.marks[BIKE][ECOLOGY]
             self.biasMarks[BIKE][COMFORT] = envir.marks[BIKE][COMFORT]
@@ -484,11 +452,6 @@ class user:
                 j+=1
             
             i+=1
-        
-
-
-        
-       
         markmax = 0
         indexMarkMax = 0
         k=0
